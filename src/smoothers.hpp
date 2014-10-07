@@ -9,24 +9,24 @@ double smoothRobust(const std::vector<double>& x,
 
 class LinearSmoother {
   public:
-    double compute(const std::vector<double>& x,
-                   const std::vector<double>& y,
-                   const std::vector<double>& w) {
-      smoothLinear(x, y, w);
+      double compute(const std::vector<double>& x,
+                     const std::vector<double>& y,
+                     const std::vector<double>& w) const {
+      return smoothLinear(x, y, w);
     }
 };
 
 class RobustSmoother {
-  int interations = 3;
+  int iterations;
 
   public:
-    smootherRobust (int iterations_) : iterations_(iterations) {
-      if (i < iterations) stop("Invalid iterations");
+    RobustSmoother (int iterations_ = 3) : iterations(iterations_) {
+      if (iterations < 0) Rcpp::stop("Invalid iterations");
     }
 
     double compute(const std::vector<double>& x,
                    const std::vector<double>& y,
-                   const std::vector<double>& w) {
-      smoothRobust(x, y, w, iterations);
+                   const std::vector<double>& w) const {
+      return smoothRobust(x, y, w, iterations);
     }
 };

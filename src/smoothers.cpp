@@ -87,6 +87,7 @@ Regression regressRobust(const std::vector<double>& x,
   return prev;
 }
 
+
 double smoothRobust(const std::vector<double>& x,
                     const std::vector<double>& y,
                     const std::vector<double>& w,
