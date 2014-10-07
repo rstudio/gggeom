@@ -1,14 +1,14 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-class SummaryMoments {
+class MomentCondenser {
     int i_;
     double weight;
     double mean;
     double m2;
 
   public:
-    SummaryMoments (int i) : i_(i), weight(0), mean(0), m2(0) {
+    MomentCondenser (int i) : i_(i), weight(0), mean(0), m2(0) {
       if (i > 2) stop("Invalid moment");
     }
 
@@ -59,13 +59,13 @@ class SummaryMoments {
     }
 };
 
-class SummarySum {
+class SumCondenser {
     int i_;
     int weight;
     double sum;
 
   public:
-    SummarySum (int i) : i_(i), weight(0), sum(0) {
+    SumCondenser (int i) : i_(i), weight(0), sum(0) {
       if (i > 1 || i < 0) stop("Invalid moment");
     }
 
@@ -107,7 +107,7 @@ class SummarySum {
 // Defined in smoothers.cpp
 double median(std::vector<double>* x);
 
-class SummaryMedian {
+class MedianCondenser {
     std::vector<double> ys;
 
   public:
