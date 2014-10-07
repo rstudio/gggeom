@@ -4,13 +4,11 @@ using namespace Rcpp;
 // Wrapper for numeric vector that makes it easy figure to out which
 // bin each observation belongs to.
 class BinnedVector {
-    // This should probably be a const NumericVector&, but that doesn't work
-    // with modules currently
-    NumericVector x_;
+    const NumericVector& x_;
     double width_;
     double origin_;
   public:
-    BinnedVector(NumericVector x, double width, double origin = 0)
+    BinnedVector(const NumericVector& x, double width, double origin = 0)
        : x_(x), width_(width), origin_(origin) {
     }
 
