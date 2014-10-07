@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // condense_count
-List condense_count(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w);
+NumericMatrix condense_count(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w);
 RcppExport SEXP ggvis_condense_count(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
@@ -17,7 +17,7 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< double >::type binwidth(binwidthSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type z(zSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type w(wSEXP );
-        List __result = condense_count(x, origin, binwidth, z, w);
+        NumericMatrix __result = condense_count(x, origin, binwidth, z, w);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -25,7 +25,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // condense_sum
-List condense_sum(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w);
+NumericMatrix condense_sum(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w);
 RcppExport SEXP ggvis_condense_sum(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
@@ -36,7 +36,7 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< double >::type binwidth(binwidthSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type z(zSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type w(wSEXP );
-        List __result = condense_sum(x, origin, binwidth, z, w);
+        NumericMatrix __result = condense_sum(x, origin, binwidth, z, w);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -44,7 +44,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // condense_moments
-List condense_moments(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w, int moments);
+NumericMatrix condense_moments(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w, int moments);
 RcppExport SEXP ggvis_condense_moments(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP, SEXP momentsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
@@ -56,7 +56,7 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< const NumericVector& >::type z(zSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type w(wSEXP );
         Rcpp::traits::input_parameter< int >::type moments(momentsSEXP );
-        List __result = condense_moments(x, origin, binwidth, z, w, moments);
+        NumericMatrix __result = condense_moments(x, origin, binwidth, z, w, moments);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -64,7 +64,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // condense_median
-List condense_median(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w);
+NumericMatrix condense_median(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w);
 RcppExport SEXP ggvis_condense_median(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
@@ -75,7 +75,7 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< double >::type binwidth(binwidthSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type z(zSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type w(wSEXP );
-        List __result = condense_median(x, origin, binwidth, z, w);
+        NumericMatrix __result = condense_median(x, origin, binwidth, z, w);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
