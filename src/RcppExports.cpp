@@ -21,22 +21,6 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// bisquare
-double bisquare(double u, double b);
-RcppExport SEXP ggvis_bisquare(SEXP uSEXP, SEXP bSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< double >::type u(uSEXP );
-        Rcpp::traits::input_parameter< double >::type b(bSEXP );
-        double __result = bisquare(u, b);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
 // regress
 NumericVector regress(const std::vector<double>& x, const std::vector<double>& y, const std::vector<double>& w);
 RcppExport SEXP ggvis_regress(SEXP xSEXP, SEXP ySEXP, SEXP wSEXP) {

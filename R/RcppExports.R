@@ -21,10 +21,6 @@ frange <- function(x, finite = TRUE) {
     .Call('ggvis_frange', PACKAGE = 'ggvis', x, finite)
 }
 
-bisquare <- function(u, b) {
-    .Call('ggvis_bisquare', PACKAGE = 'ggvis', u, b)
-}
-
 regress <- function(x, y, w) {
     .Call('ggvis_regress', PACKAGE = 'ggvis', x, y, w)
 }
