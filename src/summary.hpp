@@ -1,5 +1,4 @@
 #include <Rcpp.h>
-#include "stats.hpp"
 using namespace Rcpp;
 
 class SummaryMoments {
@@ -13,7 +12,7 @@ class SummaryMoments {
       if (i > 2) stop("Invalid moment");
     }
 
-    // Algorithm adapted from 
+    // Algorithm adapted from
     // http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Weighted_incremental_algorithm
     void push(double y, double w) {
       if (NumericVector::is_na(y)) return;
@@ -27,7 +26,7 @@ class SummaryMoments {
       mean += delta * w / weight;
 
       // variance
-      if (i_ < 2) return;      
+      if (i_ < 2) return;
       m2 += delta * delta * w * (1 - w / weight);
 
       return;
@@ -42,7 +41,7 @@ class SummaryMoments {
         case 0: return weight;
         case 1: return (weight == 0) ? NAN : mean;
         case 2: return (weight == 0) ? NAN : pow(m2 / (weight - 1), 0.5);
-        default: 
+        default:
           stop("Invalid output requested");
           return NAN;
       }
@@ -53,7 +52,7 @@ class SummaryMoments {
         case 0: return "count";
         case 1: return "mean";
         case 2: return "sd";
-        default: 
+        default:
           stop("Invalid output requested");
           return "";
       }
@@ -87,7 +86,7 @@ class SummarySum {
       switch (i) {
         case 0: return weight;
         case 1: return sum;
-        default: 
+        default:
           stop("Invalid output requested");
           return NAN;
       }
@@ -97,13 +96,16 @@ class SummarySum {
       switch (i) {
         case 0: return "count";
         case 1: return "sum";
-        default: 
+        default:
           stop("Invalid output requested");
           return "";
       }
     }
 
 };
+
+// Defined in smoothers.cpp
+double median(std::vector<double>* x);
 
 class SummaryMedian {
     std::vector<double> ys;

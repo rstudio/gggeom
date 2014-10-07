@@ -21,27 +21,3 @@ frange <- function(x, finite = TRUE) {
     .Call('ggvis_frange', PACKAGE = 'ggvis', x, finite)
 }
 
-regress <- function(x, y, w) {
-    .Call('ggvis_regress', PACKAGE = 'ggvis', x, y, w)
-}
-
-medianC <- function(x) {
-    .Call('ggvis_median', PACKAGE = 'ggvis', x)
-}
-
-regress_robust <- function(x, y, w, iterations = 3L) {
-    .Call('ggvis_regress_robust', PACKAGE = 'ggvis', x, y, w, iterations)
-}
-
-compute_moments <- function(x) {
-    .Call('ggvis_compute_moments', PACKAGE = 'ggvis', x)
-}
-
-compute_sum <- function(x) {
-    .Call('ggvis_compute_sum', PACKAGE = 'ggvis', x)
-}
-
-compute_median <- function(x) {
-    .Call('ggvis_compute_median', PACKAGE = 'ggvis', x)
-}
-
