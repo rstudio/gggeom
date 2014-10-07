@@ -1,7 +1,7 @@
 Package: ggvis
 Title: Graphical Computations
 Description: A variety of high-performance calculations useful for
-  visualisation
+    visualisation
 Version: 0.1
 Author: RStudio, Inc.
 Maintainer: Hadley Wickham <hadley@rstudio.com>
@@ -9,3 +9,6 @@ Depends:
     R (>= 3.0)
 License: GPL-2
 LazyData: true
+LinkingTo: Rcpp
+Imports:
+    Rcpp
