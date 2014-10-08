@@ -2,15 +2,18 @@
 #'
 #' A generic and several implementations for binning vectors.
 #'
-#' @param x A vector to bin
+#' @param x A numeric vector (or S3 class based on a numeric) to bin.
 #' @param weight If specified, an integer vector of the same length as \code{x}
-#'   representing the number of occurances of each value in \code{x}
-#' @param width The width of a bin
-#' @param origin The left-most value for bins.
-#' @param closed One of \code{"right"} or \code{"left"} indicating whether
-#'   right or left edges of bins are included in the bin.
+#'   giving weights. If weights are provided, the weights in each bin are
+#'   summed, rather than just counting the number of observations.
+#' @param width The width of a bin. Must be positive.
+#' @param origin The location of the left-most bin edge. Any values smaller
+#'   than the \code{origin} will be treated as if they are missing.
+#' @param closed One of \code{"right"} or \code{"left"} indicating whether the
+#'   bin interval is left-closed (i.e. [a, b)), or right-closed (i.e. (a, b]).
 #' @param pad A logical indicating whether the bins should be padded to include
-#'   an empty bin on each side.
+#'   an empty bin on each side. This is useful for frequency polygons which
+#'   need to go back down to zero at either end of the range.
 #' @keywords internal
 #' @export
 #' @examples
@@ -18,6 +21,7 @@
 #' bin_vector(x, 0.1)
 bin_vector <- function(x, width = 1, origin = 0, weight = NULL,
                       closed = c("right", "left"), pad = FALSE, na.rm = FALSE) {
+  stopifnot(is.numeric(x))
   closed <- match.arg(closed)
 
   if (length(weight) == 0) {

@@ -7,20 +7,23 @@ bin_vector(x, width = 1, origin = 0, weight = NULL, closed = c("right",
   "left"), pad = FALSE, na.rm = FALSE)
 }
 \arguments{
-\item{x}{A vector to bin}
+\item{x}{A numeric vector (or S3 class based on a numeric) to bin.}
 
-\item{width}{The width of a bin}
+\item{width}{The width of a bin. Must be positive.}
 
-\item{origin}{The left-most value for bins.}
+\item{origin}{The location of the left-most bin edge. Any values smaller
+than the \code{origin} will be treated as if they are missing.}
 
 \item{weight}{If specified, an integer vector of the same length as \code{x}
-representing the number of occurances of each value in \code{x}}
+giving weights. If weights are provided, the weights in each bin are
+summed, rather than just counting the number of observations.}
 
-\item{closed}{One of \code{"right"} or \code{"left"} indicating whether
-right or left edges of bins are included in the bin.}
+\item{closed}{One of \code{"right"} or \code{"left"} indicating whether the
+bin interval is left-closed (i.e. [a, b)), or right-closed (i.e. (a, b]).}
 
 \item{pad}{A logical indicating whether the bins should be padded to include
-an empty bin on each side.}
+an empty bin on each side. This is useful for frequency polygons which
+need to go back down to zero at either end of the range.}
 }
 \description{
 A generic and several implementations for binning vectors.

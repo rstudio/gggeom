@@ -10,6 +10,8 @@ class BinnedVector {
   public:
     BinnedVector(const NumericVector& x, double width, double origin = 0)
        : x_(x), width_(width), origin_(origin) {
+
+      if (width <= 0) stop("Width must be positive");
     }
 
     int bin_i(int i) const {
