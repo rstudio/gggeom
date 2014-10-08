@@ -1,6 +1,7 @@
 #' Bin vectors
 #'
-#' A generic and several implementations for binning vectors.
+#' Bin a numeric vector and count how many observations fall in each bin.
+#' Supports weights so that you can re-bin pre-binned data.
 #'
 #' @param x A numeric vector (or S3 class based on a numeric) to bin.
 #' @param weight If specified, an integer vector of the same length as \code{x}

@@ -26,7 +26,8 @@ an empty bin on each side. This is useful for frequency polygons which
 need to go back down to zero at either end of the range.}
 }
 \description{
-A generic and several implementations for binning vectors.
+Bin a numeric vector and count how many observations fall in each bin.
+Supports weights so that you can re-bin pre-binned data.
 }
 \examples{
 x <- runif(1e6)
