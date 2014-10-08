@@ -28,7 +28,18 @@ class BinnedVector {
       return (bin - 1) * width_ + origin_ + width_ / 2;
     }
 
-    int nbins() const;
+    int nbins() const {
+      double max = -INFINITY;
+
+      int n = x_.size();
+      for(int i = 0; i < n; ++i) {
+        if (x_[i] == INFINITY) continue;
+        // Normal FP ops ensure that NA and -Inf don't increase max
+        if (x_[i] > max) max = x_[i];
+      }
+
+      return bin(max) + 1;
+    }
 
     int size() const {
       return x_.size();
