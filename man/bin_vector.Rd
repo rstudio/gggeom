@@ -3,13 +3,21 @@
 \alias{bin_vector}
 \title{Bin vectors}
 \usage{
-bin_vector(x, width = 1, origin = 0, weight = NULL, closed = c("right",
-  "left"), pad = FALSE, na.rm = FALSE)
+bin_vector(x, width = 1, origin = min(x, na.rm = TRUE), weight = NULL,
+  closed = c("right", "left"), pad = FALSE, na.rm = FALSE)
 }
 \arguments{
-\item{x}{A numeric vector (or S3 class based on a numeric) to bin.}
+\item{x}{A numeric vector to bin.
 
-\item{width}{The width of a bin. Must be positive.}
+  You can also bin S3 objects that are build on top of integer and
+  double atomic vectors, as long as there is a method for
+  \code{\link{restore}()}.}
+
+\item{width}{The width of a bin. Must be positive.
+
+  For S3 objects, the interpretation of width depends on the interpretation
+  of the underlying numeric vector. For example, for dates, 1 = 1 day;
+  for times 1 = 1 second; and for difftime, the units vary.}
 
 \item{origin}{The location of the left-most bin edge. Any values smaller
 than the \code{origin} will be treated as if they are missing.}
@@ -32,6 +40,10 @@ Supports weights so that you can re-bin pre-binned data.
 \examples{
 x <- runif(1e6)
 bin_vector(x, 0.1)
+
+# Bin other types of object
+bin_vector(Sys.time() + runif(10) * 60, 15)
+bin_vector(Sys.Date() + sample(30, 10), 7)
 
 # Performance scales linearly with the size of x, and the number
 # of bins has limited impact

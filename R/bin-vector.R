@@ -3,11 +3,19 @@
 #' Bin a numeric vector and count how many observations fall in each bin.
 #' Supports weights so that you can re-bin pre-binned data.
 #'
-#' @param x A numeric vector (or S3 class based on a numeric) to bin.
+#' @param x A numeric vector to bin.
+#'
+#'   You can also bin S3 objects that are build on top of integer and
+#'   double atomic vectors, as long as there is a method for
+#'   \code{\link{restore}()}.
 #' @param weight If specified, an integer vector of the same length as \code{x}
 #'   giving weights. If weights are provided, the weights in each bin are
 #'   summed, rather than just counting the number of observations.
 #' @param width The width of a bin. Must be positive.
+#'
+#'   For S3 objects, the interpretation of width depends on the interpretation
+#'   of the underlying numeric vector. For example, for dates, 1 = 1 day;
+#'   for times 1 = 1 second; and for difftime, the units vary.
 #' @param origin The location of the left-most bin edge. Any values smaller
 #'   than the \code{origin} will be treated as if they are missing.
 #' @param closed One of \code{"right"} or \code{"left"} indicating whether the
@@ -21,15 +29,20 @@
 #' x <- runif(1e6)
 #' bin_vector(x, 0.1)
 #'
+#' # Bin other types of object
+#' bin_vector(Sys.time() + runif(10) * 60, 15)
+#' bin_vector(Sys.Date() + sample(30, 10), 7)
+#'
 #' # Performance scales linearly with the size of x, and the number
 #' # of bins has limited impact
 #' x <- runif(1e7)
 #' system.time(bin_vector(x))
 #' system.time(bin_vector(x, width = 1 / 100))
 #' system.time(bin_vector(x, width = 1 / 1e5))
-bin_vector <- function(x, width = 1, origin = 0, weight = NULL,
-                      closed = c("right", "left"), pad = FALSE, na.rm = FALSE) {
-  stopifnot(is.numeric(x))
+bin_vector <- function(x, width = 1, origin = min(x, na.rm = TRUE),
+                      weight = NULL, closed = c("right", "left"), pad = FALSE,
+                      na.rm = FALSE) {
+  stopifnot(is.atomic(x), typeof(x) %in% c("double", "integer"))
   closed <- match.arg(closed)
 
   if (length(weight) == 0) {
@@ -37,8 +50,9 @@ bin_vector <- function(x, width = 1, origin = 0, weight = NULL,
   }
 
   out <- condense_count(x, origin = origin, width = width, w = weight)
-  `as.data.frame!`(out, length(out[[1]]))
+  out$x <- restore(x, out$x)
 
+  `as.data.frame!`(out, length(out[[1]]))
   out
 }
 
@@ -47,7 +61,6 @@ bin_vector <- function(x, width = 1, origin = 0, weight = NULL,
 # * implement closed right/left
 # * implement pad = TRUE
 # * implement na.rm = TRUE
-# * implement restore for restoring properties of numeric variants
 
 # Adapt break fuzziness from base::hist - this protects from floating
 # point rounding errors
