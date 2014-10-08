@@ -136,3 +136,16 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// as_data_frame
+void as_data_frame(List x, int nrow);
+RcppExport SEXP ggcomp_as_data_frame(SEXP xSEXP, SEXP nrowSEXP) {
+BEGIN_RCPP
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< List >::type x(xSEXP );
+        Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP );
+        as_data_frame(x, nrow);
+    }
+    return R_NilValue;
+END_RCPP
+}

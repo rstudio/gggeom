@@ -28,7 +28,10 @@ bin_vector <- function(x, width = 1, origin = 0, weight = NULL,
     weight <- numeric()
   }
 
-  condense_count(x, origin = origin, width = width, w = weight)
+  out <- condense_count(x, origin = origin, width = width, w = weight)
+  `as.data.frame!`(out, length(out[[1]]))
+
+  out
 }
 
 # TODO:

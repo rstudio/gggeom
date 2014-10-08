@@ -45,3 +45,7 @@ smooth_robust <- function(x_in, z_in, w_in, x_out, h, iterations = 3L) {
     .Call('ggcomp_smooth_robust', PACKAGE = 'ggcomp', x_in, z_in, w_in, x_out, h, iterations)
 }
 
+`as.data.frame!` <- function(x, nrow) {
+    invisible(.Call('ggcomp_as_data_frame', PACKAGE = 'ggcomp', x, nrow))
+}
+
