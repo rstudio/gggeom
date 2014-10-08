@@ -35,6 +35,7 @@ bin_vector <- function(x, width = 1, origin = 0, weight = NULL,
 }
 
 # TODO:
+# * add boundaries to output
 # * implement closed right/left
 # * implement pad = TRUE
 # * implement na.rm = TRUE
