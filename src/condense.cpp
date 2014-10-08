@@ -54,8 +54,8 @@ List condense(const NumericVector& x, double origin, double width,
 
 // [[Rcpp::export]]
 List condense_count(const NumericVector& x, double origin, double width,
-                    const NumericVector& z, const NumericVector& w) {
-  return condense(x, origin, width, z, w, SumCondenser(0));
+                    const NumericVector& w) {
+  return condense(x, origin, width, NumericVector::create(), w, SumCondenser(0));
 }
 
 // [[Rcpp::export]]

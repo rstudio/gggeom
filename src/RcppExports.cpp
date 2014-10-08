@@ -6,8 +6,8 @@
 using namespace Rcpp;
 
 // condense_count
-List condense_count(const NumericVector& x, double origin, double width, const NumericVector& z, const NumericVector& w);
-RcppExport SEXP ggcomp_condense_count(SEXP xSEXP, SEXP originSEXP, SEXP widthSEXP, SEXP zSEXP, SEXP wSEXP) {
+List condense_count(const NumericVector& x, double origin, double width, const NumericVector& w);
+RcppExport SEXP ggcomp_condense_count(SEXP xSEXP, SEXP originSEXP, SEXP widthSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -15,9 +15,8 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
         Rcpp::traits::input_parameter< double >::type origin(originSEXP );
         Rcpp::traits::input_parameter< double >::type width(widthSEXP );
-        Rcpp::traits::input_parameter< const NumericVector& >::type z(zSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type w(wSEXP );
-        List __result = condense_count(x, origin, width, z, w);
+        List __result = condense_count(x, origin, width, w);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

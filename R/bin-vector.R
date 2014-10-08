@@ -13,15 +13,18 @@
 #'   an empty bin on each side.
 #' @keywords internal
 #' @export
+#' @examples
+#' x <- runif(1e6)
+#' bin_vector(x, 0.1)
 bin_vector <- function(x, width = 1, origin = 0, weight = NULL,
                       closed = c("right", "left"), pad = FALSE, na.rm = FALSE) {
-  closed <- match.args(closed)
+  closed <- match.arg(closed)
 
   if (length(weight) == 0) {
     weight <- numeric()
   }
 
-  condense_count(x, origin = origin, width = width, w = weight, z = numeric())
+  condense_count(x, origin = origin, width = width, w = weight)
 }
 
 # TODO:

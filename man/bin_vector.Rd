@@ -25,5 +25,9 @@ an empty bin on each side.}
 \description{
 A generic and several implementations for binning vectors.
 }
+\examples{
+x <- runif(1e6)
+bin_vector(x, 0.1)
+}
 \keyword{internal}
 
