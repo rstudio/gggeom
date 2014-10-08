@@ -4,7 +4,7 @@
 using namespace Rcpp;
 
 template<typename Condenser>
-NumericMatrix condense(const NumericVector& x, double origin, double binwidth,
+List condense(const NumericVector& x, double origin, double binwidth,
               const NumericVector& z, const NumericVector& w,
               const Condenser& condenser) {
 
@@ -25,14 +25,20 @@ NumericMatrix condense(const NumericVector& x, double origin, double binwidth,
 
   // Compute values from condensers and determine bins
   int n_condensers = condenser.size();
-  NumericMatrix out(n_bins, n_condensers + 1);
+  List out(n_condensers + 1);
 
+  NumericVector bins(n_bins);
   for (int i = 0; i < n_bins; ++i) {
-    out(i, 0) = group.unbin(i);
+    bins[i] = group.unbin(i);
+  }
+  out[0] = bins;
 
-    for (int j = 0; j < n_condensers; ++j) {
-      out(i, j + 1) = condensers[i].compute(j);
+  for (int j = 0; j < n_condensers; ++j) {
+    NumericVector condensed(n_bins);
+    for (int i = 0; i < n_bins; ++i) {
+      condensed[i] = condensers[i].compute(j);
     }
+    out[j + 1] = condensed;
   }
 
   // Name output columns
@@ -41,32 +47,32 @@ NumericMatrix condense(const NumericVector& x, double origin, double binwidth,
   for (int j = 0; j < n_condensers; ++j) {
     out_cols[j + 1] = condenser.name(j);
   }
-  out.attr("dimnames") = List::create(CharacterVector::create(), out_cols);
+  out.attr("names") = out_cols;
 
   return out;
 }
 
 // [[Rcpp::export]]
-NumericMatrix condense_count(const NumericVector& x, double origin, double binwidth,
+List condense_count(const NumericVector& x, double origin, double binwidth,
                     const NumericVector& z, const NumericVector& w) {
   return condense(x, origin, binwidth, z, w, SumCondenser(0));
 }
 
 // [[Rcpp::export]]
-NumericMatrix condense_sum(const NumericVector& x, double origin, double binwidth,
+List condense_sum(const NumericVector& x, double origin, double binwidth,
                   const NumericVector& z, const NumericVector& w) {
   return condense(x, origin, binwidth, z, w, SumCondenser(1));
 }
 
 // [[Rcpp::export]]
-NumericMatrix condense_moments(const NumericVector& x, double origin, double binwidth,
+List condense_moments(const NumericVector& x, double origin, double binwidth,
                       const NumericVector& z, const NumericVector& w,
                       int moments) {
   return condense(x, origin, binwidth, z, w, MomentCondenser(moments));
 }
 
 // [[Rcpp::export]]
-NumericMatrix condense_median(const NumericVector& x, double origin, double binwidth,
+List condense_median(const NumericVector& x, double origin, double binwidth,
                      const NumericVector& z, const NumericVector& w) {
   return condense(x, origin, binwidth, z, w, MedianCondenser());
 }
