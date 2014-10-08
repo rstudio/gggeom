@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // condense_count
 NumericMatrix condense_count(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w);
-RcppExport SEXP ggvis_condense_count(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP) {
+RcppExport SEXP ggcomp_condense_count(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -26,7 +26,7 @@ END_RCPP
 }
 // condense_sum
 NumericMatrix condense_sum(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w);
-RcppExport SEXP ggvis_condense_sum(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP) {
+RcppExport SEXP ggcomp_condense_sum(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -45,7 +45,7 @@ END_RCPP
 }
 // condense_moments
 NumericMatrix condense_moments(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w, int moments);
-RcppExport SEXP ggvis_condense_moments(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP, SEXP momentsSEXP) {
+RcppExport SEXP ggcomp_condense_moments(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP, SEXP momentsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -65,7 +65,7 @@ END_RCPP
 }
 // condense_median
 NumericMatrix condense_median(const NumericVector& x, double origin, double binwidth, const NumericVector& z, const NumericVector& w);
-RcppExport SEXP ggvis_condense_median(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP) {
+RcppExport SEXP ggcomp_condense_median(SEXP xSEXP, SEXP originSEXP, SEXP binwidthSEXP, SEXP zSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -84,7 +84,7 @@ END_RCPP
 }
 // frange
 NumericVector frange(const NumericVector& x, const bool finite = true);
-RcppExport SEXP ggvis_frange(SEXP xSEXP, SEXP finiteSEXP) {
+RcppExport SEXP ggcomp_frange(SEXP xSEXP, SEXP finiteSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -100,7 +100,7 @@ END_RCPP
 }
 // smooth_linear
 NumericVector smooth_linear(const NumericVector& x_in, const NumericVector& z_in, const NumericVector& w_in, const NumericVector& x_out, const double h);
-RcppExport SEXP ggvis_smooth_linear(SEXP x_inSEXP, SEXP z_inSEXP, SEXP w_inSEXP, SEXP x_outSEXP, SEXP hSEXP) {
+RcppExport SEXP ggcomp_smooth_linear(SEXP x_inSEXP, SEXP z_inSEXP, SEXP w_inSEXP, SEXP x_outSEXP, SEXP hSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -119,7 +119,7 @@ END_RCPP
 }
 // smooth_robust
 NumericVector smooth_robust(const NumericVector& x_in, const NumericVector& z_in, const NumericVector& w_in, const NumericVector& x_out, const double h, int iterations = 3);
-RcppExport SEXP ggvis_smooth_robust(SEXP x_inSEXP, SEXP z_inSEXP, SEXP w_inSEXP, SEXP x_outSEXP, SEXP hSEXP, SEXP iterationsSEXP) {
+RcppExport SEXP ggcomp_smooth_robust(SEXP x_inSEXP, SEXP z_inSEXP, SEXP w_inSEXP, SEXP x_outSEXP, SEXP hSEXP, SEXP iterationsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {

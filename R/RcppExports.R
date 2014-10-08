@@ -2,19 +2,19 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 condense_count <- function(x, origin, binwidth, z, w) {
-    .Call('ggvis_condense_count', PACKAGE = 'ggvis', x, origin, binwidth, z, w)
+    .Call('ggcomp_condense_count', PACKAGE = 'ggcomp', x, origin, binwidth, z, w)
 }
 
 condense_sum <- function(x, origin, binwidth, z, w) {
-    .Call('ggvis_condense_sum', PACKAGE = 'ggvis', x, origin, binwidth, z, w)
+    .Call('ggcomp_condense_sum', PACKAGE = 'ggcomp', x, origin, binwidth, z, w)
 }
 
 condense_moments <- function(x, origin, binwidth, z, w, moments) {
-    .Call('ggvis_condense_moments', PACKAGE = 'ggvis', x, origin, binwidth, z, w, moments)
+    .Call('ggcomp_condense_moments', PACKAGE = 'ggcomp', x, origin, binwidth, z, w, moments)
 }
 
 condense_median <- function(x, origin, binwidth, z, w) {
-    .Call('ggvis_condense_median', PACKAGE = 'ggvis', x, origin, binwidth, z, w)
+    .Call('ggcomp_condense_median', PACKAGE = 'ggcomp', x, origin, binwidth, z, w)
 }
 
 #' Efficient implementation of range.
@@ -34,14 +34,14 @@ condense_median <- function(x, origin, binwidth, z, w) {
 #' system.time(range(x))
 #' system.time(frange(x))
 frange <- function(x, finite = TRUE) {
-    .Call('ggvis_frange', PACKAGE = 'ggvis', x, finite)
+    .Call('ggcomp_frange', PACKAGE = 'ggcomp', x, finite)
 }
 
 smooth_linear <- function(x_in, z_in, w_in, x_out, h) {
-    .Call('ggvis_smooth_linear', PACKAGE = 'ggvis', x_in, z_in, w_in, x_out, h)
+    .Call('ggcomp_smooth_linear', PACKAGE = 'ggcomp', x_in, z_in, w_in, x_out, h)
 }
 
 smooth_robust <- function(x_in, z_in, w_in, x_out, h, iterations = 3L) {
-    .Call('ggvis_smooth_robust', PACKAGE = 'ggvis', x_in, z_in, w_in, x_out, h, iterations)
+    .Call('ggcomp_smooth_robust', PACKAGE = 'ggcomp', x_in, z_in, w_in, x_out, h, iterations)
 }
 
