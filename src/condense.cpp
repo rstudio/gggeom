@@ -4,11 +4,11 @@
 using namespace Rcpp;
 
 template<typename Condenser>
-List condense(const NumericVector& x, double origin, double binwidth,
+List condense(const NumericVector& x, double origin, double width,
               const NumericVector& z, const NumericVector& w,
               const Condenser& condenser) {
 
-  BinnedVector group(x, binwidth, origin);
+  BinnedVector group(x, width, origin);
   int n_obs = group.size();
   int n_bins = group.nbins();
 
@@ -53,26 +53,26 @@ List condense(const NumericVector& x, double origin, double binwidth,
 }
 
 // [[Rcpp::export]]
-List condense_count(const NumericVector& x, double origin, double binwidth,
+List condense_count(const NumericVector& x, double origin, double width,
                     const NumericVector& z, const NumericVector& w) {
-  return condense(x, origin, binwidth, z, w, SumCondenser(0));
+  return condense(x, origin, width, z, w, SumCondenser(0));
 }
 
 // [[Rcpp::export]]
-List condense_sum(const NumericVector& x, double origin, double binwidth,
+List condense_sum(const NumericVector& x, double origin, double width,
                   const NumericVector& z, const NumericVector& w) {
-  return condense(x, origin, binwidth, z, w, SumCondenser(1));
+  return condense(x, origin, width, z, w, SumCondenser(1));
 }
 
 // [[Rcpp::export]]
-List condense_moments(const NumericVector& x, double origin, double binwidth,
+List condense_moments(const NumericVector& x, double origin, double width,
                       const NumericVector& z, const NumericVector& w,
                       int moments) {
-  return condense(x, origin, binwidth, z, w, MomentCondenser(moments));
+  return condense(x, origin, width, z, w, MomentCondenser(moments));
 }
 
 // [[Rcpp::export]]
-List condense_median(const NumericVector& x, double origin, double binwidth,
+List condense_median(const NumericVector& x, double origin, double width,
                      const NumericVector& z, const NumericVector& w) {
-  return condense(x, origin, binwidth, z, w, MedianCondenser());
+  return condense(x, origin, width, z, w, MedianCondenser());
 }
