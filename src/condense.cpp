@@ -12,17 +12,15 @@ NumericMatrix condense(const NumericVector& x, double origin, double binwidth,
   int n_obs = group.size();
   int n_bins = group.nbins();
 
-  const NumericVector& weight_ = (w.size() > 0) ? w :
-    rep(NumericVector::create(1), n_obs);
-  const NumericVector& z_ = (z.size() > 0) ? z :
-    rep(NumericVector::create(1), n_obs);
+  bool has_w = (w.size() > 0);
+  bool has_z = (z.size() > 0);
 
   // Push values into condensers
   std::vector<Condenser> condensers(n_bins, condenser);
   for(int i = 0; i < n_obs; ++i) {
     int bin = group.bin_i(i);
     // Rcout << "i: " << i << " bin: " << bin << "\n";
-    condensers[bin].push(z_[i], weight_[i]);
+    condensers[bin].push(has_z ? z[i] : 1, has_w ? w[i] : 1);
   }
 
   // Compute values from condensers and determine bins
