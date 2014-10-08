@@ -31,6 +31,13 @@ A generic and several implementations for binning vectors.
 \examples{
 x <- runif(1e6)
 bin_vector(x, 0.1)
+
+# Performance scales linearly with the size of x, and the number
+# of bins has limited impact
+x <- runif(1e7)
+system.time(bin_vector(x))
+system.time(bin_vector(x, width = 1 / 100))
+system.time(bin_vector(x, width = 1 / 1e5))
 }
 \keyword{internal}
 

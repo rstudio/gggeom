@@ -19,6 +19,13 @@
 #' @examples
 #' x <- runif(1e6)
 #' bin_vector(x, 0.1)
+#'
+#' # Performance scales linearly with the size of x, and the number
+#' # of bins has limited impact
+#' x <- runif(1e7)
+#' system.time(bin_vector(x))
+#' system.time(bin_vector(x, width = 1 / 100))
+#' system.time(bin_vector(x, width = 1 / 1e5))
 bin_vector <- function(x, width = 1, origin = 0, weight = NULL,
                       closed = c("right", "left"), pad = FALSE, na.rm = FALSE) {
   stopifnot(is.numeric(x))
