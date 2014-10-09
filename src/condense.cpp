@@ -9,7 +9,7 @@ List condense(const NumericVector& x, double origin, double width,
               const NumericVector& z, const NumericVector& w,
               const Condenser& condenser) {
 
-  BinnedVector group(x, width, origin);
+  BinnedVector group(x, width, origin, pad, right_closed);
   int n_obs = group.size();
   int n_bins = group.nbins();
 
