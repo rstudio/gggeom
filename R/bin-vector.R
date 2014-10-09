@@ -50,7 +50,7 @@ bin_vector <- function(x, width = 1, origin = min(x, na.rm = TRUE),
 
   out <- condense_count(x, origin = origin, width = width, pad = pad,
     right_closed = identical(closed, "right"), w = weight)
-  out$x <- restore(x, out$x)
+  out$x_ <- restore(x, out$x_)
 
   `as.data.frame!`(out, length(out[[1]]))
   out
