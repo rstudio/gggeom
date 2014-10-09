@@ -30,18 +30,18 @@ List condense(const NumericVector& x, double origin, double width,
   CharacterVector out_cols(n_condensers + 4);
 
   // First four columns giving bin info
-  NumericVector x_(n_bins), x_min_(n_bins), x_max_(n_bins), width_(n_bins);
+  NumericVector x_(n_bins), xmin_(n_bins), xmax_(n_bins), width_(n_bins);
   for (int i = 0; i < n_bins; ++i) {
     double x = group.unbin(i);
     x_[i] = x;
-    x_min_[i] = x - width / 2;
-    x_max_[i] = x + width / 2;
+    xmin_[i] = x - width / 2;
+    xmax_[i] = x + width / 2;
     width_[i] = width;
   }
 
   out[0] = x_;     out_cols[0] = "x_";
-  out[1] = x_min_; out_cols[1] = "x_min_";
-  out[2] = x_max_; out_cols[2] = "x_max_";
+  out[1] = xmin_; out_cols[1] = "xmin_";
+  out[2] = xmax_; out_cols[2] = "xmax_";
   out[3] = width_; out_cols[3] = "width_";
 
   // Last columns give summaries from condensers
