@@ -1,5 +1,5 @@
 #include <Rcpp.h>
-#include "smoothers.hpp"
+#include "smoothers.h"
 using namespace Rcpp;
 
 inline double tricube(double x) {
