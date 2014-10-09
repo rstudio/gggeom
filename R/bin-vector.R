@@ -42,7 +42,7 @@
 bin_vector <- function(x, width = 1, origin = min(x, na.rm = TRUE),
                       weight = NULL, closed = c("right", "left"), pad = FALSE,
                       na.rm = FALSE) {
-  stopifnot(is.atomic(x), typeof(x) %in% c("double", "integer"))
+  stopifnot(is.atomic(x), typeof(x) %in% c("double", "integer"), !is.factor(x))
   closed <- match.arg(closed)
 
   if (length(weight) == 0) {
