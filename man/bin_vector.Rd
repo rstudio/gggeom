@@ -4,7 +4,7 @@
 \title{Bin vectors}
 \usage{
 bin_vector(x, width = 1, origin = min(x, na.rm = TRUE), weight = NULL,
-  closed = c("right", "left"), pad = FALSE, na.rm = FALSE)
+  closed = c("right", "left"), pad = FALSE)
 }
 \arguments{
 \item{x}{A numeric vector to bin.
