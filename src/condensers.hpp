@@ -49,9 +49,9 @@ class MomentCondenser {
 
     std::string name(int i) const {
       switch (i) {
-        case 0: return "count";
-        case 1: return "mean";
-        case 2: return "sd";
+        case 0: return "count_";
+        case 1: return "mean_";
+        case 2: return "sd_";
         default:
           stop("Invalid output requested");
           return "";
@@ -94,8 +94,8 @@ class SumCondenser {
 
     std::string name(int i) const {
       switch (i) {
-        case 0: return "count";
-        case 1: return "sum";
+        case 0: return "count_";
+        case 1: return "sum_";
         default:
           stop("Invalid output requested");
           return "";
@@ -127,6 +127,6 @@ class MedianCondenser {
     }
 
     std::string name(int i) const {
-      return "median";
+      return "median_";
     }
 };
