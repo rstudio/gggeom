@@ -5,6 +5,7 @@ using namespace Rcpp;
 
 template<typename Condenser>
 List condense(const NumericVector& x, double origin, double width,
+              bool pad, bool right_closed,
               const NumericVector& z, const NumericVector& w,
               const Condenser& condenser) {
 
@@ -59,25 +60,31 @@ List condense(const NumericVector& x, double origin, double width,
 
 // [[Rcpp::export]]
 List condense_count(const NumericVector& x, double origin, double width,
+                    bool pad, bool right_closed,
                     const NumericVector& w) {
-  return condense(x, origin, width, NumericVector::create(), w, SumCondenser(0));
+  return condense(x, origin, width, pad, right_closed, NumericVector::create(),
+    w, SumCondenser(0));
 }
 
 // [[Rcpp::export]]
 List condense_sum(const NumericVector& x, double origin, double width,
+                  bool pad, bool right_closed,
                   const NumericVector& z, const NumericVector& w) {
-  return condense(x, origin, width, z, w, SumCondenser(1));
+  return condense(x, origin, width, pad, right_closed, z, w, SumCondenser(1));
 }
 
 // [[Rcpp::export]]
 List condense_moments(const NumericVector& x, double origin, double width,
+                      bool pad, bool right_closed,
                       const NumericVector& z, const NumericVector& w,
                       int moments) {
-  return condense(x, origin, width, z, w, MomentCondenser(moments));
+  return condense(x, origin, width, pad, right_closed, z, w,
+    MomentCondenser(moments));
 }
 
 // [[Rcpp::export]]
 List condense_median(const NumericVector& x, double origin, double width,
+                     bool pad, bool right_closed,
                      const NumericVector& z, const NumericVector& w) {
-  return condense(x, origin, width, z, w, MedianCondenser());
+  return condense(x, origin, width, pad, right_closed, z, w, MedianCondenser());
 }

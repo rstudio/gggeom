@@ -6,8 +6,8 @@
 using namespace Rcpp;
 
 // condense_count
-List condense_count(const NumericVector& x, double origin, double width, const NumericVector& w);
-RcppExport SEXP ggcomp_condense_count(SEXP xSEXP, SEXP originSEXP, SEXP widthSEXP, SEXP wSEXP) {
+List condense_count(const NumericVector& x, double origin, double width, bool pad, bool right_closed, const NumericVector& w);
+RcppExport SEXP ggcomp_condense_count(SEXP xSEXP, SEXP originSEXP, SEXP widthSEXP, SEXP padSEXP, SEXP right_closedSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -15,8 +15,10 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
         Rcpp::traits::input_parameter< double >::type origin(originSEXP );
         Rcpp::traits::input_parameter< double >::type width(widthSEXP );
+        Rcpp::traits::input_parameter< bool >::type pad(padSEXP );
+        Rcpp::traits::input_parameter< bool >::type right_closed(right_closedSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type w(wSEXP );
-        List __result = condense_count(x, origin, width, w);
+        List __result = condense_count(x, origin, width, pad, right_closed, w);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -24,8 +26,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // condense_sum
-List condense_sum(const NumericVector& x, double origin, double width, const NumericVector& z, const NumericVector& w);
-RcppExport SEXP ggcomp_condense_sum(SEXP xSEXP, SEXP originSEXP, SEXP widthSEXP, SEXP zSEXP, SEXP wSEXP) {
+List condense_sum(const NumericVector& x, double origin, double width, bool pad, bool right_closed, const NumericVector& z, const NumericVector& w);
+RcppExport SEXP ggcomp_condense_sum(SEXP xSEXP, SEXP originSEXP, SEXP widthSEXP, SEXP padSEXP, SEXP right_closedSEXP, SEXP zSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -33,9 +35,11 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
         Rcpp::traits::input_parameter< double >::type origin(originSEXP );
         Rcpp::traits::input_parameter< double >::type width(widthSEXP );
+        Rcpp::traits::input_parameter< bool >::type pad(padSEXP );
+        Rcpp::traits::input_parameter< bool >::type right_closed(right_closedSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type z(zSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type w(wSEXP );
-        List __result = condense_sum(x, origin, width, z, w);
+        List __result = condense_sum(x, origin, width, pad, right_closed, z, w);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -43,8 +47,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // condense_moments
-List condense_moments(const NumericVector& x, double origin, double width, const NumericVector& z, const NumericVector& w, int moments);
-RcppExport SEXP ggcomp_condense_moments(SEXP xSEXP, SEXP originSEXP, SEXP widthSEXP, SEXP zSEXP, SEXP wSEXP, SEXP momentsSEXP) {
+List condense_moments(const NumericVector& x, double origin, double width, bool pad, bool right_closed, const NumericVector& z, const NumericVector& w, int moments);
+RcppExport SEXP ggcomp_condense_moments(SEXP xSEXP, SEXP originSEXP, SEXP widthSEXP, SEXP padSEXP, SEXP right_closedSEXP, SEXP zSEXP, SEXP wSEXP, SEXP momentsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -52,10 +56,12 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
         Rcpp::traits::input_parameter< double >::type origin(originSEXP );
         Rcpp::traits::input_parameter< double >::type width(widthSEXP );
+        Rcpp::traits::input_parameter< bool >::type pad(padSEXP );
+        Rcpp::traits::input_parameter< bool >::type right_closed(right_closedSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type z(zSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type w(wSEXP );
         Rcpp::traits::input_parameter< int >::type moments(momentsSEXP );
-        List __result = condense_moments(x, origin, width, z, w, moments);
+        List __result = condense_moments(x, origin, width, pad, right_closed, z, w, moments);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -63,8 +69,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // condense_median
-List condense_median(const NumericVector& x, double origin, double width, const NumericVector& z, const NumericVector& w);
-RcppExport SEXP ggcomp_condense_median(SEXP xSEXP, SEXP originSEXP, SEXP widthSEXP, SEXP zSEXP, SEXP wSEXP) {
+List condense_median(const NumericVector& x, double origin, double width, bool pad, bool right_closed, const NumericVector& z, const NumericVector& w);
+RcppExport SEXP ggcomp_condense_median(SEXP xSEXP, SEXP originSEXP, SEXP widthSEXP, SEXP padSEXP, SEXP right_closedSEXP, SEXP zSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -72,9 +78,11 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
         Rcpp::traits::input_parameter< double >::type origin(originSEXP );
         Rcpp::traits::input_parameter< double >::type width(widthSEXP );
+        Rcpp::traits::input_parameter< bool >::type pad(padSEXP );
+        Rcpp::traits::input_parameter< bool >::type right_closed(right_closedSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type z(zSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type w(wSEXP );
-        List __result = condense_median(x, origin, width, z, w);
+        List __result = condense_median(x, origin, width, pad, right_closed, z, w);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

@@ -40,8 +40,7 @@
 #' system.time(bin_vector(x, width = 1 / 100))
 #' system.time(bin_vector(x, width = 1 / 1e5))
 bin_vector <- function(x, width = 1, origin = min(x, na.rm = TRUE),
-                      weight = NULL, closed = c("right", "left"), pad = FALSE,
-                      na.rm = FALSE) {
+                      weight = NULL, closed = c("right", "left"), pad = FALSE) {
   stopifnot(is.atomic(x), typeof(x) %in% c("double", "integer"), !is.factor(x))
   closed <- match.arg(closed)
 
@@ -49,7 +48,8 @@ bin_vector <- function(x, width = 1, origin = min(x, na.rm = TRUE),
     weight <- numeric()
   }
 
-  out <- condense_count(x, origin = origin, width = width, w = weight)
+  out <- condense_count(x, origin = origin, width = width, pad = pad,
+    right_closed = identical(closed, "right"), w = weight)
   out$x <- restore(x, out$x)
 
   `as.data.frame!`(out, length(out[[1]]))
@@ -59,7 +59,6 @@ bin_vector <- function(x, width = 1, origin = min(x, na.rm = TRUE),
 # TODO:
 # * implement closed right/left
 # * implement pad = TRUE
-# * implement na.rm = TRUE
 
 # Adapt break fuzziness from base::hist - this protects from floating
 # point rounding errors
