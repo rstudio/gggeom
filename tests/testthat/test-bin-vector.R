@@ -14,7 +14,7 @@ test_that("Binning robust to minor FP differences", {
 
   expect_equal(b1, b2)
   expect_equal(b1, b3)
-  expect_equal(b1$count_, c(0, 1, 1, 1, 1, 1, 1)) # first bin contains missings
+  expect_equal(b1$count_, rep(1, 6))
 
   b4 <- bin_vector(x1, width = 1, origin = -1)
   b5 <- bin_vector(x2, width = 1, origin = -1)
@@ -22,7 +22,7 @@ test_that("Binning robust to minor FP differences", {
 
   expect_equal(b4, b5)
   expect_equal(b4, b6)
-  expect_equal(b4$count_, c(0, 1, 1, 1, 1, 1, 1))
+  expect_equal(b4$count_, rep(1, 6))
 })
 
 test_that("Sidedness of interval doesn't matter when data far from boundaries", {

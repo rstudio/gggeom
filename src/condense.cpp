@@ -24,15 +24,21 @@ List condense(const NumericVector& x, double origin, double width,
     condensers[bin].push(has_z ? z[i] : 1, has_w ? w[i] : 1);
   }
 
+  // Generate output -----------------------------------------------------------
+
+  bool has_na = !condensers[0].empty();
+  int offset = has_na ? 0 : 1;
+  int n_out = n_bins - offset;
+
   // Compute values from condensers and determine bins
   int n_condensers = condenser.size();
   List out(n_condensers + 4);
   CharacterVector out_cols(n_condensers + 4);
 
   // First four columns giving bin info
-  NumericVector x_(n_bins), xmin_(n_bins), xmax_(n_bins), width_(n_bins);
-  for (int i = 0; i < n_bins; ++i) {
-    double x = group.unbin(i);
+  NumericVector x_(n_out), xmin_(n_out), xmax_(n_out), width_(n_out);
+  for (int i = 0; i < n_out; ++i) {
+    double x = group.unbin(i + offset);
     x_[i] = x;
     xmin_[i] = x - width / 2;
     xmax_[i] = x + width / 2;
@@ -40,15 +46,15 @@ List condense(const NumericVector& x, double origin, double width,
   }
 
   out[0] = x_;     out_cols[0] = "x_";
-  out[1] = xmin_; out_cols[1] = "xmin_";
-  out[2] = xmax_; out_cols[2] = "xmax_";
+  out[1] = xmin_;  out_cols[1] = "xmin_";
+  out[2] = xmax_;  out_cols[2] = "xmax_";
   out[3] = width_; out_cols[3] = "width_";
 
   // Last columns give summaries from condensers
   for (int j = 0; j < n_condensers; ++j) {
-    NumericVector condensed(n_bins);
-    for (int i = 0; i < n_bins; ++i) {
-      condensed[i] = condensers[i].compute(j);
+    NumericVector condensed(n_out);
+    for (int i = 0; i < n_out; ++i) {
+      condensed[i] = condensers[i + offset].compute(j);
     }
     out[j + 4] = condensed;
     out_cols[j + 4] = condenser.name(j);

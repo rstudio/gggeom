@@ -32,7 +32,11 @@ class MomentCondenser {
       return;
     }
 
-    const int size() const {
+    bool empty() const {
+      return weight == 0;
+    }
+
+    int size() const {
       return i_ + 1;
     }
 
@@ -78,7 +82,11 @@ class SumCondenser {
       sum += y * w;
     }
 
-    const int size() const {
+    bool empty() const {
+      return weight == 0;
+    }
+
+    int size() const {
       return i_ + 1;
     }
 
@@ -115,6 +123,10 @@ class MedianCondenser {
       if (NumericVector::is_na(y)) return;
 
       ys.push_back(y);
+    }
+
+    bool empty() const {
+      return ys.empty();
     }
 
     int size() const {

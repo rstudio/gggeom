@@ -27,7 +27,7 @@
 #' @export
 #' @examples
 #' x <- runif(1e6)
-#' bin_vector(x, 0.1)
+#' bin_vector(x, 0.1, origin = 0)
 #'
 #' # Bin other types of object
 #' bin_vector(Sys.time() + runif(10) * 60, 15)
@@ -36,9 +36,9 @@
 #' # Performance scales linearly with the size of x, and the number
 #' # of bins has limited impact
 #' x <- runif(1e7)
-#' system.time(bin_vector(x))
-#' system.time(bin_vector(x, width = 1 / 100))
-#' system.time(bin_vector(x, width = 1 / 1e5))
+#' system.time(bin_vector(x, width = 0.1, origin = 0))
+#' system.time(bin_vector(x, width = 1 / 100, origin = 0))
+#' system.time(bin_vector(x, width = 1 / 1e5, origin = 0))
 bin_vector <- function(x, width = 1, origin = min(x, na.rm = TRUE),
                       weight = NULL, closed = c("right", "left"), pad = FALSE) {
   stopifnot(is.atomic(x), typeof(x) %in% c("double", "integer"), !is.factor(x))
