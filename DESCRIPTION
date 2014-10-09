@@ -12,3 +12,5 @@ LazyData: true
 LinkingTo: Rcpp
 Imports:
     Rcpp
+Suggests:
+    testthat

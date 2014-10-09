@@ -1,0 +1,41 @@
+context("bin_vector()")
+
+# Floating point issues --------------------------------------------------------
+
+# Three vectors with a classical FP issue
+x1 <- 0:5
+x2 <- x1 + (1 - 0.9) - 0.1
+x3 <- x1 - (1 - 0.9) + 0.1
+
+test_that("Binning robust to minor FP differences", {
+  b1 <- bin_vector(x1, width = 1, origin = 0, closed = "left")
+  b2 <- bin_vector(x2, width = 1, origin = 0, closed = "left")
+  b3 <- bin_vector(x3, width = 1, origin = 0, closed = "left")
+
+  expect_equal(b1, b2)
+  expect_equal(b1, b3)
+  expect_equal(b1$count_, c(0, 1, 1, 1, 1, 1, 1)) # first bin contains missings
+
+  b4 <- bin_vector(x1, width = 1, origin = -1)
+  b5 <- bin_vector(x2, width = 1, origin = -1)
+  b6 <- bin_vector(x3, width = 1, origin = -1)
+
+  expect_equal(b4, b5)
+  expect_equal(b4, b6)
+  expect_equal(b4$count_, c(0, 1, 1, 1, 1, 1, 1))
+})
+
+test_that("Sidedness of interval doesn't matter when data far from boundaries", {
+  b1 <- bin_vector(x1, width = 1, origin = -0.5, closed = "left")
+  b2 <- bin_vector(x2, width = 1, origin = -0.5, closed = "left")
+  b3 <- bin_vector(x3, width = 1, origin = -0.5, closed = "left")
+  b4 <- bin_vector(x1, width = 1, origin = -0.5)
+  b5 <- bin_vector(x2, width = 1, origin = -0.5)
+  b6 <- bin_vector(x3, width = 1, origin = -0.5)
+
+  expect_equal(b1, b2)
+  expect_equal(b1, b3)
+  expect_equal(b1, b4)
+  expect_equal(b1, b5)
+  expect_equal(b1, b6)
+})
