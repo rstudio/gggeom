@@ -27,6 +27,8 @@ class BinnedVector {
       if (ISNAN(x) || x == INFINITY || x == -INFINITY) return 0;
 
       double x_adj = x;
+      // If very close to boundary, prefer closed side.
+      // 1e-8 =~ sqrt(.Machine$double.eps)
       if (right_closed_) {
         x_adj -= width_ * 1e-8;
       } else {
