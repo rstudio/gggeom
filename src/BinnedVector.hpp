@@ -9,6 +9,7 @@ class BinnedVector {
     double origin_;
     bool pad_;
     bool right_closed_;
+
   public:
     BinnedVector(const NumericVector& x, double width, double origin = 0,
                  bool pad = false, bool right_closed = true)
@@ -24,9 +25,15 @@ class BinnedVector {
 
     int bin(double x) const {
       if (ISNAN(x) || x == INFINITY || x == -INFINITY) return 0;
-      if (x < origin_) return 0;
 
-      return (x - origin_) / width_ + 1 + (pad_ ? 1 : 0);
+      double x_adj = x;
+      if (right_closed_) {
+        x_adj -= width_ * 1e-8;
+      } else {
+        x_adj += width_ * 1e-8;
+      }
+
+      return (x_adj - origin_) / width_ + 1 + (pad_ ? 1 : 0);
     }
 
     double unbin(int bin) const {

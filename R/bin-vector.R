@@ -55,24 +55,3 @@ bin_vector <- function(x, width = 1, origin = min(x, na.rm = TRUE),
   `as.data.frame!`(out, length(out[[1]]))
   out
 }
-
-# TODO:
-# * implement closed right/left
-# * implement pad = TRUE
-
-# Adapt break fuzziness from base::hist - this protects from floating
-# point rounding errors
-adjust_breaks <- function(breaks, closed = "left") {
-  closed <- match.arg(closed, c("right", "left"))
-
-  diddle <- 1e-08 * median(diff(breaks))
-  if (closed == "right") {
-    # first bin gets negative diddle, all others get positive
-    fuzz <- c(-diddle, rep.int(diddle, length(breaks) - 1))
-  } else {
-    # last bin gets positive diddle, all others get negative
-    fuzz <- c(rep.int(-diddle, length(breaks) - 1), diddle)
-  }
-  sort(breaks) + fuzz
-}
-
