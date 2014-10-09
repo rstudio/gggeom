@@ -7,7 +7,7 @@ using namespace Rcpp;
 //' it avoids S3 dispatch, and computes both min and max in a single pass
 //' through the input.
 //'
-//' @param x a numeric vector, or a \code{\link{ranged}} object
+//' @param x A numeric vector.
 //' @param finite If \code{TRUE} ignores missing values and infinities. Note
 //'   that if the vector is empty, or only contains missing values,
 //'   \code{frange} will return \code{c(Inf, -Inf)} because those are the

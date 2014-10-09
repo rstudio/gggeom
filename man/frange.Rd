@@ -6,7 +6,7 @@
 frange(x, finite = TRUE)
 }
 \arguments{
-\item{x}{a numeric vector, or a \code{\link{ranged}} object}
+\item{x}{A numeric vector.}
 
 \item{finite}{If \code{TRUE} ignores missing values and infinities. Note
 that if the vector is empty, or only contains missing values,
