@@ -49,3 +49,7 @@ smooth_robust <- function(x_in, z_in, w_in, x_out, h, iterations = 3L) {
     invisible(.Call('ggcomp_as_data_frame', PACKAGE = 'ggcomp', x, nrow))
 }
 
+# Register entry points for exported C++ functions
+methods::setLoadAction(function(ns) {
+    .Call('ggcomp_RcppExport_registerCCallable', PACKAGE = 'ggcomp')
+})
