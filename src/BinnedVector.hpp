@@ -26,12 +26,12 @@ class BinnedVector {
       if (ISNAN(x) || x == INFINITY || x == -INFINITY) return 0;
       if (x < origin_) return 0;
 
-      return (x - origin_) / width_ + 1;
+      return (x - origin_) / width_ + 1 + (pad_ ? 1 : 0);
     }
 
     double unbin(int bin) const {
       if (bin == 0) return(NA_REAL);
-      return (bin - 1) * width_ + origin_ + width_ / 2;
+      return (bin - 1 - (pad_ ? 1 : 0)) * width_ + origin_ + width_ / 2;
     }
 
     int nbins() const {
@@ -44,7 +44,7 @@ class BinnedVector {
         if (x_[i] > max) max = x_[i];
       }
 
-      return bin(max) + 1;
+      return bin(max) + 1 + (pad_ ? 1 : 0);
     }
 
     int size() const {
