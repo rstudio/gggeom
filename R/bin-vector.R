@@ -1,7 +1,11 @@
-#' Bin vectors
+#' Bin vector into equal sized ranges.
 #'
 #' Bin a numeric vector and count how many observations fall in each bin.
 #' Supports weights so that you can re-bin pre-binned data.
+#'
+#' @section Floating point:
+#' If a point is less than \code{binwidth} / 10^8 from the boundary between
+#' two bins, it is shifted to fall in the bin with the closest "closed" side.
 #'
 #' @param x A numeric vector to bin.
 #'
