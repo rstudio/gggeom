@@ -261,6 +261,44 @@ RcppExport SEXP ggcomp_smooth_robust(SEXP x_inSEXP, SEXP z_inSEXP, SEXP w_inSEXP
     UNPROTECT(1);
     return __result;
 }
+// smooth_mean
+NumericVector smooth_mean(const NumericVector& x_in, const NumericVector& z_in, const NumericVector& w_in, const NumericVector& x_out, const double h);
+static SEXP ggcomp_smooth_mean_try(SEXP x_inSEXP, SEXP z_inSEXP, SEXP w_inSEXP, SEXP x_outSEXP, SEXP hSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::traits::input_parameter< const NumericVector& >::type x_in(x_inSEXP );
+        Rcpp::traits::input_parameter< const NumericVector& >::type z_in(z_inSEXP );
+        Rcpp::traits::input_parameter< const NumericVector& >::type w_in(w_inSEXP );
+        Rcpp::traits::input_parameter< const NumericVector& >::type x_out(x_outSEXP );
+        Rcpp::traits::input_parameter< const double >::type h(hSEXP );
+        NumericVector __result = smooth_mean(x_in, z_in, w_in, x_out, h);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP ggcomp_smooth_mean(SEXP x_inSEXP, SEXP z_inSEXP, SEXP w_inSEXP, SEXP x_outSEXP, SEXP hSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(ggcomp_smooth_mean_try(x_inSEXP, z_inSEXP, w_inSEXP, x_outSEXP, hSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
+}
 // as_data_frame
 void as_data_frame(List x, int nrow);
 RcppExport SEXP ggcomp_as_data_frame(SEXP xSEXP, SEXP nrowSEXP) {
@@ -285,6 +323,7 @@ static int ggcomp_RcppExport_validate(const char* sig) {
         signatures.insert("List(*condense_median)(const NumericVector&,double,double,bool,bool,const NumericVector&,const NumericVector&)");
         signatures.insert("NumericVector(*smooth_linear)(const NumericVector&,const NumericVector&,const NumericVector&,const NumericVector&,const double)");
         signatures.insert("NumericVector(*smooth_robust)(const NumericVector&,const NumericVector&,const NumericVector&,const NumericVector&,const double,int)");
+        signatures.insert("NumericVector(*smooth_mean)(const NumericVector&,const NumericVector&,const NumericVector&,const NumericVector&,const double)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -297,6 +336,7 @@ RcppExport SEXP ggcomp_RcppExport_registerCCallable() {
     R_RegisterCCallable("ggcomp", "ggcomp_condense_median", (DL_FUNC)ggcomp_condense_median_try);
     R_RegisterCCallable("ggcomp", "ggcomp_smooth_linear", (DL_FUNC)ggcomp_smooth_linear_try);
     R_RegisterCCallable("ggcomp", "ggcomp_smooth_robust", (DL_FUNC)ggcomp_smooth_robust_try);
+    R_RegisterCCallable("ggcomp", "ggcomp_smooth_mean", (DL_FUNC)ggcomp_smooth_mean_try);
     R_RegisterCCallable("ggcomp", "ggcomp_RcppExport_validate", (DL_FUNC)ggcomp_RcppExport_validate);
     return R_NilValue;
 }

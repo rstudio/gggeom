@@ -69,3 +69,12 @@ NumericVector smooth_robust(const NumericVector& x_in,
                             const double h, int iterations = 3) {
   return smooth(x_in, z_in, w_in, x_out, RobustSmoother(iterations), h);
 }
+
+// [[Rcpp::export]]
+NumericVector smooth_mean(const NumericVector& x_in,
+                          const NumericVector& z_in,
+                          const NumericVector& w_in,
+                          const NumericVector& x_out,
+                          const double h) {
+  return smooth(x_in, z_in, w_in, x_out, MeanSmoother(), h);
+}

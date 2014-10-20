@@ -138,6 +138,25 @@ namespace ggcomp {
         return Rcpp::as<NumericVector >(__result);
     }
 
+    inline NumericVector smooth_mean(const NumericVector& x_in, const NumericVector& z_in, const NumericVector& w_in, const NumericVector& x_out, const double h) {
+        typedef SEXP(*Ptr_smooth_mean)(SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_smooth_mean p_smooth_mean = NULL;
+        if (p_smooth_mean == NULL) {
+            validateSignature("NumericVector(*smooth_mean)(const NumericVector&,const NumericVector&,const NumericVector&,const NumericVector&,const double)");
+            p_smooth_mean = (Ptr_smooth_mean)R_GetCCallable("ggcomp", "ggcomp_smooth_mean");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_smooth_mean(Rcpp::wrap(x_in), Rcpp::wrap(z_in), Rcpp::wrap(w_in), Rcpp::wrap(x_out), Rcpp::wrap(h));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<NumericVector >(__result);
+    }
+
 }
 
 #endif // __ggcomp_RcppExports_h__
