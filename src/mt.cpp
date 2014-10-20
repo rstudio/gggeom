@@ -1,5 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
+// [[Rcpp::interfaces(r, cpp)]]
+
 
 // From http://stackoverflow.com/a/4609795/16632
 template <typename T> int sign(T val) {
@@ -29,7 +31,6 @@ template <typename T> int sign(T val) {
 //' plot(x, mt(x, 2), type = "l")
 //' plot(x, mt(x, -1), type = "l")
 //' plot(x, mt(x, -2), type = "l")
-// [[Rcpp::interfaces(r, cpp)]]
 // [[Rcpp::export]]
 NumericVector mt(NumericVector x, double lambda = 0) {
   int n = x.size();
