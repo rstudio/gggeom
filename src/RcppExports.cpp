@@ -184,6 +184,76 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// mt
+NumericVector mt(NumericVector x, double lambda = 0);
+static SEXP ggcomp_mt_try(SEXP xSEXP, SEXP lambdaSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< double >::type lambda(lambdaSEXP );
+        NumericVector __result = mt(x, lambda);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP ggcomp_mt(SEXP xSEXP, SEXP lambdaSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(ggcomp_mt_try(xSEXP, lambdaSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
+}
+// inv_mt
+NumericVector inv_mt(NumericVector x, double lambda = 0);
+static SEXP ggcomp_inv_mt_try(SEXP xSEXP, SEXP lambdaSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< double >::type lambda(lambdaSEXP );
+        NumericVector __result = inv_mt(x, lambda);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP ggcomp_inv_mt(SEXP xSEXP, SEXP lambdaSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(ggcomp_inv_mt_try(xSEXP, lambdaSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
+}
 // smooth_linear
 NumericVector smooth_linear(const NumericVector& x_in, const NumericVector& z_in, const NumericVector& w_in, const NumericVector& x_out, const double h);
 static SEXP ggcomp_smooth_linear_try(SEXP x_inSEXP, SEXP z_inSEXP, SEXP w_inSEXP, SEXP x_outSEXP, SEXP hSEXP) {
@@ -321,6 +391,8 @@ static int ggcomp_RcppExport_validate(const char* sig) {
         signatures.insert("List(*condense_sum)(const NumericVector&,double,double,bool,bool,const NumericVector&,const NumericVector&)");
         signatures.insert("List(*condense_moments)(const NumericVector&,double,double,bool,bool,const NumericVector&,const NumericVector&,int)");
         signatures.insert("List(*condense_median)(const NumericVector&,double,double,bool,bool,const NumericVector&,const NumericVector&)");
+        signatures.insert("NumericVector(*mt)(NumericVector,double)");
+        signatures.insert("NumericVector(*inv_mt)(NumericVector,double)");
         signatures.insert("NumericVector(*smooth_linear)(const NumericVector&,const NumericVector&,const NumericVector&,const NumericVector&,const double)");
         signatures.insert("NumericVector(*smooth_robust)(const NumericVector&,const NumericVector&,const NumericVector&,const NumericVector&,const double,int)");
         signatures.insert("NumericVector(*smooth_mean)(const NumericVector&,const NumericVector&,const NumericVector&,const NumericVector&,const double)");
@@ -334,6 +406,8 @@ RcppExport SEXP ggcomp_RcppExport_registerCCallable() {
     R_RegisterCCallable("ggcomp", "ggcomp_condense_sum", (DL_FUNC)ggcomp_condense_sum_try);
     R_RegisterCCallable("ggcomp", "ggcomp_condense_moments", (DL_FUNC)ggcomp_condense_moments_try);
     R_RegisterCCallable("ggcomp", "ggcomp_condense_median", (DL_FUNC)ggcomp_condense_median_try);
+    R_RegisterCCallable("ggcomp", "ggcomp_mt", (DL_FUNC)ggcomp_mt_try);
+    R_RegisterCCallable("ggcomp", "ggcomp_inv_mt", (DL_FUNC)ggcomp_inv_mt_try);
     R_RegisterCCallable("ggcomp", "ggcomp_smooth_linear", (DL_FUNC)ggcomp_smooth_linear_try);
     R_RegisterCCallable("ggcomp", "ggcomp_smooth_robust", (DL_FUNC)ggcomp_smooth_robust_try);
     R_RegisterCCallable("ggcomp", "ggcomp_smooth_mean", (DL_FUNC)ggcomp_smooth_mean_try);

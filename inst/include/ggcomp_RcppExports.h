@@ -100,6 +100,44 @@ namespace ggcomp {
         return Rcpp::as<List >(__result);
     }
 
+    inline NumericVector mt(NumericVector x, double lambda = 0) {
+        typedef SEXP(*Ptr_mt)(SEXP,SEXP);
+        static Ptr_mt p_mt = NULL;
+        if (p_mt == NULL) {
+            validateSignature("NumericVector(*mt)(NumericVector,double)");
+            p_mt = (Ptr_mt)R_GetCCallable("ggcomp", "ggcomp_mt");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_mt(Rcpp::wrap(x), Rcpp::wrap(lambda));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<NumericVector >(__result);
+    }
+
+    inline NumericVector inv_mt(NumericVector x, double lambda = 0) {
+        typedef SEXP(*Ptr_inv_mt)(SEXP,SEXP);
+        static Ptr_inv_mt p_inv_mt = NULL;
+        if (p_inv_mt == NULL) {
+            validateSignature("NumericVector(*inv_mt)(NumericVector,double)");
+            p_inv_mt = (Ptr_inv_mt)R_GetCCallable("ggcomp", "ggcomp_inv_mt");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_inv_mt(Rcpp::wrap(x), Rcpp::wrap(lambda));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<NumericVector >(__result);
+    }
+
     inline NumericVector smooth_linear(const NumericVector& x_in, const NumericVector& z_in, const NumericVector& w_in, const NumericVector& x_out, const double h) {
         typedef SEXP(*Ptr_smooth_linear)(SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_smooth_linear p_smooth_linear = NULL;

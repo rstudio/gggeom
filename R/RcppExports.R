@@ -37,6 +37,16 @@ frange <- function(x, finite = TRUE) {
     .Call('ggcomp_frange', PACKAGE = 'ggcomp', x, finite)
 }
 
+mt <- function(x, lambda = 0) {
+    .Call('ggcomp_mt', PACKAGE = 'ggcomp', x, lambda)
+}
+
+#' @export
+#' @rdname mt
+inv_mt <- function(x, lambda = 0) {
+    .Call('ggcomp_inv_mt', PACKAGE = 'ggcomp', x, lambda)
+}
+
 smooth_linear <- function(x_in, z_in, w_in, x_out, h) {
     .Call('ggcomp_smooth_linear', PACKAGE = 'ggcomp', x_in, z_in, w_in, x_out, h)
 }
