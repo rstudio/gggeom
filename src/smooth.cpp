@@ -39,7 +39,7 @@ NumericVector smooth(const NumericVector& x_in,
       double w = tricube(dist / h) * w_in[i];
       if (w == 0) continue;
 
-      x1.push_back(x_in[i]);
+      x1.push_back(dist);
       z1.push_back(z_in[i]);
       w1.push_back(w);
 
