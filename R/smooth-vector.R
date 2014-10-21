@@ -44,7 +44,7 @@ vector_smooth <- function(x, z, span = 0.25, n_bin = 1000, n_smooth = 100,
   h <- (range[2] - range[1]) * span
 
   x_out <- seq(range[1], range[2], length = n_smooth)
-  out <- smooth_robust(binned$x_, binned$mean_, w = 1 / se, x_out,
+  out <- smooth_robust(binned$x_, binned$mean_, w_in = 1 / se, x_out,
     h = h)
 
   data.frame(
