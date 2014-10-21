@@ -3,11 +3,26 @@
 \alias{vector_smooth}
 \title{Smooth vectors.}
 \usage{
-vector_smooth(x, z, span = 0.1, n_bin = 1000, n_smooth = 100,
+vector_smooth(x, z, span = 0.25, n_bin = 1000, n_smooth = 100,
   weight = NULL)
 }
+\arguments{
+\item{x,z}{Numeric vectors.}
+
+\item{span}{Fraction of data that should be used by the smoother. Will
+be weighted by distance from predicted point.}
+
+\item{n_bin,n_smooth}{Number of components to use for binning and
+for smoothing.}
+
+\item{weight}{Optional. A numeric vector giving a weight for each
+location.}
+}
 \description{
-Smooth vectors.
+This method is analogous to \code{\link{loess}} but it first finely bins the
+data. This yields a substantially performance improvement (<1s for 10m
+points), while adding on worsening performance slightly (and typically the
+error will be less than 1 pixel).
 }
 \examples{
 x <- runif(1e4, 0, 4 * pi)

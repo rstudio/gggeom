@@ -1,5 +1,17 @@
 #' Smooth vectors.
 #'
+#' This method is analogous to \code{\link{loess}} but it first finely bins the
+#' data. This yields a substantially performance improvement (<1s for 10m
+#' points), while adding on worsening performance slightly (and typically the
+#' error will be less than 1 pixel).
+#'
+#' @param x,z Numeric vectors.
+#' @param span Fraction of data that should be used by the smoother. Will
+#'   be weighted by distance from predicted point.
+#' @param n_bin,n_smooth Number of components to use for binning and
+#'   for smoothing.
+#' @param weight Optional. A numeric vector giving a weight for each
+#'   location.
 #' @export
 #' @examples
 #' x <- runif(1e4, 0, 4 * pi)
@@ -10,7 +22,7 @@
 #' x_grid <- seq(0, 4 * pi, length = 100)
 #' lines(x_grid, sin(x_grid), type = "l", col = "blue", lwd = 2)
 #' lines(x_grid, predict(loess(y ~ x), data.frame(x = x_grid)), col = "green", lwd = 2)
-vector_smooth <- function(x, z, span = 0.1, n_bin = 1000, n_smooth = 100,
+vector_smooth <- function(x, z, span = 0.25, n_bin = 1000, n_smooth = 100,
                           weight = NULL) {
   # Need to remove missing values
 
