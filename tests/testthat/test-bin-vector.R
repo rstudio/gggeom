@@ -1,5 +1,22 @@
 context("vector_bin()")
 
+# Missing values ---------------------------------------------------------------
+
+test_that("NAs get own bin", {
+  x <- c(1:10, NA, NA, NA, NA)
+  binned <- vector_bin(x, width = 100, origin = 0)
+  expect_equal(binned$count_, c(4, 10))
+  expect_equal(binned$x_, c(NA, 50))
+})
+
+test_that("only NA, one row of output", {
+  x <- as.numeric(c(NA, NA, NA, NA))
+  binned <- vector_bin(x, origin = 0)
+  expect_equal(binned$count_, 4)
+  expect_equal(binned$x_, NA_real_)
+})
+
+
 # Floating point issues --------------------------------------------------------
 
 # Three vectors with a classical FP issue
