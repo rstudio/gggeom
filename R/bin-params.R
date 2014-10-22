@@ -41,6 +41,19 @@ bin_params.numeric <- function(x_range, width = NULL, center = NULL,
 }
 
 #' @export
+bin_params.Date <- function(x_range, width = NULL, center = NULL,
+                            boundary = NULL, closed = c("right", "left")) {
+
+  bin_params(
+    as.numeric(x_range),
+    as_numeric(width),
+    as_numeric(center),
+    as_numeric(boundary),
+    closed
+  )
+}
+
+#' @export
 bin_params.POSIXct <- function(x_range, width = NULL, center = NULL,
                                boundary = NULL, closed = c("right", "left")) {
   if (length(x_range) == 0) {
