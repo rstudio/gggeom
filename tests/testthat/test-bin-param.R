@@ -50,6 +50,19 @@ test_that("treats times like numbers", {
   expect_equal(p$width, 24 * 60 * 60)
 })
 
+test_that("can specify width as lubridate Periods", {
+  x <- as.POSIXct('2001-06-01 21:00', tz = 'UTC') + c(0, 100)
+  expect_identical(
+    param_bin(x, width = lubridate::ms("1 42")),
+    param_bin(x, width = 60 + 42)
+  )
+
+
+})
+# width specified as a Period from lubridate
+
+
+
 # Guessing width ---------------------------------------------------------------
 
 test_that("Automatic width", {
