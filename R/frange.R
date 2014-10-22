@@ -33,3 +33,5 @@ frange <- function(x, finite = TRUE) {
 
   restore(x, frange_(x, finite))
 }
+
+empty_range <- function(x) x[1] > x[2]

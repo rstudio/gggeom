@@ -6,13 +6,6 @@ notify_guess <- function(x, explanation = NULL) {
   message(msg)
 }
 
-# Like as.numeric, except that as.numeric(NULL) returns numeric(0), whereas
-# as_numeric(NULL) returns NULL.
-as_numeric <- function(x) {
-  if (is.null(x)) NULL
-  else as.numeric(x)
-}
-
 #' Pipe operator
 #'
 #' @name %>%
@@ -27,3 +20,5 @@ NULL
 is_numeric <- function(x) {
   typeof(x) %in% c("double", "integer") && !is.factor(x)
 }
+
+`%||%` <- function(x, y) if (is.null(x)) y else x
