@@ -43,7 +43,7 @@ compute_bin.data.frame <- function(data, x_var, w_var = NULL, width = NULL,
 
   compute_bin_vec(
     x_val,
-    weight = w_val,
+    w = w_val,
     width = width,
     center = center,
     boundary = boundary,

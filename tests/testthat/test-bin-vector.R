@@ -71,7 +71,7 @@ test_that("Sidedness of interval doesn't matter when data far from boundaries", 
 # Weights ----------------------------------------------------------------------
 
 test_that("weights are added", {
-  binned <- compute_bin_vec(1:10, weight = 1:10, width = 1)
+  binned <- compute_bin_vec(1:10, 1:10, width = 1)
   expect_equal(binned$count_, 1:10)
 })
 

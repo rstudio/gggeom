@@ -12,7 +12,7 @@
 #'   You can also bin S3 objects that are build on top of integer and
 #'   double atomic vectors, as long as there is a method for
 #'   \code{\link{restore}()}.
-#' @param weight If specified, an integer vector of the same length as \code{x}
+#' @param w If specified, an numeric vector (of the same length as \code{x})
 #'   giving weights. If weights are provided, the weights in each bin are
 #'   summed, rather than just counting the number of observations.
 #' @param width (Positive real). The width of a bin. For S3 objects, the
@@ -56,14 +56,14 @@
 #' system.time(compute_bin_vec(x, width = 0.1))
 #' system.time(compute_bin_vec(x, width = 1 / 100))
 #' system.time(compute_bin_vec(x, width = 1 / 1e5))
-compute_bin_vec <- function(x, width = NULL, origin = NULL, center = NULL,
-                      boundary = NULL, weight = NULL,
-                      closed = c("right", "left"), pad = FALSE) {
+compute_bin_vec <- function(x, w = NULL, width = NULL, origin = NULL,
+                            center = NULL, boundary = NULL,
+                            closed = c("right", "left"), pad = FALSE) {
   stopifnot(is.atomic(x), typeof(x) %in% c("double", "integer"), !is.factor(x))
   closed <- match.arg(closed)
 
-  if (length(weight) == 0) {
-    weight <- numeric()
+  if (length(w) == 0) {
+    w <- numeric()
   }
 
   right_closed <- identical(closed, "right")
@@ -71,11 +71,11 @@ compute_bin_vec <- function(x, width = NULL, origin = NULL, center = NULL,
     boundary = boundary, right_closed = right_closed)
 
   out <- condense_count(x,
+    w = w,
     origin = origin %||% params$origin,
     width = params$width,
     pad = pad,
-    right_closed = right_closed,
-    w = weight
+    right_closed = right_closed
   )
   out$x_ <- restore(x, out$x_)
   out$xmin_ <- restore(x, out$xmin_)

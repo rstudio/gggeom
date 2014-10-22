@@ -3,9 +3,8 @@
 \alias{compute_bin_vec}
 \title{Bin vector into equal sized ranges.}
 \usage{
-compute_bin_vec(x, width = NULL, origin = NULL, center = NULL,
-  boundary = NULL, weight = NULL, closed = c("right", "left"),
-  pad = FALSE)
+compute_bin_vec(x, w = NULL, width = NULL, origin = NULL, center = NULL,
+  boundary = NULL, closed = c("right", "left"), pad = FALSE)
 }
 \arguments{
 \item{x}{A numeric vector to bin.
@@ -13,6 +12,10 @@ compute_bin_vec(x, width = NULL, origin = NULL, center = NULL,
   You can also bin S3 objects that are build on top of integer and
   double atomic vectors, as long as there is a method for
   \code{\link{restore}()}.}
+
+\item{w}{If specified, an numeric vector (of the same length as \code{x})
+giving weights. If weights are provided, the weights in each bin are
+summed, rather than just counting the number of observations.}
 
 \item{width}{(Positive real). The width of a bin. For S3 objects, the
   interpretation of width depends on the interpretation
@@ -36,10 +39,6 @@ than the \code{origin} will be treated as if they are missing. If
   Think of binning as tiling the real line into a infinite sequence of
   intervals. \code{center} and \code{boundary} set the position of
   one of those intervals.}
-
-\item{weight}{If specified, an integer vector of the same length as \code{x}
-giving weights. If weights are provided, the weights in each bin are
-summed, rather than just counting the number of observations.}
 
 \item{closed}{One of \code{"right"} or \code{"left"} indicating whether the
 bin interval is left-closed (i.e. [a, b)), or right-closed (i.e. (a, b]).}
