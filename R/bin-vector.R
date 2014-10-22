@@ -21,17 +21,24 @@
 #'   for times 1 = 1 second; and for difftime, the units vary.
 #'
 #'   If \code{NULL}, the \code{width} will be derived from the data,
-#'   picking approximately 30 bins with nice widths.
+#'   picking approximately 30 bins with nice widths. You should always override
+#'   this value, exploring multiple widths to find the best to illustrate the
+#'   stories in your data.
 #' @param boundary,center Set the position of the first bin by specifying
 #'   the position of either a boundary or the center of a bin.
+#'   For example, you can always center the bins on integers with
+#'   \code{center = 0} regardless of where the first bin actually falls.
+#'
+#'   Think of binning as tiling the real line into a infinite sequence of
+#'   intervals. \code{center} and \code{boundary} set the position of
+#'   one of those intervals.
 #' @param origin The location of the left-most bin edge. Any values smaller
 #'   than the \code{origin} will be treated as if they are missing. If
 #'   \code{NULL} will be computed from \code{center} and \code{boundary}.
 #' @param closed One of \code{"right"} or \code{"left"} indicating whether the
 #'   bin interval is left-closed (i.e. [a, b)), or right-closed (i.e. (a, b]).
-#' @param pad A logical indicating whether the bins should be padded to include
-#'   an empty bin on each side. This is useful for frequency polygons which
-#'   need to go back down to zero at either end of the range.
+#' @param pad If \code{TRUE}, adds empty bins at either end of x. This ensures
+#'   frequency polygons touch 0 outside the range of x. Defaults to \code{FALSE}.
 #' @keywords internal
 #' @export
 #' @examples

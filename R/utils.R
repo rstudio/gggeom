@@ -22,3 +22,10 @@ is_numeric <- function(x) {
 }
 
 `%||%` <- function(x, y) if (is.null(x)) y else x
+
+
+eval_vector <- function(x, f) UseMethod("eval_vector")
+eval_vector.data.frame <- function(x, f) {
+  eval(f[[2]], x, environment(f))
+}
+

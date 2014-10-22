@@ -15,4 +15,5 @@ Imports:
     magrittr
 Suggests:
     testthat,
-    lubridate
+    lubridate,
+    dplyr
