@@ -36,20 +36,20 @@
 #' @export
 #' @examples
 #' x <- runif(1e6)
-#' vector_bin(x)
-#' vector_bin(x, width = 0.25)
+#' compute_bin_vec(x)
+#' compute_bin_vec(x, width = 0.25)
 #'
 #' # Bin other types of object
-#' vector_bin(Sys.time() + runif(10) * 60, 15)
-#' vector_bin(Sys.Date() + sample(30, 10), 7)
+#' compute_bin_vec(Sys.time() + runif(10) * 60, 15)
+#' compute_bin_vec(Sys.Date() + sample(30, 10), 7)
 #'
 #' # Performance scales linearly with the size of x, and the number
 #' # of bins has limited impact
 #' x <- runif(1e7)
-#' system.time(vector_bin(x, width = 0.1))
-#' system.time(vector_bin(x, width = 1 / 100))
-#' system.time(vector_bin(x, width = 1 / 1e5))
-vector_bin <- function(x, width = NULL, origin = NULL, center = NULL,
+#' system.time(compute_bin_vec(x, width = 0.1))
+#' system.time(compute_bin_vec(x, width = 1 / 100))
+#' system.time(compute_bin_vec(x, width = 1 / 1e5))
+compute_bin_vec <- function(x, width = NULL, origin = NULL, center = NULL,
                       boundary = NULL, weight = NULL,
                       closed = c("right", "left"), pad = FALSE) {
   stopifnot(is.atomic(x), typeof(x) %in% c("double", "integer"), !is.factor(x))
