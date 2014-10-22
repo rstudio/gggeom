@@ -44,8 +44,9 @@
 #' system.time(vector_bin(x, width = 0.1))
 #' system.time(vector_bin(x, width = 1 / 100))
 #' system.time(vector_bin(x, width = 1 / 1e5))
-vector_bin <- function(x, width = NULL, center = NULL, boundary = NULL,
-                      weight = NULL, closed = c("right", "left"), pad = FALSE) {
+vector_bin <- function(x, width = NULL, origin = NULL, center = NULL,
+                      boundary = NULL, weight = NULL,
+                      closed = c("right", "left"), pad = FALSE) {
   stopifnot(is.atomic(x), typeof(x) %in% c("double", "integer"), !is.factor(x))
   closed <- match.arg(closed)
 
@@ -56,8 +57,13 @@ vector_bin <- function(x, width = NULL, center = NULL, boundary = NULL,
   params <- bin_params(frange(x), width = width, center = center,
     boundary = boundary)
 
-  out <- condense_count(x, origin = params$origin, width = params$width,
-    pad = pad, right_closed = identical(closed, "right"), w = weight)
+  out <- condense_count(x,
+    origin = origin %||% params$origin,
+    width = params$width,
+    pad = pad,
+    right_closed = identical(closed, "right"),
+    w = weight
+  )
   out$x_ <- restore(x, out$x_)
   out$xmin_ <- restore(x, out$xmin_)
   out$xmax_ <- restore(x, out$xmax_)

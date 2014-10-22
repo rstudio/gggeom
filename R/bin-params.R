@@ -1,12 +1,10 @@
-bin_params <- function(x_range, width = NULL, center = NULL, boundary = NULL,
-                       closed = c("right", "left")) {
+bin_params <- function(x_range, width = NULL, center = NULL, boundary = NULL) {
   UseMethod("bin_params")
 }
 
 #' @export
 bin_params.NULL <- function(x_range, width = NULL, center = NULL,
-                            boundary = NULL, closed = c("right", "left")) {
-  closed <- match.arg(closed)
+                            boundary = NULL) {
 
   width <- width %||% 1
   if (!is.null(boundary)) {
@@ -17,47 +15,44 @@ bin_params.NULL <- function(x_range, width = NULL, center = NULL,
     origin <- width / 2
   }
 
-  list(width = width, origin = origin, closed = closed)
+  list(width = width, origin = origin)
 }
 
 #' @export
 bin_params.numeric <- function(x_range, width = NULL, center = NULL,
-                               boundary = NULL, closed = c("right", "left")) {
+                               boundary = NULL) {
   stopifnot(length(x_range) == 2)
-  closed <- match.arg(closed)
 
   if (empty_range(x_range)) {
     return(bin_params.NULL(width = width, center = center,
-      boundary = boundary, closed = closed))
+      boundary = boundary))
   }
 
   width <- width %||% pretty_width(x_range)
   origin <- find_origin(x_range, width, center = center, boundary = boundary)
 
-  list(width = width, origin = origin, closed = closed)
+  list(width = width, origin = origin)
 }
 
 #' @export
 bin_params.Date <- function(x_range, width = NULL, center = NULL,
-                            boundary = NULL, closed = c("right", "left")) {
+                            boundary = NULL) {
   bin_params.numeric(
     as.numeric(x_range),
     if (is.null(width)) NULL else as.numeric(width),
     if (is.null(center)) NULL else as.numeric(center),
-    if (is.null(boundary)) NULL else as.numeric(boundary),
-    closed
+    if (is.null(boundary)) NULL else as.numeric(boundary)
   )
 }
 
 #' @export
 bin_params.POSIXct <- function(x_range, width = NULL, center = NULL,
-                               boundary = NULL, closed = c("right", "left")) {
+                               boundary = NULL) {
   stopifnot(length(x_range) == 2)
-  closed <- match.arg(closed)
 
   if (empty_range(x_range)) {
     return(bin_params.NULL(width = width, center = center,
-      boundary = boundary, closed = closed))
+      boundary = boundary))
   }
 
   # Period object from lubridate package - need lubridate::as.difftime to find
@@ -74,8 +69,7 @@ bin_params.POSIXct <- function(x_range, width = NULL, center = NULL,
     as.numeric(x_range),
     width,
     if (is.null(center)) NULL else as.numeric(center),
-    if (is.null(boundary)) NULL else as.numeric(boundary),
-    closed
+    if (is.null(boundary)) NULL else as.numeric(boundary)
   )
 }
 
