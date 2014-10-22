@@ -168,16 +168,16 @@ RcppExport SEXP ggcomp_condense_median(SEXP xSEXP, SEXP originSEXP, SEXP widthSE
     UNPROTECT(1);
     return __result;
 }
-// frange
-NumericVector frange(const NumericVector& x, const bool finite = true);
-RcppExport SEXP ggcomp_frange(SEXP xSEXP, SEXP finiteSEXP) {
+// frange_
+NumericVector frange_(const NumericVector& x, const bool finite = true);
+RcppExport SEXP ggcomp_frange_(SEXP xSEXP, SEXP finiteSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
         Rcpp::traits::input_parameter< const bool >::type finite(finiteSEXP );
-        NumericVector __result = frange(x, finite);
+        NumericVector __result = frange_(x, finite);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
