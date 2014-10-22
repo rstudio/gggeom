@@ -11,7 +11,8 @@ License: GPL-2
 LazyData: true
 LinkingTo: Rcpp
 Imports:
-    Rcpp
+    Rcpp,
+    magrittr
 Suggests:
     testthat,
     lubridate
