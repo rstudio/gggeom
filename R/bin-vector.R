@@ -59,14 +59,15 @@ vector_bin <- function(x, width = NULL, origin = NULL, center = NULL,
     weight <- numeric()
   }
 
+  right_closed <- identical(closed, "right")
   params <- bin_params(frange(x), width = width, center = center,
-    boundary = boundary)
+    boundary = boundary, right_closed = right_closed)
 
   out <- condense_count(x,
     origin = origin %||% params$origin,
     width = params$width,
     pad = pad,
-    right_closed = identical(closed, "right"),
+    right_closed = right_closed,
     w = weight
   )
   out$x_ <- restore(x, out$x_)
