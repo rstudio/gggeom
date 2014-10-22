@@ -3,8 +3,8 @@
 \alias{vector_bin}
 \title{Bin vector into equal sized ranges.}
 \usage{
-vector_bin(x, width = 1, origin = min(x, na.rm = TRUE), weight = NULL,
-  closed = c("right", "left"), pad = FALSE)
+vector_bin(x, width = NULL, center = NULL, boundary = NULL,
+  weight = NULL, closed = c("right", "left"), pad = FALSE)
 }
 \arguments{
 \item{x}{A numeric vector to bin.
@@ -19,9 +19,6 @@ vector_bin(x, width = 1, origin = min(x, na.rm = TRUE), weight = NULL,
   of the underlying numeric vector. For example, for dates, 1 = 1 day;
   for times 1 = 1 second; and for difftime, the units vary.}
 
-\item{origin}{The location of the left-most bin edge. Any values smaller
-than the \code{origin} will be treated as if they are missing.}
-
 \item{weight}{If specified, an integer vector of the same length as \code{x}
 giving weights. If weights are provided, the weights in each bin are
 summed, rather than just counting the number of observations.}
@@ -32,6 +29,9 @@ bin interval is left-closed (i.e. [a, b)), or right-closed (i.e. (a, b]).}
 \item{pad}{A logical indicating whether the bins should be padded to include
 an empty bin on each side. This is useful for frequency polygons which
 need to go back down to zero at either end of the range.}
+
+\item{origin}{The location of the left-most bin edge. Any values smaller
+than the \code{origin} will be treated as if they are missing.}
 }
 \description{
 Bin a numeric vector and count how many observations fall in each bin.
@@ -44,7 +44,8 @@ two bins, it is shifted to fall in the bin with the closest "closed" side.
 }
 \examples{
 x <- runif(1e6)
-vector_bin(x, 0.1, origin = 0)
+vector_bin(x)
+vector_bin(x, width = 0.25)
 
 # Bin other types of object
 vector_bin(Sys.time() + runif(10) * 60, 15)
@@ -53,9 +54,9 @@ vector_bin(Sys.Date() + sample(30, 10), 7)
 # Performance scales linearly with the size of x, and the number
 # of bins has limited impact
 x <- runif(1e7)
-system.time(vector_bin(x, width = 0.1, origin = 0))
-system.time(vector_bin(x, width = 1 / 100, origin = 0))
-system.time(vector_bin(x, width = 1 / 1e5, origin = 0))
+system.time(vector_bin(x, width = 0.1))
+system.time(vector_bin(x, width = 1 / 100))
+system.time(vector_bin(x, width = 1 / 1e5))
 }
 \keyword{internal}
 

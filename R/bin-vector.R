@@ -31,7 +31,8 @@
 #' @export
 #' @examples
 #' x <- runif(1e6)
-#' vector_bin(x, 0.1, origin = 0)
+#' vector_bin(x)
+#' vector_bin(x, width = 0.25)
 #'
 #' # Bin other types of object
 #' vector_bin(Sys.time() + runif(10) * 60, 15)
@@ -40,10 +41,10 @@
 #' # Performance scales linearly with the size of x, and the number
 #' # of bins has limited impact
 #' x <- runif(1e7)
-#' system.time(vector_bin(x, width = 0.1, origin = 0))
-#' system.time(vector_bin(x, width = 1 / 100, origin = 0))
-#' system.time(vector_bin(x, width = 1 / 1e5, origin = 0))
-vector_bin <- function(x, width = 1, origin = min(x, na.rm = TRUE),
+#' system.time(vector_bin(x, width = 0.1))
+#' system.time(vector_bin(x, width = 1 / 100))
+#' system.time(vector_bin(x, width = 1 / 1e5))
+vector_bin <- function(x, width = NULL, center = NULL, boundary = NULL,
                       weight = NULL, closed = c("right", "left"), pad = FALSE) {
   stopifnot(is.atomic(x), typeof(x) %in% c("double", "integer"), !is.factor(x))
   closed <- match.arg(closed)
@@ -52,9 +53,14 @@ vector_bin <- function(x, width = 1, origin = min(x, na.rm = TRUE),
     weight <- numeric()
   }
 
-  out <- condense_count(x, origin = origin, width = width, pad = pad,
-    right_closed = identical(closed, "right"), w = weight)
+  params <- bin_params(frange(x), width = width, center = center,
+    boundary = boundary)
+
+  out <- condense_count(x, origin = params$origin, width = params$width,
+    pad = pad, right_closed = identical(closed, "right"), w = weight)
   out$x_ <- restore(x, out$x_)
+  out$xmin_ <- restore(x, out$xmin_)
+  out$xmax_ <- restore(x, out$xmax_)
 
   `as.data.frame!`(out, length(out[[1]]))
   out
