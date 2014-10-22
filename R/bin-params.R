@@ -4,7 +4,7 @@ bin_params <- function(x_range, width = NULL, center = NULL, boundary = NULL,
 }
 
 #' @export
-bin_params.default <- function(x_range, width = NULL, center = NULL,
+bin_params.numeric <- function(x_range, width = NULL, center = NULL,
                                boundary = NULL, closed = c("right", "left")) {
   closed <- match.arg(closed)
 
@@ -13,33 +13,27 @@ bin_params.default <- function(x_range, width = NULL, center = NULL,
   }
 
   stopifnot(length(x_range) == 2)
+
+  # Find a nice-looking value for width
+  if (is.null(width)) {
+    bounds <- pretty(x_range, 30)
+    width <- bounds[2] - bounds[1]
+    notify_guess(width, paste0("range / ", length(bounds) - 1))
+  }
+
   if (!is.null(boundary) && !is.null(center)) {
     stop("Only one of 'boundary' and 'center' may be specified.")
   }
-
-  if (is.null(width)) {
-    # Find a nice-looking value for width
-    bounds <- pretty(x_range, 30)
-    width <- bounds[2] - bounds[1]
-    notify_guess(width, paste0("range / ", length(bounds)-1))
-  }
-
   if (is.null(boundary)) {
     if (is.null(center)) {
-      # If neither edge nor center given, compute both using tile layer's
-      # algorithm. This puts min and max of data in outer half of their bins.
+      # If neither boundary nor center given, use tile layer's algorithm.
+      # This puts min and max of data in outer half of their bins.
       boundary <- width / 2
-
     } else {
       # If center given but not boundary, compute boundary.
       boundary <- center - width / 2
     }
   }
-
-  # Inputs could be Dates or POSIXct, so make sure these are all numeric
-  x_range <- as.numeric(x_range)
-  width <- as.numeric(width)
-  boundary <- as.numeric(boundary)
 
   origin <- find_origin(x_range, width, boundary)
 
@@ -63,11 +57,13 @@ bin_params.POSIXct <- function(x_range, width = NULL, center = NULL,
   # the correct generic, instead of base::as.difftime.
   if (is(width, "Period")) {
     width <- as.numeric(lubridate::as.difftime(width, units = "secs"))
+  } else {
+    width <- as.numeric(width, units = "secs")
   }
 
   bin_params(
     as.numeric(x_range),
-    as.numeric(width, units = "secs"),
+    width,
     as_numeric(center),
     as_numeric(boundary),
     closed
