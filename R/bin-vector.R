@@ -20,8 +20,11 @@
 #'   For S3 objects, the interpretation of width depends on the interpretation
 #'   of the underlying numeric vector. For example, for dates, 1 = 1 day;
 #'   for times 1 = 1 second; and for difftime, the units vary.
+#' @param boundary,center Set the position of the first bin by specifying
+#'   the position of either a boundary or the center of a bin.
 #' @param origin The location of the left-most bin edge. Any values smaller
-#'   than the \code{origin} will be treated as if they are missing.
+#'   than the \code{origin} will be treated as if they are missing. If
+#'   \code{NULL} will be computed from \code{center} and \code{boundary}.
 #' @param closed One of \code{"right"} or \code{"left"} indicating whether the
 #'   bin interval is left-closed (i.e. [a, b)), or right-closed (i.e. (a, b]).
 #' @param pad A logical indicating whether the bins should be padded to include

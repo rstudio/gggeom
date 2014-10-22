@@ -3,8 +3,9 @@
 \alias{vector_bin}
 \title{Bin vector into equal sized ranges.}
 \usage{
-vector_bin(x, width = NULL, center = NULL, boundary = NULL,
-  weight = NULL, closed = c("right", "left"), pad = FALSE)
+vector_bin(x, width = NULL, origin = NULL, center = NULL,
+  boundary = NULL, weight = NULL, closed = c("right", "left"),
+  pad = FALSE)
 }
 \arguments{
 \item{x}{A numeric vector to bin.
@@ -19,6 +20,13 @@ vector_bin(x, width = NULL, center = NULL, boundary = NULL,
   of the underlying numeric vector. For example, for dates, 1 = 1 day;
   for times 1 = 1 second; and for difftime, the units vary.}
 
+\item{origin}{The location of the left-most bin edge. Any values smaller
+than the \code{origin} will be treated as if they are missing. If
+\code{NULL} will be computed from \code{center} and \code{boundary}.}
+
+\item{boundary,center}{Set the position of the first bin by specifying
+the position of either a boundary or the center of a bin.}
+
 \item{weight}{If specified, an integer vector of the same length as \code{x}
 giving weights. If weights are provided, the weights in each bin are
 summed, rather than just counting the number of observations.}
@@ -29,9 +37,6 @@ bin interval is left-closed (i.e. [a, b)), or right-closed (i.e. (a, b]).}
 \item{pad}{A logical indicating whether the bins should be padded to include
 an empty bin on each side. This is useful for frequency polygons which
 need to go back down to zero at either end of the range.}
-
-\item{origin}{The location of the left-most bin edge. Any values smaller
-than the \code{origin} will be treated as if they are missing.}
 }
 \description{
 Bin a numeric vector and count how many observations fall in each bin.
