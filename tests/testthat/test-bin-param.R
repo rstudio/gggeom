@@ -1,4 +1,4 @@
-context("param_bin()")
+context("Bin: default params")
 
 # Setting boundary/center ------------------------------------------------------
 

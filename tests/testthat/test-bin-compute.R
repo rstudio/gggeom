@@ -1,4 +1,4 @@
-context("compute_bin_vec()")
+context("Bin: compute")
 
 # Missing values ---------------------------------------------------------------
 
