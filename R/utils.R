@@ -22,3 +22,8 @@ as_numeric <- function(x) {
 #' @importFrom magrittr %>%
 #' @usage lhs \%>\% rhs
 NULL
+
+
+is_numeric <- function(x) {
+  typeof(x) %in% c("double", "integer") && !is.factor(x)
+}

@@ -15,5 +15,9 @@
 #' system.time(range(x))
 #' system.time(frange(x))
 frange <- function(x, finite = TRUE) {
+  if (!is_numeric(x)) {
+    stop("x must be numeric", call. = FALSE)
+  }
+
   restore(x, frange_(x, finite))
 }
