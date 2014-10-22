@@ -14,11 +14,13 @@ vector_bin(x, width = NULL, origin = NULL, center = NULL,
   double atomic vectors, as long as there is a method for
   \code{\link{restore}()}.}
 
-\item{width}{The width of a bin. Must be positive.
-
-  For S3 objects, the interpretation of width depends on the interpretation
+\item{width}{(Positive real). The width of a bin. For S3 objects, the
+  interpretation of width depends on the interpretation
   of the underlying numeric vector. For example, for dates, 1 = 1 day;
-  for times 1 = 1 second; and for difftime, the units vary.}
+  for times 1 = 1 second; and for difftime, the units vary.
+
+  If \code{NULL}, the \code{width} will be derived from the data,
+  picking approximately 30 bins with nice widths.}
 
 \item{origin}{The location of the left-most bin edge. Any values smaller
 than the \code{origin} will be treated as if they are missing. If

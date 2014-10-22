@@ -15,11 +15,13 @@
 #' @param weight If specified, an integer vector of the same length as \code{x}
 #'   giving weights. If weights are provided, the weights in each bin are
 #'   summed, rather than just counting the number of observations.
-#' @param width The width of a bin. Must be positive.
-#'
-#'   For S3 objects, the interpretation of width depends on the interpretation
+#' @param width (Positive real). The width of a bin. For S3 objects, the
+#'   interpretation of width depends on the interpretation
 #'   of the underlying numeric vector. For example, for dates, 1 = 1 day;
 #'   for times 1 = 1 second; and for difftime, the units vary.
+#'
+#'   If \code{NULL}, the \code{width} will be derived from the data,
+#'   picking approximately 30 bins with nice widths.
 #' @param boundary,center Set the position of the first bin by specifying
 #'   the position of either a boundary or the center of a bin.
 #' @param origin The location of the left-most bin edge. Any values smaller
