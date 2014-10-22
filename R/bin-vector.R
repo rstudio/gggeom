@@ -60,7 +60,7 @@ vector_bin <- function(x, width = NULL, origin = NULL, center = NULL,
   }
 
   right_closed <- identical(closed, "right")
-  params <- bin_params(frange(x), width = width, center = center,
+  params <- param_bin(frange(x), width = width, center = center,
     boundary = boundary, right_closed = right_closed)
 
   out <- condense_count(x,

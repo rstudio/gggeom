@@ -1,10 +1,10 @@
-bin_params <- function(x_range, width = NULL, center = NULL, boundary = NULL,
+param_bin <- function(x_range, width = NULL, center = NULL, boundary = NULL,
                        right_closed = TRUE) {
-  UseMethod("bin_params")
+  UseMethod("param_bin")
 }
 
 #' @export
-bin_params.NULL <- function(x_range, width = NULL, center = NULL,
+param_bin.NULL <- function(x_range, width = NULL, center = NULL,
                             boundary = NULL, right_closed = TRUE) {
 
   width <- width %||% 1
@@ -20,12 +20,12 @@ bin_params.NULL <- function(x_range, width = NULL, center = NULL,
 }
 
 #' @export
-bin_params.numeric <- function(x_range, width = NULL, center = NULL,
+param_bin.numeric <- function(x_range, width = NULL, center = NULL,
                                boundary = NULL, right_closed = TRUE) {
   stopifnot(length(x_range) == 2)
 
   if (empty_range(x_range)) {
-    return(bin_params.NULL(width = width, center = center,
+    return(param_bin.NULL(width = width, center = center,
       boundary = boundary))
   }
 
@@ -37,9 +37,9 @@ bin_params.numeric <- function(x_range, width = NULL, center = NULL,
 }
 
 #' @export
-bin_params.Date <- function(x_range, width = NULL, center = NULL,
+param_bin.Date <- function(x_range, width = NULL, center = NULL,
                             boundary = NULL, right_closed = TRUE) {
-  bin_params.numeric(
+  param_bin.numeric(
     as.numeric(x_range),
     if (is.null(width)) NULL else as.numeric(width),
     if (is.null(center)) NULL else as.numeric(center),
@@ -49,12 +49,12 @@ bin_params.Date <- function(x_range, width = NULL, center = NULL,
 }
 
 #' @export
-bin_params.POSIXct <- function(x_range, width = NULL, center = NULL,
+param_bin.POSIXct <- function(x_range, width = NULL, center = NULL,
                                boundary = NULL, right_closed = TRUE) {
   stopifnot(length(x_range) == 2)
 
   if (empty_range(x_range)) {
-    return(bin_params.NULL(width = width, center = center,
+    return(param_bin.NULL(width = width, center = center,
       boundary = boundary))
   }
 
@@ -68,7 +68,7 @@ bin_params.POSIXct <- function(x_range, width = NULL, center = NULL,
     width <- as.numeric(width, units = "secs")
   }
 
-  bin_params.numeric(
+  param_bin.numeric(
     as.numeric(x_range),
     width,
     if (is.null(center)) NULL else as.numeric(center),
