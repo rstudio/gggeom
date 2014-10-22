@@ -23,11 +23,13 @@ test_that("center sets middle of bin", {
 })
 
 test_that("left-open needs extra bin", {
-  p <- bin_params(0:1, boundary = 0, width = 1)
-  expect_equal(p$origin, -1)
+  origin_01 <- function(...) bin_params(..., boundary = 0, width = 1)$origin
 
-  p <- bin_params(0:1 + 1e-9, boundary = 0, width = 1)
-  expect_equal(p$origin, -1)
+  expect_equal(origin_01(0:1), -1)
+  expect_equal(origin_01(0:1 + 1e-9), -1)
+
+  expect_equal(origin_01(0:1, right_closed = FALSE), 0)
+  expect_equal(origin_01(0:1 + 1e-9, right_closed = FALSE), 0)
 })
 
 # Other numeric types ----------------------------------------------------------
