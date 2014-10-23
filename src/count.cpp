@@ -22,10 +22,18 @@ List count_lgl(LogicalVector x, NumericVector w) {
     }
   }
 
-  return List::create(
-    _["x_"] = LogicalVector::create(true, false, NA_LOGICAL),
-    _["count_"] = NumericVector::create(n_t, n_f, n_na)
-  );
+  if (n_na == 0) {
+    return List::create(
+      _["x_"] = LogicalVector::create(true, false),
+      _["count_"] = NumericVector::create(n_t, n_f)
+    );
+  } else {
+    return List::create(
+      _["x_"] = LogicalVector::create(true, false, NA_LOGICAL),
+      _["count_"] = NumericVector::create(n_t, n_f, n_na)
+    );
+  }
+
 }
 
 // [[Rcpp::export]]
@@ -96,16 +104,19 @@ List count_numeric(NumericVector x, NumericVector w) {
     }
   }
 
+  // Prepare output. First row contains missings if present.
   int n_out = counts.size();
-  NumericVector x_(n_out + 1), count_(n_out + 1);
+  bool has_missing = n_na > 0;
 
+  NumericVector x_(n_out + has_missing), count_(n_out + has_missing);
   std::map<double,double>::iterator count_it = counts.begin(),
     count_end = counts.end();
+  if (has_missing) {
+    x_[0] = NA_REAL;
+    count_[0] = n_na;
+  }
 
-  // Need to make this optional - should only add if NAs present.
-  x_[0] = NA_REAL;
-  count_[0] = n_na;
-  for (int i = 1; count_it != count_end; ++count_it, ++i) {
+  for (int i = has_missing; count_it != count_end; ++count_it, ++i) {
     x_[i] = count_it->first;
     count_[i] = count_it->second;
   }
@@ -114,7 +125,6 @@ List count_numeric(NumericVector x, NumericVector w) {
     _["x_"] = x_,
     _["count_"] = count_
   );
-
 }
 
 
@@ -134,17 +144,21 @@ List count_string(CharacterVector x, NumericVector w) {
     }
   }
 
+  // Prepare output. First row contains missings if present.
   int n_out = counts.size();
-  CharacterVector x_(n_out + 1);
-  NumericVector count_(n_out + 1);
+  bool has_missing = n_na > 0;
+
+  CharacterVector x_(n_out + has_missing);
+  NumericVector count_(n_out + has_missing);
 
   std::unordered_map<const char*,double>::iterator count_it = counts.begin(),
     count_end = counts.end();
+  if (has_missing) {
+    x_[0] = NA_REAL;
+    count_[0] = n_na;
+  }
 
-  // Need to make this optional - should only add if NAs present.
-  x_[0] = NA_STRING;
-  count_[0] = n_na;
-  for (int i = 1; count_it != count_end; ++count_it, ++i) {
+  for (int i = has_missing; count_it != count_end; ++count_it, ++i) {
     x_[i] = count_it->first;
     count_[i] = count_it->second;
   }

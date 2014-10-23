@@ -35,3 +35,14 @@ test_that("times preserved", {
   expect_is(out$x_, "POSIXct")
 })
 
+test_that("empty input gives zero-row output for numeric, character & factor", {
+  expect_equal(nrow(compute_count_vec(numeric())), 0)
+  expect_equal(nrow(compute_count_vec(character())), 0)
+  expect_equal(nrow(compute_count_vec(factor())), 0)
+})
+
+test_that("empty input gives two-row output for logical", {
+  # because logicals are like factors with levels c(T, F)
+  expect_equal(nrow(compute_count_vec(logical())), 2)
+  expect_equal(nrow(compute_count_vec(factor(levels = c("T", "F")))), 2)
+})
