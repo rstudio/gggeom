@@ -19,8 +19,8 @@ A data frame with columns:
  \item{count_}{number of observations/sum of weights (numeric)}
 }
 \description{
-This function is very similar to table except that: it always includes
-missing values, can use weights, only does 1d, returns a 2 column data frame
+This function is very similar to table except that: it counts missing values
+if present, can use weights, only does 1d, returns a 2 column data frame
 instead of a named vector, and is much much faster.
 }
 \examples{

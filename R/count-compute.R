@@ -36,8 +36,8 @@ compute_count.grouped_df <- function(x, x_var, w_var = NULL) {
 
 #' Count unique observations (vector).
 #'
-#' This function is very similar to table except that: it always includes
-#' missing values, can use weights, only does 1d, returns a 2 column data frame
+#' This function is very similar to table except that: it counts missing values
+#' if present, can use weights, only does 1d, returns a 2 column data frame
 #' instead of a named vector, and is much much faster.
 #'
 #' @param x A logical vector, a factor, a double or integer vector (or
