@@ -25,7 +25,7 @@ instead of a named vector, and is much much faster.
 }
 \examples{
 compute_count_vec(sample(100, 1e4, rep = TRUE))
-compute_count_vec(sample(c(T, F, NA), 1e4, rep = TRUE))
+compute_count_vec(sample(c(TRUE, FALSE, NA), 1e4, rep = TRUE))
 }
 \keyword{internal}
 

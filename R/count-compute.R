@@ -52,7 +52,7 @@ compute_count.grouped_df <- function(x, x_var, w_var = NULL) {
 #'  \item{count_}{number of observations/sum of weights (numeric)}
 #' @examples
 #' compute_count_vec(sample(100, 1e4, rep = TRUE))
-#' compute_count_vec(sample(c(T, F, NA), 1e4, rep = TRUE))
+#' compute_count_vec(sample(c(TRUE, FALSE, NA), 1e4, rep = TRUE))
 compute_count_vec <- function(x, w = NULL) {
   if (is.null(w)) {
     w <- numeric(0)
