@@ -1,4 +1,4 @@
-#' Bin data along a continuous variable
+#' Bin continuous data into equal sized ranges.
 #'
 #' @param data Dataset-like object to bin. Built-in methods for data frames,
 #'   grouped data frames and ggvis visualisations.
@@ -76,7 +76,7 @@ compute_bin.grouped_df <- function(data, x_var, w_var = NULL, width = NULL,
 globalVariables(".")
 
 
-#' Bin vector into equal sized ranges.
+#' Bin continuous vector into equal sized ranges.
 #'
 #' Bin a numeric vector and count how many observations fall in each bin.
 #' Supports weights so that you can re-bin pre-binned data.
@@ -135,8 +135,8 @@ globalVariables(".")
 #' system.time(compute_bin_vec(x, width = 1 / 100))
 #' system.time(compute_bin_vec(x, width = 1 / 1e5))
 compute_bin_vec <- function(x, w = NULL, width = NULL, origin = NULL,
-  center = NULL, boundary = NULL,
-  closed = c("right", "left"), pad = FALSE) {
+                            center = NULL, boundary = NULL,
+                            closed = c("right", "left"), pad = FALSE) {
   stopifnot(is.atomic(x), typeof(x) %in% c("double", "integer"), !is.factor(x))
   closed <- match.arg(closed)
 
@@ -162,4 +162,3 @@ compute_bin_vec <- function(x, w = NULL, width = NULL, origin = NULL,
   `as.data.frame!`(out, length(out[[1]]))
   out
 }
-
