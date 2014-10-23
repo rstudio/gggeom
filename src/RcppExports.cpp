@@ -168,6 +168,22 @@ RcppExport SEXP ggcomp_condense_median(SEXP xSEXP, SEXP originSEXP, SEXP widthSE
     UNPROTECT(1);
     return __result;
 }
+// count_lgl
+List count_lgl(LogicalVector x, NumericVector w);
+RcppExport SEXP ggcomp_count_lgl(SEXP xSEXP, SEXP wSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< LogicalVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type w(wSEXP );
+        List __result = count_lgl(x, w);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // frange_
 NumericVector frange_(const NumericVector& x, const bool finite = true);
 RcppExport SEXP ggcomp_frange_(SEXP xSEXP, SEXP finiteSEXP) {

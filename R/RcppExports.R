@@ -17,6 +17,10 @@ condense_median <- function(x, origin, width, pad, right_closed, z, w) {
     .Call('ggcomp_condense_median', PACKAGE = 'ggcomp', x, origin, width, pad, right_closed, z, w)
 }
 
+count_lgl <- function(x, w) {
+    .Call('ggcomp_count_lgl', PACKAGE = 'ggcomp', x, w)
+}
+
 frange_ <- function(x, finite = TRUE) {
     .Call('ggcomp_frange_', PACKAGE = 'ggcomp', x, finite)
 }
