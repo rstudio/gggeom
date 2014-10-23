@@ -25,6 +25,14 @@ count_factor <- function(x, w) {
     .Call('ggcomp_count_factor', PACKAGE = 'ggcomp', x, w)
 }
 
+count_numeric <- function(x, w) {
+    .Call('ggcomp_count_numeric', PACKAGE = 'ggcomp', x, w)
+}
+
+count_string <- function(x, w) {
+    .Call('ggcomp_count_string', PACKAGE = 'ggcomp', x, w)
+}
+
 frange_ <- function(x, finite = TRUE) {
     .Call('ggcomp_frange_', PACKAGE = 'ggcomp', x, finite)
 }

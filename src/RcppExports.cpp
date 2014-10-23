@@ -200,6 +200,38 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// count_numeric
+List count_numeric(NumericVector x, NumericVector w);
+RcppExport SEXP ggcomp_count_numeric(SEXP xSEXP, SEXP wSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type w(wSEXP );
+        List __result = count_numeric(x, w);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// count_string
+List count_string(CharacterVector x, NumericVector w);
+RcppExport SEXP ggcomp_count_string(SEXP xSEXP, SEXP wSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< CharacterVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type w(wSEXP );
+        List __result = count_string(x, w);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // frange_
 NumericVector frange_(const NumericVector& x, const bool finite = true);
 RcppExport SEXP ggcomp_frange_(SEXP xSEXP, SEXP finiteSEXP) {
