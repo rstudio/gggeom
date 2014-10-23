@@ -70,4 +70,7 @@ mtcars2 <- mtcars
 mtcars2$mpg[sample(32, 5)] <- NA
 mtcars2 \%>\% compute_bin(~mpg, width = 10)
 }
+\seealso{
+\code{\link{compute_count}} For counting cases at specific locations
+}
 

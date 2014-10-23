@@ -5,7 +5,7 @@
 #' @param x_var,w_var Names of x and weight variables. The x variable must be
 #'   continuous.
 #' @inheritParams compute_bin_vec
-# @seealso \code{\link{compute_count}} For counting cases at specific locations
+#' @seealso \code{\link{compute_count}} For counting cases at specific locations
 #   of a continuous variable. This is useful when the variable is continuous
 #   but the data is granular.
 #' @return A data frame with columns:

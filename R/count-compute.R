@@ -1,3 +1,39 @@
+#' Count unique observations.
+#'
+#' @param x Dataset-like object to count. Built-in methods for data frames,
+#'   grouped data frames and ggvis visualisations.
+#' @param x_var,w_var Names of x and weight variables.
+#' @seealso \code{\link{compute_bin}} For counting cases within ranges of
+#'   a continuous variable.
+# @seealso \code{\link{compute_align}} For calculating the "width" of data.
+#' @export
+#' @examples
+#' mtcars %>% compute_count(~cyl)
+#'
+#' # Weight the counts by car weight value
+#' mtcars %>% compute_count(~cyl, ~wt)
+#'
+#' # If there's one weight value at each x, it effectively just renames columns.
+#' pressure %>% compute_count(~temperature, ~pressure)
+#' ## Also get the width of each bin
+#' #pressure %>% compute_count(~temperature, ~pressure) %>% compute_align(~x_)
+compute_count <- function(x, x_var, w_var = NULL) {
+  UseMethod("compute_count")
+}
+
+#' @export
+compute_count.data.frame <- function(x, x_var, w_var = NULL) {
+  x_val <- eval_vector(x, x_var)
+  w_val <- eval_vector(x, w_var)
+
+  compute_count_vec(x_val, w_val)
+}
+
+#' @export
+compute_count.grouped_df <- function(x, x_var, w_var = NULL) {
+  dplyr::do(x, compute_count(., x_var, w_var = w_var))
+}
+
 #' Count unique observations (vector).
 #'
 #' This function is very similar to table except that: it always includes
