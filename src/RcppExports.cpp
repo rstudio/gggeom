@@ -184,6 +184,22 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// count_factor
+List count_factor(IntegerVector x, NumericVector w);
+RcppExport SEXP ggcomp_count_factor(SEXP xSEXP, SEXP wSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type w(wSEXP );
+        List __result = count_factor(x, w);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // frange_
 NumericVector frange_(const NumericVector& x, const bool finite = true);
 RcppExport SEXP ggcomp_frange_(SEXP xSEXP, SEXP finiteSEXP) {

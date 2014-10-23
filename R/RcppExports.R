@@ -21,6 +21,10 @@ count_lgl <- function(x, w) {
     .Call('ggcomp_count_lgl', PACKAGE = 'ggcomp', x, w)
 }
 
+count_factor <- function(x, w) {
+    .Call('ggcomp_count_factor', PACKAGE = 'ggcomp', x, w)
+}
+
 frange_ <- function(x, finite = TRUE) {
     .Call('ggcomp_frange_', PACKAGE = 'ggcomp', x, finite)
 }
