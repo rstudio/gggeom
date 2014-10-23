@@ -16,8 +16,7 @@ NumericVector weightedQuantile(NumericVector x, IntegerVector w,
   } else if (w.size() == n) {
     for(int i = 0; i < n; ++i) {
       int wi = w[i];
-      if (wi <= 0) continue;
-      values[i] = std::make_pair(x[i], wi);
+      values[i] = std::make_pair(x[i], wi <= 0 ? 0 : wi);
       sum += wi;
     }
   } else {
@@ -35,7 +34,7 @@ NumericVector weightedQuantile(NumericVector x, IntegerVector w,
     cur_pos += v_it->second;
 
     if (cur_pos >= next_q) {
-      if (cur_pos == next_q) {
+      if (cur_pos == next_q || v_it == values.begin()) {
         // Quantile is exactly on data value
         quantiles[q] = v_it->first;
       } else if (cur_pos > next_q) {
@@ -45,11 +44,13 @@ NumericVector weightedQuantile(NumericVector x, IntegerVector w,
       }
       // Advance to next quantile
       q++;
+
+      // Found all the quantiles we're looking for
+      if (q >= m) break;
+
       next_q = 1 + probs[q] * (sum - 1);
     }
 
-    // Found all the quantiles we're looking for
-    if (q >= m) break;
   }
 
   return quantiles;
