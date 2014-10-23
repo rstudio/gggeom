@@ -446,6 +446,23 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// weightedQuantile
+NumericVector weightedQuantile(NumericVector x, IntegerVector w, NumericVector probs);
+RcppExport SEXP ggcomp_weightedQuantile(SEXP xSEXP, SEXP wSEXP, SEXP probsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< IntegerVector >::type w(wSEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type probs(probsSEXP );
+        NumericVector __result = weightedQuantile(x, w, probs);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 
 // validate (ensure exported C++ functions exist before calling them)
 static int ggcomp_RcppExport_validate(const char* sig) { 

@@ -86,6 +86,10 @@ smooth_mean <- function(x_in, z_in, w_in, x_out, h) {
     invisible(.Call('ggcomp_as_data_frame', PACKAGE = 'ggcomp', x, nrow))
 }
 
+weightedQuantile <- function(x, w, probs) {
+    .Call('ggcomp_weightedQuantile', PACKAGE = 'ggcomp', x, w, probs)
+}
+
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
     .Call('ggcomp_RcppExport_registerCCallable', PACKAGE = 'ggcomp')
