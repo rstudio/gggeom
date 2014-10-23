@@ -46,3 +46,20 @@ test_that("empty input gives two-row output for logical", {
   expect_equal(nrow(compute_count_vec(logical())), 2)
   expect_equal(nrow(compute_count_vec(factor(levels = c("T", "F")))), 2)
 })
+
+
+test_that("weights are summed", {
+  w <- c(10, 1)
+
+  out_lgl <- compute_count_vec(c(TRUE, TRUE), w)
+  out_num <- compute_count_vec(c(1, 1), w)
+  out_str <- compute_count_vec(c("a", "a"), w)
+  out_fac <- compute_count_vec(factor(c("a", "a")), w)
+
+  expect_equal(out_lgl$count_, c(11, 0))
+  expect_equal(out_num$count_, 11)
+  expect_equal(out_str$count_, 11)
+  expect_equal(out_fac$count_, 11)
+})
+
+
