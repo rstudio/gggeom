@@ -70,6 +70,10 @@ inv_mt <- function(x, lambda = 0) {
     .Call('ggcomp_inv_mt', PACKAGE = 'ggcomp', x, lambda)
 }
 
+resolution_numeric <- function(x, zero = TRUE) {
+    .Call('ggcomp_resolution_numeric', PACKAGE = 'ggcomp', x, zero)
+}
+
 smooth_linear <- function(x_in, z_in, w_in, x_out, h) {
     .Call('ggcomp_smooth_linear', PACKAGE = 'ggcomp', x_in, z_in, w_in, x_out, h)
 }
