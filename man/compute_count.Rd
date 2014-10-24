@@ -22,11 +22,14 @@ mtcars \%>\% compute_count(~cyl, ~wt)
 
 # If there's one weight value at each x, it effectively just renames columns.
 pressure \%>\% compute_count(~temperature, ~pressure)
-## Also get the width of each bin
-#pressure \%>\% compute_count(~temperature, ~pressure) \%>\% compute_align(~x_)
+
+# To display as bar chart, will need to convert points to intervals:
+pressure \%>\% compute_count(~temperature, ~pressure) \%>\% compute_interval()
 }
 \seealso{
 \code{\link{compute_bin}} For counting cases within ranges of
   a continuous variable.
+
+\code{\link{compute_interval}} For converting points to intervals.
 }
 

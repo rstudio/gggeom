@@ -5,7 +5,7 @@
 #' @param x_var,w_var Names of x and weight variables.
 #' @seealso \code{\link{compute_bin}} For counting cases within ranges of
 #'   a continuous variable.
-# @seealso \code{\link{compute_align}} For calculating the "width" of data.
+#' @seealso \code{\link{compute_interval}} For converting points to intervals.
 #' @export
 #' @examples
 #' mtcars %>% compute_count(~cyl)
@@ -15,8 +15,9 @@
 #'
 #' # If there's one weight value at each x, it effectively just renames columns.
 #' pressure %>% compute_count(~temperature, ~pressure)
-#' ## Also get the width of each bin
-#' #pressure %>% compute_count(~temperature, ~pressure) %>% compute_align(~x_)
+#'
+#' # To display as bar chart, will need to convert points to intervals:
+#' pressure %>% compute_count(~temperature, ~pressure) %>% compute_interval()
 compute_count <- function(x, x_var, w_var = NULL) {
   UseMethod("compute_count")
 }
