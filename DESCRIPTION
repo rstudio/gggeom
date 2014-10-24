@@ -18,5 +18,6 @@ Suggests:
     testthat,
     lubridate,
     dplyr,
-    knitr
+    knitr,
+    microbenchmark
 VignetteBuilder: knitr
