@@ -19,10 +19,18 @@ test_that("weighted quantile agress with quantile when weight constant", {
   )
 })
 
-test_that("weighted quantile interpolates multiple quantiles", {
+test_that("equi-weighted quantile interpolates multiple quantiles", {
   p <- seq(0, 1, length = 20)
   expect_equal(weightedQuantile(0:1, c(1, 1), p), p)
 })
+
+# test_that("weighted quantile interpolates multiple quantiles", {
+#   p <- seq(0, 1, length = 20)
+#   expect_equal(
+#     weightedQuantile(c(0, 10), c(1, 2), p),
+#     quantile(c(0, 10, 10), p, names = FALSE)
+#   )
+# })
 
 # test_that("weighed.quantile agrees with quantile on repeated vector", {
 #   samples <- replicate(20, runif(100), simplify = FALSE)

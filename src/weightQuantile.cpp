@@ -29,22 +29,22 @@ NumericVector weightedQuantile(NumericVector x, IntegerVector w,
   NumericVector quantiles(m);
   double cur_pos = 0;
   double next_q = 1 + probs[0] * (sum - 1);
-  double last_val = 0;
+  double cur_val = NAN, last_val = NAN;
   if (next_q < 0 || next_q > sum) stop("Invalid quantile");
 
   for(int q = 0; v_it != v_end; ++v_it) {
+    cur_val = v_it->first;
     cur_pos += v_it->second;
-
     while (cur_pos >= next_q) {
       if (cur_pos == next_q || v_it == values.begin()) {
         // Quantile is exactly on data value
-        quantiles[q] = v_it->first;
+        quantiles[q] = cur_val;
       } else {
         // Just missed it - interpolation between this value and last
         double alpha = next_q - floor(next_q);
-        quantiles[q] = (1 - alpha) * last_val + alpha * v_it->first;
+        quantiles[q] = (1 - alpha) * last_val + alpha * cur_val;
       }
-      last_val = v_it->first;
+
       // Advance to next quantile
       q++;
 
@@ -55,6 +55,7 @@ NumericVector weightedQuantile(NumericVector x, IntegerVector w,
       if (next_q < 0 || next_q > sum) stop("Invalid quantile");
     }
 
+    last_val = cur_val;
     if (q >= m) break;
   }
 
