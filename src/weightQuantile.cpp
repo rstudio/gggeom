@@ -29,6 +29,7 @@ NumericVector weightedQuantile(NumericVector x, IntegerVector w,
   NumericVector quantiles(m);
   double cur_pos = 0;
   double next_q = 1 + probs[0] * (sum - 1);
+  double last_val = 0;
   if (next_q < 0 || next_q > sum) stop("Invalid quantile");
 
   for(int q = 0; v_it != v_end; ++v_it) {
@@ -41,8 +42,9 @@ NumericVector weightedQuantile(NumericVector x, IntegerVector w,
       } else {
         // Just missed it - interpolation between this value and last
         double alpha = next_q - floor(next_q);
-        quantiles[q] = (1 - alpha) * (v_it - 1)->first + alpha * v_it->first;
+        quantiles[q] = (1 - alpha) * last_val + alpha * v_it->first;
       }
+      last_val = v_it->first;
       // Advance to next quantile
       q++;
 
