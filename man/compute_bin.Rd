@@ -53,7 +53,6 @@ A data frame with columns:
  \item{x_}{mid-point of bin}
  \item{xmin_}{left boundary of bin}
  \item{xmax_}{right boundary of bin}
- \item{width_}{width of bin}
 }
 \description{
 Bin continuous data into equal sized ranges.

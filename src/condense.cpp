@@ -32,23 +32,21 @@ List condense(const NumericVector& x, double origin, double width,
 
   // Compute values from condensers and determine bins
   int n_condensers = condenser.size();
-  List out(n_condensers + 4);
-  CharacterVector out_cols(n_condensers + 4);
+  List out(n_condensers + 3);
+  CharacterVector out_cols(n_condensers + 3);
 
-  // First four columns giving bin info
-  NumericVector x_(n_out), xmin_(n_out), xmax_(n_out), width_(n_out);
+  // First thre columns giving bin info
+  NumericVector x_(n_out), xmin_(n_out), xmax_(n_out);
   for (int i = 0; i < n_out; ++i) {
     double x = group.unbin(i + offset);
     x_[i] = x;
     xmin_[i] = x - width / 2;
     xmax_[i] = x + width / 2;
-    width_[i] = width;
   }
 
   out[0] = x_;     out_cols[0] = "x_";
   out[1] = xmin_;  out_cols[1] = "xmin_";
   out[2] = xmax_;  out_cols[2] = "xmax_";
-  out[3] = width_; out_cols[3] = "width_";
 
   // Last columns give summaries from condensers
   for (int j = 0; j < n_condensers; ++j) {
@@ -56,8 +54,8 @@ List condense(const NumericVector& x, double origin, double width,
     for (int i = 0; i < n_out; ++i) {
       condensed[i] = condensers[i + offset].compute(j);
     }
-    out[j + 4] = condensed;
-    out_cols[j + 4] = condenser.name(j);
+    out[j + 3] = condensed;
+    out_cols[j + 3] = condenser.name(j);
   }
 
   out.attr("names") = out_cols;

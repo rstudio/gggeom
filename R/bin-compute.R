@@ -13,7 +13,6 @@
 #'  \item{x_}{mid-point of bin}
 #'  \item{xmin_}{left boundary of bin}
 #'  \item{xmax_}{right boundary of bin}
-#'  \item{width_}{width of bin}
 #' @export
 #' @examples
 #' mtcars %>% compute_bin(~mpg)

@@ -24,7 +24,6 @@ test_that("empty vector gives 0 row output with correct types", {
   expect_is(out$x_, "numeric")
   expect_is(out$xmin_, "numeric")
   expect_is(out$xmax_, "numeric")
-  expect_is(out$width_, "numeric")
   expect_is(out$count_, "numeric")
 })
 
