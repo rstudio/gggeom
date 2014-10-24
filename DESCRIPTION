@@ -17,4 +17,6 @@ Imports:
 Suggests:
     testthat,
     lubridate,
-    dplyr
+    dplyr,
+    knitr
+VignetteBuilder: knitr
