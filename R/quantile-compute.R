@@ -1,6 +1,7 @@
 #' Compute quantiles (vectorised).
 #'
 #' @export
+#' @keywords internal
 #' @examples
 #' compute_quantile_vec(1:100)
 #'

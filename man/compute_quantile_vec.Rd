@@ -14,4 +14,5 @@ compute_quantile_vec(1:100)
 # Specify weights with second argument
 compute_quantile_vec(1:100, 100:1)
 }
+\keyword{internal}
 
