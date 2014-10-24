@@ -53,6 +53,7 @@ NumericVector weightedQuantile(NumericVector x, IntegerVector w,
       if (next_q < 0 || next_q > sum) stop("Invalid quantile");
     }
 
+    if (q >= m) break;
   }
 
   return quantiles;
