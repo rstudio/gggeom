@@ -9,7 +9,8 @@ Depends:
     R (>= 3.0)
 License: GPL-2
 LazyData: true
-LinkingTo: Rcpp
+LinkingTo: Rcpp,
+    BH
 Imports:
     Rcpp,
     magrittr

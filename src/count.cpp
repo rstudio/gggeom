@@ -1,6 +1,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
-#include <unordered_map>
+#include <boost/unordered_map.hpp>
 
 // [[Rcpp::export]]
 List count_lgl(LogicalVector x, NumericVector w) {
@@ -130,7 +130,7 @@ List count_numeric(NumericVector x, NumericVector w) {
 
 // [[Rcpp::export]]
 List count_string(CharacterVector x, NumericVector w) {
-  std::unordered_map<const char*, double> counts;
+  boost::unordered_map<const char*, double> counts;
   double n_na = 0;
   bool has_w = w.size() != 0;
 
@@ -151,7 +151,7 @@ List count_string(CharacterVector x, NumericVector w) {
   CharacterVector x_(n_out + has_missing);
   NumericVector count_(n_out + has_missing);
 
-  std::unordered_map<const char*,double>::iterator count_it = counts.begin(),
+  boost::unordered_map<const char*,double>::iterator count_it = counts.begin(),
     count_end = counts.end();
   if (has_missing) {
     x_[0] = NA_REAL;
