@@ -232,6 +232,27 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// density
+List density(NumericVector x, NumericVector w, double bw, double width, double from, double to, bool reflect = false);
+RcppExport SEXP ggcomp_density(SEXP xSEXP, SEXP wSEXP, SEXP bwSEXP, SEXP widthSEXP, SEXP fromSEXP, SEXP toSEXP, SEXP reflectSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type w(wSEXP );
+        Rcpp::traits::input_parameter< double >::type bw(bwSEXP );
+        Rcpp::traits::input_parameter< double >::type width(widthSEXP );
+        Rcpp::traits::input_parameter< double >::type from(fromSEXP );
+        Rcpp::traits::input_parameter< double >::type to(toSEXP );
+        Rcpp::traits::input_parameter< bool >::type reflect(reflectSEXP );
+        List __result = density(x, w, bw, width, from, to, reflect);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // frange_
 NumericVector frange_(const NumericVector& x, const bool finite = true);
 RcppExport SEXP ggcomp_frange_(SEXP xSEXP, SEXP finiteSEXP) {

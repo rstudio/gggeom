@@ -33,6 +33,10 @@ count_string <- function(x, w) {
     .Call('ggcomp_count_string', PACKAGE = 'ggcomp', x, w)
 }
 
+density <- function(x, w, bw, width, from, to, reflect = FALSE) {
+    .Call('ggcomp_density', PACKAGE = 'ggcomp', x, w, bw, width, from, to, reflect)
+}
+
 frange_ <- function(x, finite = TRUE) {
     .Call('ggcomp_frange_', PACKAGE = 'ggcomp', x, finite)
 }
