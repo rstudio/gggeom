@@ -1,4 +1,5 @@
 #include <Rcpp.h>
+#include "median.h"
 
 class MomentCondenser {
     int i_;
@@ -110,9 +111,6 @@ class SumCondenser {
     }
 
 };
-
-// Defined in smoothers.cpp
-double median(std::vector<double>* x);
 
 class MedianCondenser {
     std::vector<double> ys;
