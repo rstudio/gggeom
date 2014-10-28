@@ -1,5 +1,4 @@
 #include <Rcpp.h>
-using namespace Rcpp;
 
 class MomentCondenser {
     int i_;
@@ -9,13 +8,13 @@ class MomentCondenser {
 
   public:
     MomentCondenser (int i) : i_(i), weight(0), mean(0), m2(0) {
-      if (i > 2) stop("Invalid moment");
+      if (i > 2) Rcpp::stop("Invalid moment");
     }
 
     // Algorithm adapted from
     // http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Weighted_incremental_algorithm
     void push(double y, double w) {
-      if (NumericVector::is_na(y)) return;
+      if (Rcpp::NumericVector::is_na(y)) return;
 
       // counts and weights
       weight += w;
@@ -46,7 +45,7 @@ class MomentCondenser {
         case 1: return (weight == 0) ? NAN : mean;
         case 2: return (weight == 0) ? NAN : pow(m2 / (weight - 1), 0.5);
         default:
-          stop("Invalid output requested");
+          Rcpp::stop("Invalid output requested");
           return NAN;
       }
     }
@@ -57,7 +56,7 @@ class MomentCondenser {
         case 1: return "mean_";
         case 2: return "sd_";
         default:
-          stop("Invalid output requested");
+          Rcpp::stop("Invalid output requested");
           return "";
       }
     }
@@ -70,11 +69,11 @@ class SumCondenser {
 
   public:
     SumCondenser (int i) : i_(i), weight(0), sum(0) {
-      if (i > 1 || i < 0) stop("Invalid moment");
+      if (i > 1 || i < 0) Rcpp::stop("Invalid moment");
     }
 
     void push(double y, double w) {
-      if (NumericVector::is_na(y)) return;
+      if (Rcpp::NumericVector::is_na(y)) return;
 
       weight += w;
       if (i_ < 1) return;
@@ -95,7 +94,7 @@ class SumCondenser {
         case 0: return weight;
         case 1: return sum;
         default:
-          stop("Invalid output requested");
+          Rcpp::stop("Invalid output requested");
           return NAN;
       }
     }
@@ -105,7 +104,7 @@ class SumCondenser {
         case 0: return "count_";
         case 1: return "sum_";
         default:
-          stop("Invalid output requested");
+          Rcpp::stop("Invalid output requested");
           return "";
       }
     }
@@ -120,7 +119,7 @@ class MedianCondenser {
 
   public:
     void push(double y, double w) {
-      if (NumericVector::is_na(y)) return;
+      if (Rcpp::NumericVector::is_na(y)) return;
 
       ys.push_back(y);
     }

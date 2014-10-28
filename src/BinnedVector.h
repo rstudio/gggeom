@@ -1,22 +1,21 @@
 #include <Rcpp.h>
-using namespace Rcpp;
 
 // Wrapper for numeric vector that makes it easy figure to out which
 // bin each observation belongs to.
 class BinnedVector {
-    const NumericVector& x_;
+    const Rcpp::NumericVector& x_;
     double width_;
     double origin_;
     bool pad_;
     bool right_closed_;
 
   public:
-    BinnedVector(const NumericVector& x, double width, double origin = 0,
+    BinnedVector(const Rcpp::NumericVector& x, double width, double origin = 0,
                  bool pad = false, bool right_closed = true)
        : x_(x), width_(width), origin_(origin), pad_(pad),
          right_closed_(right_closed) {
 
-      if (width <= 0) stop("Width must be positive");
+      if (width <= 0) Rcpp::stop("Width must be positive");
     }
 
     int bin_i(int i) const {
