@@ -133,7 +133,6 @@ class MedianCondenser {
       return 1;
     }
 
-    // Adapted from http://stackoverflow.com/questions/1719070/
     double compute(int i) {
       return median(&ys);
     }

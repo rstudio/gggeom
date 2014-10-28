@@ -6,6 +6,7 @@ inline double bisquare(double u, double b) {
   return (u < b) ? pow(1 - pow(u / b, 2), 2) : 0;
 }
 
+// Adapted from http://stackoverflow.com/questions/1719070/
 // NB: for performance, this does an inplace quick select
 double median(std::vector<double>* x) {
   if (x->empty()) return NAN;
