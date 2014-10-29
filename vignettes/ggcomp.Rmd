@@ -73,9 +73,9 @@ ggcomp uses a standard parameterisation for these geometries. They are always re
 
 * points, text: `x_` and `y_`, each row represents a point.
 * paths, polygons: `x_` and `y_`, each group represents a path/polygon.
-* rects: `xmin_`, `xmax_`, `ymin_`, `ymax_`.
-* ribbons: `x_`, `ymin_`, `ymax_`.
-* arcs: `x_`, `y_`, `rmin_`, `rmax_`, `thetamin_`, `thetamax_`.
+* rects: `x1_`, `x2_`, `y1_`, `y2_`.
+* ribbons: `x_`, `y1_`, `y2_`.
+* arcs: `x_`, `y_`, `r1_`, `r2_`, `theta1_`, `theta2_`.
 
 For each geometric object, ggcomp provides a function that generates this representation: `render_point()`, `render_path()`, `render_polygon()`, etc. These functions create an object of class of (e.g.) `c("geometry", "geometry_point", "data.frame")`.
 
