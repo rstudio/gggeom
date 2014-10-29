@@ -4,7 +4,7 @@ render_point <- function(data, x, y) {
   data$x_ <- eval_vector(data, x)
   data$y_ <- eval_vector(data, y)
 
-  class(data) <- c("geom_point", "geom", data)
+  class(data) <- c("geom_point", "geom", class(data))
   data
 }
 
@@ -14,7 +14,7 @@ render_polygon <- function(data, x, y) {
   data$x_ <- eval_vector(data, x)
   data$y_ <- eval_vector(data, y)
 
-  class(data) <- c("geom_polygon", "geom", data)
+  class(data) <- c("geom_polygon", "geom", class(data))
   data
 }
 
@@ -24,7 +24,7 @@ render_path <- function(data, x, y) {
   data$x_ <- eval_vector(data, x)
   data$y_ <- eval_vector(data, y)
 
-  class(data) <- c("geom_path", "geom", data)
+  class(data) <- c("geom_path", "geom", class(data))
   data
 }
 
@@ -36,7 +36,7 @@ render_rect <- function(data, x1, y1, x2, y2) {
   data$y1_ <- eval_vector(data, y2)
   data$y2_ <- eval_vector(data, y1)
 
-  class(data) <- c("geom_rect", "geom", data)
+  class(data) <- c("geom_rect", "geom", class(data))
   data
 }
 
@@ -50,7 +50,7 @@ render_bar <- function(data, x, y, width) {
   data$y1 <- 0
   data$y2 <- y
 
-  class(data) <- c("geom_rect", "geom", data)
+  class(data) <- c("geom_rect", "geom", class(data))
   data
 }
 
@@ -66,7 +66,7 @@ render_tile <- function(data, x, y, width, height) {
   data$y1 <- y - height / 2
   data$y2 <- y + height / 2
 
-  class(data) <- c("geom_rect", "geom", data)
+  class(data) <- c("geom_rect", "geom", class(data))
   data
 }
 
@@ -77,7 +77,7 @@ render_ribbon <- function(data, x, y1, y2) {
   data$y1_ <- eval_vector(data, y2)
   data$y2_ <- eval_vector(data, y1)
 
-  class(data) <- c("geom_ribbon", "geom", data)
+  class(data) <- c("geom_ribbon", "geom", class(data))
   data
 }
 
