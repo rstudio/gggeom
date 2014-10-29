@@ -24,8 +24,8 @@ is_numeric <- function(x) {
 `%||%` <- function(x, y) if (is.null(x)) y else x
 
 
-eval_vector <- function(x, f) UseMethod("eval_vector")
-eval_vector.data.frame <- function(x, f) {
-  eval(f[[2]], x, environment(f))
-}
+eval_vector <- function(data, x) {
+  if (is.atomic(x)) return(rep(x, nrow(data)))
 
+  eval(x[[2]], data, environment(x))
+}
