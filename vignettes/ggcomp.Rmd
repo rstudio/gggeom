@@ -1,0 +1,153 @@
+---
+title: "ggcomp"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+(This vignette is currently largely aspirational. It describes ggcomp as it will be when complete.)
+
+The ggcomp package does three things:
+
+* Converts large datasets into smaller summaries.
+* Provides a standard way of representing geometric primitives.
+* Manipulated geometric primitives.
+
+Compared to ggplot2, ggcomp covers similar functionality to the `stat_` and `position_` functions. But each function in ggcomp tends to be simpler, and there's a standard data representation that makes richer composition easier. Additionally, the majority of functions in ggcomp have been written in C++, allowing you to work with much larger datasets.
+
+## Statistical summaries
+
+ggcomp provides six functions designed to work with smaller (<1e6 obs) datasets:
+
+* `compute_density()`
+* `compute_density_2d()`
+* `compute_smooth()`
+* `compute_model()`
+* `compute_ecdf()`
+* `compute_qq()`
+
+And two flexible functions designed to be used with larger datasets:
+
+* `compute_bin()`
+* `compute_summary()`
+
+These functions have a consistent interface:
+
+* The first argument is `data`, and that object is used for method dispatch. 
+  All functions currently implemented provide methods for data frames and
+  `grouped_df`s from dplyr. In the future we will add summaries for other 
+  types of object.
+
+* The subsequent arguments either refer to variables (as formulas) or 
+  specify parameters of the transformation. `compute_*` functions never do
+  NSE.
+
+* The result the transformation is always a data frame. The variables should
+  be consistent (i.e. always use the same names) and be "type-stable".
+  The result should always has the same columns with consistent types.
+  All result columns should end with `_` - this avoids conflicts with variables
+  carried through the grouping process.
+
+These properties make the summaries easy to program with, at the slight expense of more typing when using interactively. This is a good trade-off because most people will use these functions through a ggvis `layer` function.
+
+Typically each `compute_x()` function will also be accompanied by a `compute_x_vec()` function. This will usually be implemented in C++, and works with vectors, rather than data frames. Summaries that require non-trivial computation to determine parameters should separate these out into their own function, `param_x()`. This makes it easier to test, and to consistently pick parameters across groups.
+
+## Geometric primitives
+
+There are only three fundamental geometric primitives needed to draw any graphic:
+
+* points & text: $(x, y)$
+* paths & polygons: ${(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)}$
+
+There are three additional primitives that could be drawn using polygons but have additional behaviour that makes polygons a poor fit: (polygons are extremely generate, which limits the types of transformation we can do with them).
+
+* arcs: $([x, y, [r_1, r_2], [\theta_1, \theta_2]])$
+* rects (and images): $([x_1, x_2], [y_1, y_2])$
+* ribbons: an ordered sequence of intervals: 
+  ${(x_{1}, [y_{11}, y_{12}]), ..., (x_n, [y_{n1}, y_{n2}])}$, 
+  where $x_i < x_{i+1}$
+
+ggcomp uses a standard parameterisation for these geometries. They are always represented as a data frame:
+
+* points, text: `x_` and `y_`, each row represents a point.
+* paths, polygons: `x_` and `y_`, each group represents a path/polygon.
+* rects: `xmin_`, `xmax_`, `ymin_`, `ymax_`.
+* ribbons: `x_`, `ymin_`, `ymax_`.
+* arcs: `x_`, `y_`, `rmin_`, `rmax_`, `thetamin_`, `thetamax_`.
+
+For each geometric object, ggcomp provides a function that generates this representation: `render_point()`, `render_path()`, `render_polygon()`, etc. These functions create an object of class of (e.g.) `c("geometry", "geometry_point", "data.frame")`.
+
+Many of the geoms provided by ggplot2 are a reparameterisation of these primitives:
+
+  * Path:
+  
+    * segment: a path parameterised by four coordinates
+    * line: a path with ordered x
+    * step: a line with additional points
+    * spoke: a segment specified by a loation, radius and angle
+    * function: a line specified by a function
+  
+  * Rect
+  
+    * interval: a degenerate rect with zero width in one direction
+    * bar: a rect specified by a location and a width
+    * tile: a rect specified by a location, height and width
+
+  * Ribbon
+  
+    * area: a ribbon with `y1 = 0`.
+
+  * Polygon:
+  
+    * ellipse: a polygon specified by a center, two radiuses and an angle
+
+The parameterisation of the primitives (in terms of locations, not dimensions), is always to be preferred because they're easier to transform.
+
+There are a also a handful of geoms that are combinations of primitives:
+
+* boxplot: two intervals (hinge & whiskers), one point (median) and 
+  a set of points (the outliers).
+* smooth: line (estimate) + ribbon (standard errors).
+
+## Geometric transformations
+
+* All
+    * `geometry_rotate()` (except ribbons).
+    * `geometry_flip(axis = "x")`
+  
+  * Paths/polygons
+    * `geometry_interpolate()`
+    * `geometry_transform()` (would use [adaptive resampling](http://bl.ocks.org/mbostock/3795544))
+    * `geometry_simplify()`
+    * `geometry_jitter()`
+  
+  * Lines
+    * `geometry_step()` 
+    * `geometry_stack(axis = c("x", "y"))` (converts to ribbons)
+    * `geometry_rescale()`
+  
+  * Points
+    * `geometry_jitter()`
+    * `geometry_stack(axis = c("x", "y"))` (converts to rects)
+    * `geometry_rescale()`
+    * `geometry_contour()`
+  
+  * Ribbons:
+    * `geometry_stack()`
+    * `geometry_rescale()`
+  
+  * Rects
+    * `geometry_stack(axis = c("x", "y"))`
+    * `geometry_rescale()`
+    * `geometry_dodge()`
+    * `geometry_contour()`
+    
+  * Arcs
+    * `geometry_stack(axis = c("r", "theta"))`
+    * `geometry_rescale()`
+
+  * Conversions:
+  
+    ![](geometry-relationships.png)
