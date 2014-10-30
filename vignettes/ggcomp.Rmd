@@ -54,6 +54,23 @@ These properties make the summaries easy to program with, at the slight expense 
 
 Typically each `compute_x()` function will also be accompanied by a `compute_x_vec()` function. This will usually be implemented in C++, and works with vectors, rather than data frames. Summaries that require non-trivial computation to determine parameters should separate these out into their own function, `param_x()`. This makes it easier to test, and to consistently pick parameters across groups.
 
+### Missing values
+
+All summary functions should have an `na.rm` argument which defaults to FALSE.
+
+* `FALSE`: Where possible, preserves missing values in output. If not possible 
+  to preserve, needs to print warning message describing how many missing
+  values were removed.
+
+* `TRUE`: silently drop missing values.
+
+### Variable types
+
+* Continuous: integer, numeric, POSIXct, Date, difftime.
+* Categorical: factor, ordered factor
+
+See `restore()` for a convenient approach to solving this problem.
+
 ## Geometric primitives
 
 There are only three fundamental geometric primitives needed to draw any graphic:
@@ -119,7 +136,7 @@ There are a also a handful of geoms that are combinations of primitives:
   
   * Paths/polygons
     * `geometry_interpolate()`
-    * `geometry_transform()` (would use [adaptive resampling](http://bl.ocks.org/mbostock/3795544))
+    * `geometry_transform()` (would use [adaptive resampling](http://bost.ocks.org/mike/example/))
     * `geometry_simplify()`
     * `geometry_jitter()`
   
