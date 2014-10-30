@@ -150,7 +150,8 @@ render_bar <- function(data, x, y, width, halign = 0.5) {
 
 #' @export
 #' @rdname render_rect
-render_tile <- function(data, x, y, width, height, halign = 0.5, valign = 0.5) {
+render_tile <- function(data, x, y, width = resolution(x),
+                        height = resolution(y), halign = 0.5, valign = 0.5) {
   x <- eval_vector(data, x)
   y <- eval_vector(data, y)
   width <- eval_vector(data, width)

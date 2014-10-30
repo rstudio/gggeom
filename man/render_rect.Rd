@@ -9,7 +9,8 @@ render_rect(data, x1, y1, x2, y2)
 
 render_bar(data, x, y, width, halign = 0.5)
 
-render_tile(data, x, y, width, height, halign = 0.5, valign = 0.5)
+render_tile(data, x, y, width = resolution(x), height = resolution(y),
+  halign = 0.5, valign = 0.5)
 }
 \arguments{
 \item{data}{A data frame.}
