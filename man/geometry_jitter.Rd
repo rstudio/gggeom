@@ -24,12 +24,11 @@ Jittering differs a little depending on the underlying geometry:
 }
 }
 \examples{
-scatter <- render_point(mtcars, ~mpg, ~wt)
-scatter \%>\% plot()
-# Resolution is very small in this example:
-scatter \%>\% geometry_jitter() \%>\% plot(add = TRUE, col = "red")
-# So need to set x and y
-scatter \%>\% plot()
-scatter \%>\% geometry_jitter(0.5, 0.5) \%>\% plot(add = TRUE, col = "red")
+scatter_ex \%>\% plot()
+scatter_ex \%>\% geometry_jitter() \%>\% plot(add = TRUE, col = "red")
+
+# Can override amount of jitter
+scatter_ex \%>\% plot()
+scatter_ex \%>\% geometry_jitter(0.2, 0.2) \%>\% plot(add = TRUE, col = "red")
 }
 

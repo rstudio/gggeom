@@ -5,12 +5,11 @@
 #'   only "y" for smooths, "r" or "theta" for arcs.
 #' @export
 #' @examples
-#' bar <- render_bar(mtcars, ~cyl, ~mpg)
-#' bar %>% plot()
-#' bar %>% geometry_stack() %>% plot()
+#' bar_ex %>% plot()
+#' bar_ex %>% geometry_stack() %>% plot()
 #'
-#' bar %>% geometry_rotate() %>% plot()
-#' bar %>% geometry_rotate() %>% geometry_stack("x") %>% plot()
+#' bar_ex %>% geometry_rotate() %>% plot()
+#' bar_ex %>% geometry_rotate() %>% geometry_stack("x") %>% plot()
 #'
 #' pies <- render_arc(mtcars, ~vs, ~am, 0, 0.1, 0, ~mpg / max(mpg) * 2 / pi)
 #' pies %>% plot()

@@ -4,18 +4,14 @@
 #' @param dir Direction in which to flip. One of "x" and "y".
 #' @export
 #' @examples
-#' scatter <- render_point(mtcars, ~mpg, ~wt)
-#' scatter %>% plot()
-#' scatter %>% geometry_flip() %>% plot()
-#' scatter %>% geometry_flip("y") %>% plot()
+#' scatter_ex %>% plot()
+#' scatter_ex %>% geometry_flip() %>% plot()
+#' scatter_ex %>% geometry_flip("y") %>% plot()
 #'
-#' bar <- mtcars %>%
-#'   compute_count(~cyl) %>%
-#'   render_bar(~x_, ~count_, width = 1)
-#' bar %>% plot()
-#' bar %>% geometry_flip() %>% plot()
-#' bar %>% geometry_flip("y") %>% plot()
-#' bar %>% geometry_flip("y") %>% geometry_rotate() %>% plot()
+#' histogram_ex %>% plot()
+#' histogram_ex %>% geometry_flip() %>% plot()
+#' histogram_ex %>% geometry_flip("y") %>% plot()
+#' histogram_ex %>% geometry_flip("y") %>% geometry_rotate() %>% plot()
 geometry_flip <- function(geom, dir = c("x", "y")) {
   UseMethod("geometry_flip")
 }
@@ -27,7 +23,7 @@ geometry_flip.geom <- function(geom, dir = c("x", "y")) {
   if (dir == "x") {
     geom$x_ <- -geom$x_
   } else {
-    geom$y_ <- -geom$y
+    geom$y_ <- -geom$y_
   }
 
   geom
