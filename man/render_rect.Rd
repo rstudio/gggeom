@@ -33,5 +33,6 @@ render_tile(mtcars, ~cyl, ~gear, 1, 1)
 mtcars \%>\%
   compute_count(~cyl) \%>\%
   render_bar(~x_, ~count_, width = 1)
+.Last.value \%>\% plot()
 }
 

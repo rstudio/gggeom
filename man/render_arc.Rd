@@ -18,6 +18,6 @@ render_arc(data, x, y, r1, r2, theta1, theta2)
 Render an arc
 }
 \examples{
-render_arc(mtcars, ~vs, ~am, 0, 5, 0, ~mpg)
+render_arc(mtcars, ~vs, ~am, 0, 0.1, 0, ~mpg / max(mpg) * 2 * pi)
 }
 

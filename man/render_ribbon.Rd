@@ -16,4 +16,11 @@ render_area(data, x, y2)
 \description{
 Render a ribbon.
 }
+\examples{
+x <- 1:10
+y <- runif(10, 0, 2)
+df <- data.frame(x = x, y1 = x * 2 - y, y2 = x * 2 + y)
+render_ribbon(df, ~x, ~y1, ~y2)
+.Last.value \%>\% plot()
+}
 
