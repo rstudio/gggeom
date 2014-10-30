@@ -41,6 +41,10 @@ frange_ <- function(x, finite = TRUE) {
     .Call('ggcomp_frange_', PACKAGE = 'ggcomp', x, finite)
 }
 
+abs_max_ <- function(x, finite = TRUE) {
+    .Call('ggcomp_abs_max_', PACKAGE = 'ggcomp', x, finite)
+}
+
 #' Modulus transformation (and its inverse).
 #'
 #' A generalisation of the box-cox transformation that works for

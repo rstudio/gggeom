@@ -269,6 +269,22 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// abs_max_
+double abs_max_(const NumericVector& x, const bool finite = true);
+RcppExport SEXP ggcomp_abs_max_(SEXP xSEXP, SEXP finiteSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
+        Rcpp::traits::input_parameter< const bool >::type finite(finiteSEXP );
+        double __result = abs_max_(x, finite);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // mt
 NumericVector mt(NumericVector x, double lambda = 0);
 static SEXP ggcomp_mt_try(SEXP xSEXP, SEXP lambdaSEXP) {
