@@ -13,6 +13,7 @@ double resolution_numeric(NumericVector x, bool zero = true) {
   double min = INFINITY;
   for (int i = 1; i < n; ++i) {
     double dist = y[i] - y[i - 1];
+    if (dist == 0) continue;
     if (dist < min) {
       min = dist;
     }
