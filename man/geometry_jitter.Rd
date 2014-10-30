@@ -24,11 +24,15 @@ Jittering differs a little depending on the underlying geometry:
 }
 }
 \examples{
-scatter_ex \%>\% plot()
-scatter_ex \%>\% geometry_jitter() \%>\% plot(add = TRUE, col = "red")
+scatter_ex \%>\%
+ plot() \%>\%
+ geometry_jitter() \%>\%
+ plot(add = TRUE, col = "red")
 
 # Can override amount of jitter
-scatter_ex \%>\% plot()
-scatter_ex \%>\% geometry_jitter(0.2, 0.2) \%>\% plot(add = TRUE, col = "red")
+scatter_ex \%>\%
+ plot() \%>\%
+ geometry_jitter(0.2, 0.2) \%>\%
+ plot(add = TRUE, col = "red")
 }
 

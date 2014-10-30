@@ -14,12 +14,16 @@
 #'   to 40\% of the resolution of the data.
 #' @export
 #' @examples
-#' scatter_ex %>% plot()
-#' scatter_ex %>% geometry_jitter() %>% plot(add = TRUE, col = "red")
+#' scatter_ex %>%
+#'  plot() %>%
+#'  geometry_jitter() %>%
+#'  plot(add = TRUE, col = "red")
 #'
 #' # Can override amount of jitter
-#' scatter_ex %>% plot()
-#' scatter_ex %>% geometry_jitter(0.2, 0.2) %>% plot(add = TRUE, col = "red")
+#' scatter_ex %>%
+#'  plot() %>%
+#'  geometry_jitter(0.2, 0.2) %>%
+#'  plot(add = TRUE, col = "red")
 geometry_jitter <- function(geom, x = NULL, y = NULL) {
   UseMethod("geometry_jitter")
 }
