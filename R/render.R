@@ -134,7 +134,7 @@ plot.geom_rect <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
 
 #' @export
 #' @rdname render_rect
-render_bar <- function(data, x, y, width, halign = 0.5) {
+render_bar <- function(data, x, y, width = resolution(x) * 0.9, halign = 0.5) {
   x <- eval_vector(data, x)
   y <- eval_vector(data, y)
   width <- eval_vector(data, width)
