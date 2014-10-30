@@ -6,12 +6,12 @@ print.geom <- function(x, ...) {
 
 # Point -----------------------------------------------------------------------
 
-#' Render a point, polygon and path geometries.
+#' Render point, polygon, path and text geometries.
 #'
 #' These all use the same variables (\code{x_} and \code{y_}), but the
 #' output looks rather different. Also note that each row describes a
-#' different point, but each group in a grouped describes a different
-#' path/polygon.
+#' different point or text, but each group in a grouped df describes a
+#' different path/polygon.
 #'
 #' @param data A data frame.
 #' @param x,y Formulas specifying x and y positions.
@@ -20,6 +20,7 @@ print.geom <- function(x, ...) {
 #' render_point(mtcars, ~mpg, ~wt)
 #' render_path(mtcars, ~mpg, ~wt)
 #' render_polygon(mtcars, ~mpg, ~wt)
+#' render_text(mtcars, ~mpg, ~wt)
 render_point <- function(data, x, y) {
   data$x_ <- eval_vector(data, x)
   data$y_ <- eval_vector(data, y)
@@ -27,6 +28,17 @@ render_point <- function(data, x, y) {
   class(data) <- c("geom_point", "geom", class(data))
   data
 }
+
+#' @export
+#' @rdname render_text
+render_polygon <- function(data, x, y) {
+  data$x_ <- eval_vector(data, x)
+  data$y_ <- eval_vector(data, y)
+
+  class(data) <- c("geom_text", "geom", class(data))
+  data
+}
+
 
 # Polygon ----------------------------------------------------------------------
 
@@ -125,8 +137,8 @@ render_tile <- function(data, x, y, width, height, halign = 0.5, valign = 0.5) {
 #' @export
 render_ribbon <- function(data, x, y1, y2) {
   data$x_ <- eval_vector(data, x)
-  data$y1_ <- eval_vector(data, y2)
-  data$y2_ <- eval_vector(data, y1)
+  data$y1_ <- eval_vector(data, y1)
+  data$y2_ <- eval_vector(data, y2)
 
   class(data) <- c("geom_ribbon", "geom", class(data))
   data
@@ -136,5 +148,27 @@ render_ribbon <- function(data, x, y1, y2) {
 #' @rdname render_ribbon
 render_area <- function(data, x, y2) {
   render_ribbon(data, x, 0, y2)
+}
+
+# Arc --------------------------------------------------------------------------
+
+#' Render an arc
+#'
+#' @inheritParams render_point
+#' @param x,y Location of arc
+#' @param r1,r2 Extent of radius
+#' @param theta1, theta2 Extent of angle (in radians).
+#' @export
+#' @examples
+#' render_arc(mtcars, ~vs, ~am, 0, 5, 0, ~mpg)
+render_arc <- function(data, x, y, r1, r2, theta1, theta2) {
+  data$x_ <- eval_vector(data, x)
+  data$y_ <- eval_vector(data, y)
+  data$r1_ <- eval_vector(data, r1)
+  data$r2_ <- eval_vector(data, r2)
+  data$theta1_ <- eval_vector(data, theta1)
+  data$theta2_ <- eval_vector(data, theta2)
+
+  data
 }
 

@@ -3,7 +3,7 @@
 \alias{render_path}
 \alias{render_point}
 \alias{render_polygon}
-\title{Render a point, polygon and path geometries.}
+\title{Render point, polygon, path and text geometries.}
 \usage{
 render_point(data, x, y)
 
@@ -19,12 +19,13 @@ render_path(data, x, y)
 \description{
 These all use the same variables (\code{x_} and \code{y_}), but the
 output looks rather different. Also note that each row describes a
-different point, but each group in a grouped describes a different
-path/polygon.
+different point or text, but each group in a grouped df describes a
+different path/polygon.
 }
 \examples{
 render_point(mtcars, ~mpg, ~wt)
 render_path(mtcars, ~mpg, ~wt)
 render_polygon(mtcars, ~mpg, ~wt)
+render_text(mtcars, ~mpg, ~wt)
 }
 
