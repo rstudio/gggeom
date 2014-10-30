@@ -208,7 +208,7 @@ plot.geom_ribbon <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
 #' @inheritParams render_point
 #' @param x,y Location of arc
 #' @param r1,r2 Extent of radius
-#' @param theta1, theta2 Extent of angle (in radians).
+#' @param theta1,theta2 Extent of angle (in radians).
 #' @export
 #' @examples
 #' render_arc(mtcars, ~vs, ~am, 0, 0.1, 0, ~mpg / max(mpg) * 2 * pi)
@@ -228,7 +228,7 @@ render_arc <- function(data, x, y, r1, r2, theta1, theta2) {
 plot.geom_arc <- function(x, y, ..., col = "#7F7F7F7F", add = FALSE) {
   x$id_ <- 1:nrow(x)
   polys <- x %>%
-    dplyr::group_by(id_) %>%
+    dplyr::group_by_(~ id_) %>%
     dplyr::do(
       make_arc(.$x_, .$y_, c(.$r1_, .$r2_), c(.$theta1_, .$theta2_))
     )

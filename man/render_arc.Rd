@@ -12,7 +12,7 @@ render_arc(data, x, y, r1, r2, theta1, theta2)
 
 \item{r1,r2}{Extent of radius}
 
-\item{theta1,}{theta2 Extent of angle (in radians).}
+\item{theta1,theta2}{Extent of angle (in radians).}
 }
 \description{
 Render an arc
