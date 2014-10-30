@@ -10,7 +10,7 @@ ggcomp is not currently available on CRAN, but you can install it from github wi
 
 ```R
 # install.packages("devtools")
-install_github("hadley/dplyr")
+install_github("rstudio/ggcomp")
 ```
 
 Note that since ggcomp makes extensive use of Rcpp for high-performance computations, you'll need a development environment with a C++ compiler.
