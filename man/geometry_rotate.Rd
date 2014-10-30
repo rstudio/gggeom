@@ -12,8 +12,14 @@ geometry_rotate(geom)
 Rotates 90 degrees by switching x and y positions.
 }
 \examples{
-mtcars \%>\%
-  render_point(~wt, ~mpg) \%>\%
-  geometry_rotate()
+scatter <- mtcars \%>\% render_point(~wt, ~mpg)
+scatter \%>\% plot()
+scatter \%>\% geometry_rotate() \%>\% plot()
+
+bar <- mtcars \%>\%
+  compute_count(~cyl) \%>\%
+  render_bar(~x_, ~count_, width = 1)
+bar \%>\% plot()
+bar \%>\% geometry_rotate() \%>\% plot()
 }
 
