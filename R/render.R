@@ -17,7 +17,7 @@ print.geom <- function(x, ...) {
 #' @param x,y Formulas specifying x and y positions.
 #' @export
 #' @examples
-#' render_point(mtcars, ~mpg, ~wt)
+#' render_point(mtcars, ~mpg, ~wt) %>% plot()
 #' render_path(mtcars, ~mpg, ~wt)
 #' render_polygon(mtcars, ~mpg, ~wt)
 #' render_text(mtcars, ~mpg, ~wt)
@@ -27,6 +27,13 @@ render_point <- function(data, x, y) {
 
   class(data) <- c("geom_point", "geom", class(data))
   data
+}
+
+#' @export
+plot.geom_point <- function(x, y, pch = 20, ..., add = FALSE) {
+  if (!add) plot_init(x$x_, x$y_)
+
+  points(x$x_, x$y_, pch = pch, ...)
 }
 
 #' @export

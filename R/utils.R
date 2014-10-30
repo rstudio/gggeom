@@ -29,3 +29,14 @@ eval_vector <- function(data, x) {
 
   eval(x[[2]], data, environment(x))
 }
+
+plot_init <- function(x, y) {
+  old <- par(mar = c(2.1, 2.1, 0, 0), cex = 0.8)
+  on.exit(par(old))
+
+  plot.default(frange(x), frange(y), type = "n", xlab = "", ylab = "",
+    axes = FALSE)
+  axis(1, lwd = 0, lwd.ticks = 1, col = "grey80", col.axis = "grey60")
+  axis(2, lwd = 0, lwd.ticks = 1, col = "grey80", col.axis = "grey60")
+  grid(lty = "solid", col = "grey80")
+}
