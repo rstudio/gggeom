@@ -3,9 +3,12 @@
 \alias{render_path}
 \alias{render_point}
 \alias{render_polygon}
+\alias{render_text}
 \title{Render point, polygon, path and text geometries.}
 \usage{
 render_point(data, x, y)
+
+render_text(data, x, y)
 
 render_polygon(data, x, y)
 
