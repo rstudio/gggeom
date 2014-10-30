@@ -13,7 +13,8 @@ LinkingTo: Rcpp,
     BH
 Imports:
     Rcpp,
-    magrittr
+    magrittr,
+    lazyeval
 Suggests:
     testthat,
     lubridate,
