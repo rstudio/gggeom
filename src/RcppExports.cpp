@@ -253,6 +253,22 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// dp_distance
+NumericVector dp_distance(const NumericVector& x, const NumericVector& y);
+RcppExport SEXP ggcomp_dp_distance(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
+        Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP );
+        NumericVector __result = dp_distance(x, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // frange_
 NumericVector frange_(const NumericVector& x, const bool finite = true);
 RcppExport SEXP ggcomp_frange_(SEXP xSEXP, SEXP finiteSEXP) {
@@ -365,22 +381,6 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
         Rcpp::traits::input_parameter< bool >::type zero(zeroSEXP );
         double __result = resolution_numeric(x, zero);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// compute_tolerance
-NumericVector compute_tolerance(const NumericVector& x, const NumericVector& y);
-RcppExport SEXP ggcomp_compute_tolerance(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
-        Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP );
-        NumericVector __result = compute_tolerance(x, y);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

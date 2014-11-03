@@ -37,6 +37,10 @@ density <- function(x, w, bw, width, from, to, reflect = FALSE) {
     .Call('ggcomp_density', PACKAGE = 'ggcomp', x, w, bw, width, from, to, reflect)
 }
 
+dp_distance <- function(x, y) {
+    .Call('ggcomp_dp_distance', PACKAGE = 'ggcomp', x, y)
+}
+
 frange_ <- function(x, finite = TRUE) {
     .Call('ggcomp_frange_', PACKAGE = 'ggcomp', x, finite)
 }
@@ -80,10 +84,6 @@ inv_mt <- function(x, lambda = 0) {
 
 resolution_numeric <- function(x, zero = TRUE) {
     .Call('ggcomp_resolution_numeric', PACKAGE = 'ggcomp', x, zero)
-}
-
-compute_tolerance <- function(x, y) {
-    .Call('ggcomp_compute_tolerance', PACKAGE = 'ggcomp', x, y)
 }
 
 smooth_linear <- function(x_in, z_in, w_in, x_out, h) {
