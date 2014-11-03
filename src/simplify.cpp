@@ -3,7 +3,7 @@ using namespace Rcpp;
 
 // Squared distance between a point (x0, y0) and a line {(x1, y1), (x2, y2)}
 // Adapted from http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html
-double point_line_dist(double x0, double y0,
+inline double point_line_dist(double x0, double y0,
                        double x1, double y1,
                        double x2, double y2) {
 
@@ -18,8 +18,9 @@ double point_line_dist(double x0, double y0,
   return (num * num) / den;
 }
 
-void compute_tolerance_rec(std::vector<double>& x, std::vector<double>& y,
-                           std::vector<double>& out,
+void compute_tolerance_rec(const std::vector<double>& x,
+                           const std::vector<double>& y,
+                           std::vector<double>* out,
                            int first, int last) {
 
   int n = last - first + 1;
@@ -29,10 +30,11 @@ void compute_tolerance_rec(std::vector<double>& x, std::vector<double>& y,
   // Rcout << first << "-" << last << "\n";
   if (n == 3) {
     int mid = first + 1; // or last - 1
-    out[mid] = point_line_dist(
+    (*out)[mid] = point_line_dist(
       x[mid], y[mid],
       x[first], y[first],
-      x[last], y[last]);
+      x[last], y[last]
+    );
   } else if (n > 3) {
     // Find most distant point
     double max_dist = -INFINITY;
@@ -45,7 +47,7 @@ void compute_tolerance_rec(std::vector<double>& x, std::vector<double>& y,
       }
     }
 
-    out[furthest] = max_dist;
+    (*out)[furthest] = max_dist;
 
     // Recurse
     compute_tolerance_rec(x, y, out, first, furthest);
@@ -62,7 +64,7 @@ std::vector<double> compute_tolerance(std::vector<double> x, std::vector<double>
 
   out[0] = INFINITY;
   out[n - 1] = INFINITY;
-  compute_tolerance_rec(x, y, out, 0, n - 1);
+  compute_tolerance_rec(x, y, &out, 0, n - 1);
 
   return out;
 }
