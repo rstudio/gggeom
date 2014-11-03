@@ -19,7 +19,7 @@ inline double point_line_dist(double x0, double y0,
 }
 
 void compute_tolerance_rec(const NumericVector& x, const NumericVector& y,
-                           NumericVector* out, int first, int last) {
+                           int first, int last, NumericVector* out) {
 
   int n = last - first + 1;
   if (n == 2)
@@ -48,8 +48,8 @@ void compute_tolerance_rec(const NumericVector& x, const NumericVector& y,
     (*out)[furthest] = max_dist;
 
     // Recurse
-    compute_tolerance_rec(x, y, out, first, furthest);
-    compute_tolerance_rec(x, y, out, furthest, last);
+    compute_tolerance_rec(x, y, first, furthest, out);
+    compute_tolerance_rec(x, y, furthest, last, out);
   }
 
   return;
@@ -62,7 +62,7 @@ NumericVector compute_tolerance(const NumericVector& x, const NumericVector& y) 
 
   out[0] = INFINITY;
   out[n - 1] = INFINITY;
-  compute_tolerance_rec(x, y, &out, 0, n - 1);
+  compute_tolerance_rec(x, y, 0, n - 1, &out);
 
   return out;
 }
