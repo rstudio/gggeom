@@ -371,6 +371,22 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// compute_tolerance
+std::vector<double> compute_tolerance(std::vector<double> x, std::vector<double> y);
+RcppExport SEXP ggcomp_compute_tolerance(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::vector<double> >::type x(xSEXP );
+        Rcpp::traits::input_parameter< std::vector<double> >::type y(ySEXP );
+        std::vector<double> __result = compute_tolerance(x, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // smooth_linear
 NumericVector smooth_linear(const NumericVector& x_in, const NumericVector& z_in, const NumericVector& w_in, const NumericVector& x_out, const double h);
 static SEXP ggcomp_smooth_linear_try(SEXP x_inSEXP, SEXP z_inSEXP, SEXP w_inSEXP, SEXP x_outSEXP, SEXP hSEXP) {
