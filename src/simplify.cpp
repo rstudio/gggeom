@@ -20,37 +20,26 @@ inline double point_line_dist(double x0, double y0,
 
 void compute_tolerance_rec(const NumericVector& x, const NumericVector& y,
                            int first, int last, NumericVector* out) {
-
+  // Rcout << first << "-" << last << "\n";
   int n = last - first + 1;
-  if (n == 2)
+  if (n <= 2)
     return;
 
-  // Rcout << first << "-" << last << "\n";
-  if (n == 3) {
-    int mid = first + 1; // or last - 1
-    (*out)[mid] = point_line_dist(
-      x[mid], y[mid],
-      x[first], y[first],
-      x[last], y[last]
-    );
-  } else if (n > 3) {
-    // Find most distant point
-    double max_dist = -INFINITY;
-    int furthest = 0;
-    for (int i = first + 1; i < last; ++i) {
-      double dist = point_line_dist(x[i], y[i], x[first], y[first], x[last], y[last]);
-      if (dist > max_dist) {
-        furthest = i;
-        max_dist = dist;
-      }
+  // Find point furthest from line defined by first, last
+  double max_dist = -INFINITY;
+  int furthest = 0;
+  for (int i = first + 1; i < last; ++i) {
+    double dist = point_line_dist(x[i], y[i], x[first], y[first], x[last], y[last]);
+    if (dist > max_dist) {
+      furthest = i;
+      max_dist = dist;
     }
-
-    (*out)[furthest] = max_dist;
-
-    // Recurse
-    compute_tolerance_rec(x, y, first, furthest, out);
-    compute_tolerance_rec(x, y, furthest, last, out);
   }
+  (*out)[furthest] = max_dist;
+
+  // Recurse
+  compute_tolerance_rec(x, y, first, furthest, out);
+  compute_tolerance_rec(x, y, furthest, last, out);
 
   return;
 }
