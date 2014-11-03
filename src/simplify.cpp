@@ -27,9 +27,6 @@ void compute_tolerance_rec(std::vector<double>& x, std::vector<double>& y,
     return;
 
   // Rcout << first << "-" << last << "\n";
-
-  // Need to think through more base recursive cases (up to 6?) to ensure
-  // that we always get useful values
   if (n == 3) {
     int mid = first + 1; // or last - 1
     out[mid] = point_line_dist(
