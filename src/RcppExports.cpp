@@ -372,15 +372,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // compute_tolerance
-std::vector<double> compute_tolerance(std::vector<double> x, std::vector<double> y);
+NumericVector compute_tolerance(const NumericVector& x, const NumericVector& y);
 RcppExport SEXP ggcomp_compute_tolerance(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< std::vector<double> >::type x(xSEXP );
-        Rcpp::traits::input_parameter< std::vector<double> >::type y(ySEXP );
-        std::vector<double> __result = compute_tolerance(x, y);
+        Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
+        Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP );
+        NumericVector __result = compute_tolerance(x, y);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

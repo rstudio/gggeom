@@ -18,10 +18,8 @@ inline double point_line_dist(double x0, double y0,
   return (num * num) / den;
 }
 
-void compute_tolerance_rec(const std::vector<double>& x,
-                           const std::vector<double>& y,
-                           std::vector<double>* out,
-                           int first, int last) {
+void compute_tolerance_rec(const NumericVector& x, const NumericVector& y,
+                           NumericVector* out, int first, int last) {
 
   int n = last - first + 1;
   if (n == 2)
@@ -58,9 +56,9 @@ void compute_tolerance_rec(const std::vector<double>& x,
 }
 
 // [[Rcpp::export]]
-std::vector<double> compute_tolerance(std::vector<double> x, std::vector<double> y) {
+NumericVector compute_tolerance(const NumericVector& x, const NumericVector& y) {
   int n = x.size();
-  std::vector<double> out(n);
+  NumericVector out(n);
 
   out[0] = INFINITY;
   out[n - 1] = INFINITY;
