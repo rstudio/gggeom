@@ -61,3 +61,8 @@ geometry_flip.geom_rect <- function(geom, dir = c("x", "y")) {
   geom
 }
 
+#' @export
+geometry_flip.geom_segment <- function(geom, dir = c("x", "y")) {
+  geometry_flip.geom_rect(geom, dir)
+}
+
