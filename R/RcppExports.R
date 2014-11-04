@@ -86,6 +86,10 @@ resolution_numeric <- function(x, zero = TRUE) {
     .Call('ggcomp_resolution_numeric', PACKAGE = 'ggcomp', x, zero)
 }
 
+buildSkyline <- function(x1, x2, y) {
+    .Call('ggcomp_buildSkyline', PACKAGE = 'ggcomp', x1, x2, y)
+}
+
 smooth_linear <- function(x_in, z_in, w_in, x_out, h) {
     .Call('ggcomp_smooth_linear', PACKAGE = 'ggcomp', x_in, z_in, w_in, x_out, h)
 }
