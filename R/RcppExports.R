@@ -86,10 +86,6 @@ resolution_numeric <- function(x, zero = TRUE) {
     .Call('ggcomp_resolution_numeric', PACKAGE = 'ggcomp', x, zero)
 }
 
-buildSkyline <- function(x1, x2, y) {
-    .Call('ggcomp_buildSkyline', PACKAGE = 'ggcomp', x1, x2, y)
-}
-
 smooth_linear <- function(x_in, z_in, w_in, x_out, h) {
     .Call('ggcomp_smooth_linear', PACKAGE = 'ggcomp', x_in, z_in, w_in, x_out, h)
 }
@@ -100,6 +96,14 @@ smooth_robust <- function(x_in, z_in, w_in, x_out, h, iterations = 3L) {
 
 smooth_mean <- function(x_in, z_in, w_in, x_out, h) {
     .Call('ggcomp_smooth_mean', PACKAGE = 'ggcomp', x_in, z_in, w_in, x_out, h)
+}
+
+buildSkyline <- function(x1, x2, y) {
+    .Call('ggcomp_buildSkyline', PACKAGE = 'ggcomp', x1, x2, y)
+}
+
+stack <- function(x1, x2, y) {
+    .Call('ggcomp_stack', PACKAGE = 'ggcomp', x1, x2, y)
 }
 
 `as.data.frame!` <- function(x, nrow) {

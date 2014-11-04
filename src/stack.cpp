@@ -7,6 +7,13 @@ class Skyline {
   std::map<double, double> edges;
 
 public:
+  itEdge begin() {
+    return edges.begin();
+  }
+  itEdge end() {
+    return edges.end();
+  }
+
   void add_building(double x1, double x2, double h) {
     if (x1 >= x2) return;
     if (h == 0) return;
@@ -80,8 +87,20 @@ public:
 
   }
 
-  void find_height(double x1, double x2) {
+  double max_h(double x1, double x2) {
+    // The upper bound finds the first edge > x1
+    itEdge left = edges.upper_bound(x1);
+    if (left != edges.begin()) left--;
+    itEdge right = edges.lower_bound(x2);
 
+    double h = 0;
+    for(itEdge edge(left); left != right; left++) {
+      if (edge->second > h) {
+        h = edge->second;
+      }
+    }
+
+    return h;
   }
 
   void print() {
@@ -114,6 +133,10 @@ public:
 
 // [[Rcpp::export]]
 List buildSkyline(NumericVector x1, NumericVector x2, NumericVector y) {
+  if (x1.size() != x2.size() || x1.size() != y.size()) {
+    stop("x1, x2, and y all must be the same length");
+  }
+
   int n = x1.size();
 
   // Sort all endpoints:
@@ -123,4 +146,29 @@ List buildSkyline(NumericVector x1, NumericVector x2, NumericVector y) {
   }
 
   return skyline.as_list();
+}
+
+// [[Rcpp::export]]
+List stack(NumericVector x1, NumericVector x2, NumericVector y) {
+  if (x1.size() != x2.size() || x1.size() != y.size()) {
+    stop("x1, x2, and y all must be the same length");
+  }
+  int n = x1.size();
+
+  NumericVector ymin_(n), ymax_(n);
+
+  // Sort all endpoints:
+  Skyline skyline;
+  for (int i = 0; i < n; ++i) {
+    double h = skyline.max_h(x1[i], x2[i]);
+    skyline.add_building(x1[i], x2[i], y[i] + h);
+
+    ymin_[i] = h;
+    ymax_[i] = y[i] + h;
+  }
+
+  return List::create(
+    _["y1_"] = ymin_,
+    _["y2_"] = ymax_
+  );
 }

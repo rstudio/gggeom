@@ -387,23 +387,6 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// buildSkyline
-List buildSkyline(NumericVector x1, NumericVector x2, NumericVector y);
-RcppExport SEXP ggcomp_buildSkyline(SEXP x1SEXP, SEXP x2SEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< NumericVector >::type x1(x1SEXP );
-        Rcpp::traits::input_parameter< NumericVector >::type x2(x2SEXP );
-        Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP );
-        List __result = buildSkyline(x1, x2, y);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
 // smooth_linear
 NumericVector smooth_linear(const NumericVector& x_in, const NumericVector& z_in, const NumericVector& w_in, const NumericVector& x_out, const double h);
 static SEXP ggcomp_smooth_linear_try(SEXP x_inSEXP, SEXP z_inSEXP, SEXP w_inSEXP, SEXP x_outSEXP, SEXP hSEXP) {
@@ -518,6 +501,40 @@ RcppExport SEXP ggcomp_smooth_mean(SEXP x_inSEXP, SEXP z_inSEXP, SEXP w_inSEXP, 
     }
     UNPROTECT(1);
     return __result;
+}
+// buildSkyline
+List buildSkyline(NumericVector x1, NumericVector x2, NumericVector y);
+RcppExport SEXP ggcomp_buildSkyline(SEXP x1SEXP, SEXP x2SEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x1(x1SEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type x2(x2SEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP );
+        List __result = buildSkyline(x1, x2, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// stack
+List stack(NumericVector x1, NumericVector x2, NumericVector y);
+RcppExport SEXP ggcomp_stack(SEXP x1SEXP, SEXP x2SEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x1(x1SEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type x2(x2SEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP );
+        List __result = stack(x1, x2, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
 }
 // as_data_frame
 void as_data_frame(List x, int nrow);

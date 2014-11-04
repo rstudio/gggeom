@@ -33,9 +33,9 @@ geometry_stack.geom_rect <- function(geom, dir = c("y", "x")) {
   dir <- match.arg(dir)
 
   if (dir == "x") {
-    stack(geom, "x", "y1_")
+    stack_df(geom, "y1_", "y2_", "x1_", "x2_")
   } else {
-    stack(geom, "y", "x1_")
+    stack_df(geom, "x1_", "x2_", "y1_", "y2_")
   }
 }
 
@@ -47,39 +47,42 @@ geometry_stack.geom_ribbon <- function(geom, dir) {
 #' @export
 geometry_stack.geom_arc <- function(geom, dir = c("theta", "r")) {
   dir <- match.arg(dir)
+  old_groups <- dplyr::groups(geom)
+
+  geom <- dplyr::group_by_(geom, .dots = c("x_", "y_"), add = TRUE)
 
   if (dir == "theta") {
-    stack(geom, "theta", c("x_", "y_"))
+    geom <- stack_df(geom, "r1_", "r2_", "theta1_", "theta2_")
   } else {
-    stack(geom, "r", c("x_", "y_"))
+    geom <- stack_df(geom, "theta1_", "theta2_", "r1_", "r2_")
   }
+
+  # Restore old grouping
+  if (!is.null(old_groups)) {
+    geom <- dplyr::group_by_(geom, .dots = old_groups)
+  } else {
+    geom <- dplyr::ungroup(geom)
+  }
+
+  class(geom) <- c("geom_arc", "geom", "data.frame")
+  geom
+
 }
 
-
-stack <- function(data, stack_var, group_vars) {
-  lower_stack <- paste0(stack_var, "1_")
-  upper_stack <- paste0(stack_var, "2_")
-
-  if (any(data[[lower_stack]] != 0)) {
-    warning("Stacking rects with non-zero ", lower_stack, " is not well defined",
+stack_df <- function(data, x1, x2, y1, y2) {
+  if (any(data[[y1]] != 0)) {
+    warning("Stacking with non-zero ", y1, " is not well defined",
       call. = FALSE)
   }
 
-  new_vars <- list(
-    lazyeval::interp(~(cumsum(x)), x = as.name(upper_stack)),
-    lazyeval::interp(~(stats::lag(x, default = 0)), x = as.name(upper_stack))
-  )
-  names(new_vars) <- c(upper_stack, lower_stack)
-
   stacked <- data %>%
-    dplyr::group_by_(.dots = group_vars, add = TRUE) %>%
-    dplyr::mutate_(.dots = new_vars)
-
-  # Restore old grouping
-  old_groups <- dplyr::groups(data)
-  if (!is.null(old_groups)) {
-    stacked <- dplyr::group_by_(.dots = old_groups)
-  }
+    dplyr::do({
+      out <- stack(.[[x1]], .[[x2]], .[[y2]])
+      data <- .
+      data[[y1]] <- out$y1_
+      data[[y2]] <- out$y2_
+      data
+    })
 
   class(stacked) <- class(data)
   stacked
