@@ -7,31 +7,33 @@ class Skyline {
   std::map<double, double> edges;
 
 public:
-  void add_interval(double x1, double x2, double h) {
+  void add_building(double x1, double x2, double h) {
     if (x1 >= x2) return;
     if (h == 0) return;
 
+    // Rcout << "[" << x1 << "," << x2 << "]\n";
+
     // Add right edge - we do this before adding left edge because otherwise
     // it interferes with the calculation
+    // The upper bound finds the first edge >= x1
     itEdge right = edges.lower_bound(x2);
     if (right == edges.end() || right == edges.begin()) {
       // Last edge always goes back down to zero
       right = edges.insert(std::make_pair(x2, 0)).first;
     } else {
-      // Need to find first edge < x2 to look at height
-      itEdge prev(right); prev--;
-
       if (right->first == x2) {
         // New edge matches existing edge: don't need to do anything
       } else { // right->first > x2
         // If we're taller than the previous edge, this is where we have to
         // come back down
+        itEdge prev(right); prev--;
+
         if (h > prev->second) {
           right = edges.insert(std::make_pair(x2, prev->second)).first;
         }
       }
     }
-    print();
+    // print();
 
     // Find or insert the edge at the left of the building.
     // The upper bound finds the first edge > x1
@@ -43,7 +45,6 @@ public:
     } else {
       // Find the first edge <= x1
       left--;
-
       if (left->first == x1) {
         // New edge is matches existing edge, so check height
         if (h > left->second) {
@@ -57,30 +58,25 @@ public:
       }
     }
 
-    print();
-
-
-
-//     // Next iterator from left to right (first edge >= x2) adjusting
-//     // heights and removing duplicated
-//
-//     double prev_height = 0;
-//     itEdge cur(left); cur++;
-//     while(cur != right) {
-//       // Height can never be lower than the height of this interval
-//       if (cur->second < h) {
-//         cur->second = h;
-//       }
-//       // Remove it if it's the same height as the previous
-//       if (cur->second == prev_height) {
-//         itEdge old = cur;
-//         cur++;
-//         edges.erase(old);
-//       } else {
-//         prev_height = cur->second;
-//         cur++;
-//       }
-//     }
+    // Iterate from left to right adjusting heights and removing duplicates
+    double prev_height = -INFINITY;
+    itEdge cur(left);
+    while(cur != right) {
+      // Height can never be lower than the height of this building
+      if (cur->second < h) {
+        cur->second = h;
+      }
+      // Remove it if it's the same height as the previous
+      if (cur->second == prev_height) {
+        itEdge old = cur;
+        cur++;
+        edges.erase(old);
+      } else {
+        prev_height = cur->second;
+        cur++;
+      }
+    }
+    // print();
 
   }
 
@@ -123,7 +119,7 @@ List buildSkyline(NumericVector x1, NumericVector x2, NumericVector y) {
   // Sort all endpoints:
   Skyline skyline;
   for (int i = 0; i < n; ++i) {
-    skyline.add_interval(x1[i], x2[i], y[i]);
+    skyline.add_building(x1[i], x2[i], y[i]);
   }
 
   return skyline.as_list();
