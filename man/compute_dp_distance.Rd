@@ -22,7 +22,7 @@ defining a line from the first to the last point, and then finds the
 point that is furthest from the line. It then recursively breaks up the
 into two pieces around the furthest point, and finds the furthest point
 from those sublines. See
-\url{http://en.wikipedia.org/wiki/Ramer–Douglas–Peucker_algorithm} for
+\url{http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm} for
 more details.
 }
 \details{

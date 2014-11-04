@@ -5,7 +5,7 @@
 #' point that is furthest from the line. It then recursively breaks up the
 #' into two pieces around the furthest point, and finds the furthest point
 #' from those sublines. See
-#' \url{http://en.wikipedia.org/wiki/Ramer–Douglas–Peucker_algorithm} for
+#' \url{http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm} for
 #' more details.
 #'
 #' Note that this function does not do any simplification - it just adds an
@@ -47,5 +47,5 @@ compute_dp_distance.data.frame <- function(data, x_var, y_var) {
 
 #' @export
 compute_dp_distance.grouped_df <- function(data, x_var, y_var) {
-  dplyr::do(data, compute_db_distance(., x_var, y_var))
+  dplyr::do(data, compute_dp_distance(., x_var, y_var))
 }
