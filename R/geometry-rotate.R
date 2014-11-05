@@ -30,8 +30,8 @@ geometry_rotate.geom_rect <- function(geom) {
 }
 
 #' @export
-geometry_rotate.geom_segment <- function(geom, dir = c("x", "y")) {
-  geometry_rotate.geom_rect(geom, dir)
+geometry_rotate.geom_segment <- function(geom) {
+  geometry_rotate.geom_rect(geom)
 }
 
 switch_cols <- function(df, a, b) {
