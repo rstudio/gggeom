@@ -97,7 +97,7 @@ geometry_pointificate.geom_arc <- function(geom, ...) {
 
   geom$id_ <- 1:nrow(geom)
   out <- geom %>%
-    dplyr::group_by(id_) %>%
+    dplyr::group_by_(~ id_) %>%
     dplyr::do(pointificate(.))
   class(out) <- c("geom_polygon", "geom", class(out))
   out
@@ -125,7 +125,7 @@ geometry_pointificate.geom_rect <- function(geom, ...) {
 
   geom$id_ <- 1:nrow(geom)
   out <- geom %>%
-    dplyr::group_by(id_) %>%
+    dplyr::group_by_(~ id_) %>%
     dplyr::do(pointificate(.))
   class(out) <- c("geom_polygon", "geom", class(out))
   out
