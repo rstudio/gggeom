@@ -240,10 +240,24 @@ render_tile <- function(data, x, y, width = resolution(x),
 #' df <- data.frame(x = x, y1 = x * 2 - y, y2 = x * 2 + y)
 #' render_ribbon(df, ~x, ~y1, ~y2)
 #' .Last.value %>% plot()
-render_ribbon <- function(data, x, y1, y2) {
-  data$x_ <- eval_vector(data, x)
-  data$y1_ <- eval_vector(data, y1)
-  data$y2_ <- eval_vector(data, y2)
+render_ribbon <- function(data, x, y1, y2) UseMethod("render_ribbon")
+
+#' @export
+render_ribbon.data.frame <- function(data, x, y1, y2) {
+  out <- data[1, , drop = FALSE]
+  out$x_ <- list(eval_vector(data, x))
+  out$y1_ <- list(eval_vector(data, y1))
+  out$y2_ <- list(eval_vector(data, y2))
+
+  class(out) <- c("geom_ribbon", "geom", class(out))
+  out
+}
+
+#' @export
+render_ribbon.grouped_df <- function(data, x, y1, y2) {
+
+  data <- data %>%
+    dplyr::do(render_ribbon(., x, y1, y2))
 
   class(data) <- c("geom_ribbon", "geom", class(data))
   data
@@ -259,7 +273,9 @@ render_area <- function(data, x, y2) {
 plot.geom_ribbon <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
   if (!add) plot_init(x$x_, c(x$y1_, x$y2_))
 
-  dplyr::do(x, `_` = polygon(c(x$x_, rev(x$x_)), c(x$y1_, rev(x$y2_)), col = col, ...))
+  x <- geometry_pointificate(x)
+  plot(x, col = col, add = TRUE, ...)
+
   invisible(x)
 }
 

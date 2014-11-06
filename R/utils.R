@@ -40,3 +40,14 @@ plot_init <- function(x, y) {
   axis(2, lwd = 0, lwd.ticks = 1, col = "grey80", col.axis = "grey60", padj = 1)
   grid(lty = "solid", col = "grey80")
 }
+
+row_apply <- function(df, f, ...) {
+
+  row_slice <- function(df, i) {
+    out <- lapply(df, `[[`, i)
+    `as.data.frame!`(out, 1)
+    out
+  }
+
+  lapply(1:nrow(df), function(i) f(row_slice(df, i), ...))
+}

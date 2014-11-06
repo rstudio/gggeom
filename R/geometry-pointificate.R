@@ -60,25 +60,13 @@ geometry_pointificate.geom_polygon <- function(geom, ..., close = FALSE) {
 
 #' @export
 geometry_pointificate.geom_ribbon <- function(geom, ...) {
-  pointificate <- function(df) {
-    x <- c(df$x_, rev(df$x_))
-    y <- c(df$y1_, rev(df$y2_))
+  geom$x_ <- row_apply(geom, function(df) c(df$x_, rev(df$x_)))
+  geom$y_ <- row_apply(geom, function(df) c(df$y1_, rev(df$y2_)))
+  geom$y1_ <- NULL
+  geom$y2_ <- NULL
 
-    df$x_ <- NULL
-    df$y1_ <- NULL
-    df$y2_ <- NULL
-
-    df <- df[c(1:nrow(df), nrow(df):1), , drop = FALSE]
-
-    df$x_ <- x
-    df$y_ <- y
-
-    df
-  }
-
-  out <- dplyr::do(geom, pointificate(.))
-  class(out) <- c("geom_polygon", "geom", class(out))
-  out
+  class(geom) <- c("geom_polygon", "geom", "data.frame")
+  geom
 }
 
 #' @export
