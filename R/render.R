@@ -8,7 +8,9 @@ print.geom <- function(x, ...) {
 
 #' Render point, polygon, path and text geometries.
 #'
-#' These all use the same variables (\code{x_} and \code{y_}), but the
+#' Each row always represents one object, positioned according to the
+#' \code{x_} and \code{y_} and variables. For paths and polygons, this
+#'
 #' output looks rather different. Also note that each row describes a
 #' different point or text, but each group in a grouped df describes a
 #' different path/polygon.
@@ -18,9 +20,19 @@ print.geom <- function(x, ...) {
 #' @export
 #' @examples
 #' render_point(mtcars, ~mpg, ~wt)
-#' render_path(mtcars, ~mpg, ~wt)
-#' render_polygon(mtcars, ~mpg, ~wt)
 #' render_text(mtcars, ~mpg, ~wt)
+#'
+#' # Paths and polygons are more complicated. The x_ and y_ variables
+#' # are lists of vectors
+#' theta <- seq(0, 6*pi, length = 200)
+#' r <- seq(1, 0, length = 200)
+#' df <- data.frame(x = r * sin(theta), y = r * cos(theta))
+#' spiral <- df %>% render_path(~x, ~y)
+#' str(spiral)
+#' spiral %>% plot()
+#'
+#' nz
+#' nz %>% plot()
 render_point <- function(data, x, y) {
   data$x_ <- eval_vector(data, x)
   data$y_ <- eval_vector(data, y)
@@ -59,9 +71,23 @@ plot.geom_text <- function(x, y, labels = 1:nrow(x), ..., add = FALSE) {
 
 #' @export
 #' @rdname render_point
-render_polygon <- function(data, x, y) {
-  data$x_ <- eval_vector(data, x)
-  data$y_ <- eval_vector(data, y)
+render_polygon <- function(data, x, y) UseMethod("render_polygon")
+
+#' @export
+render_polygon.data.frame <- function(data, x, y) {
+  out <- data[1, , drop = FALSE]
+  out$x_ <- list(eval_vector(data, x))
+  out$y_ <- list(eval_vector(data, y))
+
+  class(out) <- c("geom_polygon", "geom", class(out))
+  out
+}
+
+#' @export
+render_polygon.grouped_df <- function(data, x, y) {
+
+  data <- data %>%
+    dplyr::do(render_polygon(., x, y))
 
   class(data) <- c("geom_polygon", "geom", class(data))
   data
@@ -71,7 +97,7 @@ render_polygon <- function(data, x, y) {
 plot.geom_polygon <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
   if (!add) plot_init(x$x_, x$y_)
 
-  dplyr::do(x, `_` = polygon(.$x_, .$y_, col = col, ...))
+  polygon(ungroupNA(x$x_), ungroupNA(x$y_), col = col, ...)
   invisible(x)
 }
 
@@ -80,18 +106,17 @@ plot.geom_polygon <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
 #' @export
 #' @rdname render_point
 render_path <- function(data, x, y) {
-  data$x_ <- eval_vector(data, x)
-  data$y_ <- eval_vector(data, y)
+  poly <- render_polygon(data, x, y)
 
-  class(data) <- c("geom_path", "geom", class(data))
-  data
+  class(poly) <- c("geom_path", "geom", class(data))
+  poly
 }
 
 #' @export
 plot.geom_path <- function(x, y, col = "grey10", ..., add = FALSE) {
   if (!add) plot_init(x$x_, x$y_)
 
-  dplyr::do(x, `_` = lines(.$x_, .$y_, col = col, ...))
+  lines(ungroupNA(x$x_), ungroupNA(x$y_), col = col, ...)
   invisible(x)
 }
 

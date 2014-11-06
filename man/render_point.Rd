@@ -20,15 +20,28 @@ render_path(data, x, y)
 \item{x,y}{Formulas specifying x and y positions.}
 }
 \description{
-These all use the same variables (\code{x_} and \code{y_}), but the
+Each row always represents one object, positioned according to the
+\code{x_} and \code{y_} and variables. For paths and polygons, this
+}
+\details{
 output looks rather different. Also note that each row describes a
 different point or text, but each group in a grouped df describes a
 different path/polygon.
 }
 \examples{
 render_point(mtcars, ~mpg, ~wt)
-render_path(mtcars, ~mpg, ~wt)
-render_polygon(mtcars, ~mpg, ~wt)
 render_text(mtcars, ~mpg, ~wt)
+
+# Paths and polygons are more complicated. The x_ and y_ variables
+# are lists of vectors
+theta <- seq(0, 6*pi, length = 200)
+r <- seq(1, 0, length = 200)
+df <- data.frame(x = r * sin(theta), y = r * cos(theta))
+spiral <- df \%>\% render_path(~x, ~y)
+str(spiral)
+spiral \%>\% plot()
+
+nz
+nz \%>\% plot()
 }
 
