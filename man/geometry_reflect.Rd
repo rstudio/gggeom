@@ -22,6 +22,6 @@ scatter_ex \%>\% geometry_reflect("y") \%>\% plot()
 histogram_ex \%>\% plot()
 histogram_ex \%>\% geometry_reflect() \%>\% plot()
 histogram_ex \%>\% geometry_reflect("y") \%>\% plot()
-histogram_ex \%>\% geometry_reflect("y") \%>\% geometry_rotate() \%>\% plot()
+histogram_ex \%>\% geometry_reflect("y") \%>\% geometry_flip() \%>\% plot()
 }
 

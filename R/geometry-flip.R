@@ -1,37 +1,37 @@
-#' Rotate.
+#' Flip x and y positions
 #'
-#' Rotates 90 degrees by switching x and y positions.
+#' Flip x and y positions.
 #'
 #' @param geom A geometry data frame.
 #' @export
 #' @examples
 #' scatter_ex %>% plot()
-#' scatter_ex %>% geometry_rotate() %>% plot()
+#' scatter_ex %>% geometry_flip() %>% plot()
 #'
 #' histogram_ex %>% plot()
-#' histogram_ex %>% geometry_rotate() %>% plot()
-geometry_rotate <- function(geom) UseMethod("geometry_rotate")
+#' histogram_ex %>% geometry_flip() %>% plot()
+geometry_flip <- function(geom) UseMethod("geometry_flip")
 
 #' @export
-geometry_rotate.geom <- function(geom) {
+geometry_flip.geom <- function(geom) {
   switch_cols(geom, "x_", "y_")
 }
 
 #' @export
-geometry_rotate.geom_ribbon <- function(geom) {
+geometry_flip.geom_ribbon <- function(geom) {
   stop("Can't rotate ribbons", call. = FALSE)
 }
 
 #' @export
-geometry_rotate.geom_rect <- function(geom) {
+geometry_flip.geom_rect <- function(geom) {
   geom <- switch_cols(geom, "x1_", "y1_")
   geom <- switch_cols(geom, "x2_", "y2_")
   geom
 }
 
 #' @export
-geometry_rotate.geom_segment <- function(geom) {
-  geometry_rotate.geom_rect(geom)
+geometry_flip.geom_segment <- function(geom) {
+  geometry_flip.geom_rect(geom)
 }
 
 switch_cols <- function(df, a, b) {

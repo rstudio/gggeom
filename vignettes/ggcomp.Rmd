@@ -131,7 +131,7 @@ There are a also a handful of geoms that are combinations of primitives:
 ## Geometric transformations
 
 * All
-    * `geometry_rotate()` (except ribbons).
+    * `geometry_flip()` (except ribbons).
     * `geometry_reflect(dir = "x")`
   
   * Paths/polygons

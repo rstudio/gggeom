@@ -1,6 +1,6 @@
 #' Simplify a path geometry with Douglas-Peucker
 #'
-#' @inheritParams geometry_rotate
+#' @inheritParams geometry_flip
 #' @param tol_prop,tol_dist Either specify the proportion of points to keep,
 #'   or a distance threshold.
 #' @seealso \code{\link{compute_dp_distance}()} to add the distance as

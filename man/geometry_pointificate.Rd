@@ -23,7 +23,7 @@ df <- data.frame(x = x, y = sin(x))
 rib <- render_ribbon(df, ~x, ~y - 1, ~ y + 1)
 rib \%>\% plot()
 rib \%>\% geometry_pointificate() \%>\% plot()
-rib \%>\% geometry_pointificate() \%>\% geometry_rotate() \%>\% plot()
+rib \%>\% geometry_pointificate() \%>\% geometry_flip() \%>\% plot()
 
 df <- expand.grid(x = 1:3, y = 1:3)
 df$z <- runif(9, pi, 2 * pi)

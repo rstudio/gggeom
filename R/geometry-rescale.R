@@ -1,6 +1,6 @@
 #' Scale stacked values.
 #'
-#' @inheritParams geometry_rotate
+#' @inheritParams geometry_flip
 #' @inheritParams geometry_stack
 #' @param max Maximum value to scale to. Defaults to 1, except when scaling
 #'   "theta", where it defaults to 2 * pi.

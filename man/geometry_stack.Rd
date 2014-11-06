@@ -18,8 +18,8 @@ Stack objects on top of one another.
 bar_ex \%>\% plot()
 bar_ex \%>\% geometry_stack() \%>\% plot()
 
-bar_ex \%>\% geometry_rotate() \%>\% plot()
-bar_ex \%>\% geometry_rotate() \%>\% geometry_stack("x") \%>\% plot()
+bar_ex \%>\% geometry_flip() \%>\% plot()
+bar_ex \%>\% geometry_flip() \%>\% geometry_stack("x") \%>\% plot()
 
 # Overlapping bars are stacked on top of the skyline:
 df <- data.frame(x = 1:3, y = 1:3)

@@ -9,7 +9,7 @@
 #'   \item{rect}{Jitters x1 & x2, and y1 & y2 by same amount - the
 #'     height and width stay the same.}
 #' }
-#' @inheritParams geometry_rotate
+#' @inheritParams geometry_flip
 #' @param x,y amount to jitter in x and y directions. In most cases, defaults
 #'   to 40\% of the resolution of the data.
 #' @export

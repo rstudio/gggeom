@@ -1,6 +1,6 @@
 #' Reflect positions around an axis.
 #'
-#' @inheritParams geometry_rotate
+#' @inheritParams geometry_flip
 #' @param dir Direction in which to reflect. One of "x" and "y". (Specifying "x"
 #'   will flip the x values about the y axis.
 #' @export
@@ -12,7 +12,7 @@
 #' histogram_ex %>% plot()
 #' histogram_ex %>% geometry_reflect() %>% plot()
 #' histogram_ex %>% geometry_reflect("y") %>% plot()
-#' histogram_ex %>% geometry_reflect("y") %>% geometry_rotate() %>% plot()
+#' histogram_ex %>% geometry_reflect("y") %>% geometry_flip() %>% plot()
 geometry_reflect <- function(geom, dir = c("x", "y")) {
   UseMethod("geometry_reflect")
 }

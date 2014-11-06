@@ -2,7 +2,7 @@
 #'
 #' Currently only implemented for rects.
 #'
-#' @inheritParams geometry_rotate
+#' @inheritParams geometry_flip
 #' @export
 #' @examples
 #' bar_ex %>% plot()
