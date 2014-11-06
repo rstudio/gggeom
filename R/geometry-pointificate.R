@@ -71,57 +71,35 @@ geometry_pointificate.geom_ribbon <- function(geom, ...) {
 
 #' @export
 geometry_pointificate.geom_arc <- function(geom, ...) {
-  pointificate <- function(df) {
-    arc <- make_arc(df$x_, df$y_, c(df$r1_, df$r2_), c(df$theta1_, df$theta2_))
 
-    df$x_ <- NULL
-    df$y_ <- NULL
-    df$r1_ <- NULL
-    df$r2_ <- NULL
-    df$theta1_ <- NULL
-    df$theta2_ <- NULL
+  arcs <- row_apply(geom, function(df) {
+    make_arc(df$x_, df$y_, c(df$r1_, df$r2_), c(df$theta1_, df$theta2_))
+  })
 
-    `as.data.frame!`(df, 1)
-    df <- df[rep(1, nrow(arc)), , drop = FALSE]
+  geom$x_ <- lapply(arcs, `[[`, "x_")
+  geom$y_ <- lapply(arcs, `[[`, "y_")
 
-    df$x_ <- arc$x_
-    df$y_ <- arc$y_
+  geom$r1_ <- NULL
+  geom$r2_ <- NULL
+  geom$theta1_ <- NULL
+  geom$theta2_ <- NULL
 
-    df
-  }
-
-  geom$id_ <- 1:nrow(geom)
-  out <- geom %>%
-    dplyr::group_by_(~ id_) %>%
-    dplyr::do(pointificate(.))
-  class(out) <- c("geom_polygon", "geom", class(out))
-  out
+  class(geom) <- c("geom_polygon", "geom", "data.frame")
+  geom
 }
 
 
 #' @export
 geometry_pointificate.geom_rect <- function(geom, ...) {
-  pointificate <- function(df) {
-    x_ <- c(df$x1_, df$x2_, df$x2_, df$x1_)
-    y <- c(df$y1_, df$y1_, df$y2_, df$y2_)
 
-    df$x1_ <- NULL
-    df$x2_ <- NULL
-    df$y1_ <- NULL
-    df$y2_ <- NULL
+  geom$x_ <- row_apply(geom, function(df) c(df$x1_, df$x2_, df$x2_, df$x1_))
+  geom$y_ <- row_apply(geom, function(df) c(df$y1_, df$y1_, df$y2_, df$y2_))
 
-    df <- df[rep(1:nrow(df), each = 4), , drop = FALSE]
+  geom$x1_ <- NULL
+  geom$x2_ <- NULL
+  geom$y1_ <- NULL
+  geom$y2_ <- NULL
 
-    df$x_ <- x
-    df$y_ <- y
-
-    df
-  }
-
-  geom$id_ <- 1:nrow(geom)
-  out <- geom %>%
-    dplyr::group_by_(~ id_) %>%
-    dplyr::do(pointificate(.))
-  class(out) <- c("geom_polygon", "geom", class(out))
-  out
+  class(geom) <- c("geom_polygon", "geom", "data.frame")
+  geom
 }
