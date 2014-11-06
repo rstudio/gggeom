@@ -45,6 +45,10 @@ frange_ <- function(x, finite = TRUE) {
     .Call('ggcomp_frange_', PACKAGE = 'ggcomp', x, finite)
 }
 
+frange_list <- function(x, finite = TRUE) {
+    .Call('ggcomp_frange_list', PACKAGE = 'ggcomp', x, finite)
+}
+
 abs_max_ <- function(x, finite = TRUE) {
     .Call('ggcomp_abs_max_', PACKAGE = 'ggcomp', x, finite)
 }

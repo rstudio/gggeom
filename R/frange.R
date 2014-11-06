@@ -27,6 +27,10 @@
 #' system.time(range(x))
 #' system.time(frange(x))
 frange <- function(x, finite = TRUE) {
+  if (is.list(x) && is.vector(x)) {
+    return(frange_list(x))
+  }
+
   if (!is_numeric(x)) {
     stop("x must be numeric", call. = FALSE)
   }

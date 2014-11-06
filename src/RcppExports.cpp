@@ -285,6 +285,22 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// frange_list
+NumericVector frange_list(const ListOf<NumericVector>& x, const bool finite = true);
+RcppExport SEXP ggcomp_frange_list(SEXP xSEXP, SEXP finiteSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< const ListOf<NumericVector>& >::type x(xSEXP );
+        Rcpp::traits::input_parameter< const bool >::type finite(finiteSEXP );
+        NumericVector __result = frange_list(x, finite);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // abs_max_
 double abs_max_(const NumericVector& x, const bool finite = true);
 RcppExport SEXP ggcomp_abs_max_(SEXP xSEXP, SEXP finiteSEXP) {

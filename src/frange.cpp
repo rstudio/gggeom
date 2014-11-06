@@ -3,9 +3,7 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 NumericVector frange_(const NumericVector& x, const bool finite = true) {
-  NumericVector out(2);
-  out[0] = INFINITY;
-  out[1] = -INFINITY;
+  NumericVector out = NumericVector::create(INFINITY, -INFINITY);
 
   int n = x.length();
   for(int i = 0; i < n; ++i) {
@@ -24,6 +22,23 @@ NumericVector frange_(const NumericVector& x, const bool finite = true) {
 
   return out;
 }
+
+// [[Rcpp::export]]
+NumericVector frange_list(const ListOf<NumericVector>& x,
+                          const bool finite = true) {
+
+  int n = x.size();
+  NumericVector rng = NumericVector::create(INFINITY, -INFINITY);
+
+  for (int i = 0; i < n; ++i) {
+    NumericVector new_rng = frange_(x[i], finite);
+    if (new_rng[0] < rng[0]) rng[0] = new_rng[0];
+    if (new_rng[1] > rng[1]) rng[1] = new_rng[1];
+  }
+
+  return rng;
+}
+
 
 // [[Rcpp::export]]
 double abs_max_(const NumericVector& x, const bool finite = true) {
