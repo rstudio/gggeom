@@ -21,5 +21,8 @@ resolution <- function(x, zero = TRUE) {
   if (is.integer(x))
     return(1)
 
+  if (is.list(x))
+    return(resolution_numeric(unlist(x), zero = zero))
+
   resolution_numeric(x, zero = zero)
 }

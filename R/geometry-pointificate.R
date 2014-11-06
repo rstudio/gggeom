@@ -23,6 +23,9 @@
 #'
 #' histogram_ex %>% plot()
 #' histogram_ex %>% geometry_pointificate() %>%	plot()
+#'
+#' nz %>% plot()
+#' nz %>% geometry_pointificate(close = TRUE) %>% plot()
 geometry_pointificate <- function(geom, ...) {
   UseMethod("geometry_pointificate")
 }
@@ -47,7 +50,11 @@ geometry_pointificate.geom_polygon <- function(geom, ..., close = FALSE) {
   if (!close)  {
     geom
   } else {
-    dplyr::slice(geom, c(1:n(), 1))
+    close <- function(x) x[c(1:length(x), 1)]
+
+    geom$x_ <- lapply(geom$x_, close)
+    geom$y_ <- lapply(geom$y_, close)
+    geom
   }
 }
 
@@ -107,7 +114,7 @@ geometry_pointificate.geom_arc <- function(geom, ...) {
 #' @export
 geometry_pointificate.geom_rect <- function(geom, ...) {
   pointificate <- function(df) {
-    x <- c(df$x1_, df$x2_, df$x2_, df$x1_)
+    x_ <- c(df$x1_, df$x2_, df$x2_, df$x1_)
     y <- c(df$y1_, df$y1_, df$y2_, df$y2_)
 
     df$x1_ <- NULL

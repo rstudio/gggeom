@@ -33,5 +33,8 @@ arc \%>\% geometry_pointificate() \%>\% plot()
 
 histogram_ex \%>\% plot()
 histogram_ex \%>\% geometry_pointificate() \%>\%	plot()
+
+nz \%>\% plot()
+nz \%>\% geometry_pointificate(close = TRUE) \%>\% plot()
 }
 

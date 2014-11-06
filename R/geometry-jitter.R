@@ -38,6 +38,23 @@ geometry_jitter.geom <- function(geom,
 }
 
 #' @export
+geometry_jitter.geom_polygon <- function(geom,
+                                         x = resolution(geom$x_) * 0.4,
+                                         y = resolution(geom$y_) * 0.4) {
+
+  x_jitter <- jitter(geom, x)
+  y_jitter <- jitter(geom, y)
+
+  geom$x_ <- Map(`+`, geom$x_, x_jitter)
+  geom$y_ <- Map(`+`, geom$y_, x_jitter)
+
+  geom
+}
+
+#' @export
+geometry_jitter.geom_path <- geometry_jitter.geom_polygon
+
+#' @export
 geometry_jitter.geom_ribbon <- function(geom, x = 0, y = resolution(geom$y1_) * 0.4) {
   geom$x_ <- geom$x_ + jitter(geom, x)
 

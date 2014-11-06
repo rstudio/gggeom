@@ -17,5 +17,8 @@ scatter_ex \%>\% geometry_flip() \%>\% plot()
 
 histogram_ex \%>\% plot()
 histogram_ex \%>\% geometry_flip() \%>\% plot()
+
+nz \%>\% plot()
+nz \%>\% geometry_flip() \%>\% plot()
 }
 

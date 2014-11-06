@@ -10,6 +10,9 @@
 #'
 #' histogram_ex %>% plot()
 #' histogram_ex %>% geometry_flip() %>% plot()
+#'
+#' nz %>% plot()
+#' nz %>% geometry_flip() %>% plot()
 geometry_flip <- function(geom) UseMethod("geometry_flip")
 
 #' @export
