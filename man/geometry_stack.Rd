@@ -22,9 +22,9 @@ bar_ex \%>\% geometry_rotate() \%>\% plot()
 bar_ex \%>\% geometry_rotate() \%>\% geometry_stack("x") \%>\% plot()
 
 # Overlapping bars are stacked on top of the skyline:
-df <- data.frame(x = 1:3)
-df \%>\% render_bar(~x, 1, 2) \%>\% plot()
-df \%>\% render_bar(~x, 1, 2) \%>\% geometry_stack() \%>\% plot()
+df <- data.frame(x = 1:3, y = 1:3)
+df \%>\% render_bar(~x, ~y, 2) \%>\% plot()
+df \%>\% render_bar(~x, ~y, 2) \%>\% geometry_stack() \%>\% plot()
 
 #' You can also stack arcs, in either r or theta direction
 pies <- render_arc(mtcars, ~vs, ~am, 0, 0.1, 0, ~mpg / max(mpg) * 2 / pi)
