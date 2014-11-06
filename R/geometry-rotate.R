@@ -1,9 +1,9 @@
-#' Rotate a geometry about a point, by a specified angle
+#' Rotate a geometry about a pointclockwise, by a specified angle
 #'
-#' Rotate a geometry about a point, by a specified angle.
+#' Rotate a geometry about a point clockwise, by a specified angle.
 #'
 #' @param geom A geometry data frame.
-#' @param angle The angle by which to rotate, going clockwise.
+#' @param angle The angle by which to rotate, clockwise.
 #' @param x,y The coordinates of the center of rotation.
 #' @export
 #' @examples
