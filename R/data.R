@@ -13,3 +13,6 @@ NULL
 
 #' @rdname ggcomp-data
 "histogram_ex"
+
+#' @rdname ggcomp-data
+"nz"

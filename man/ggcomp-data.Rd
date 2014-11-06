@@ -4,6 +4,7 @@
 \alias{bar_ex}
 \alias{ggcomp-data}
 \alias{histogram_ex}
+\alias{nz}
 \alias{scatter_ex}
 \title{Various dataset to use for exmaples}
 \format{Data frames.}
@@ -13,6 +14,8 @@ bar_ex
 scatter_ex
 
 histogram_ex
+
+nz
 }
 \description{
 Various dataset to use for exmaples
