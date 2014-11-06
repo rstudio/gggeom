@@ -39,12 +39,12 @@ geometry_transform.geom <- function(geom, m, x = 0, y = 0) {
 
 #' @export
 geometry_transform.geom_ribbon <- function(geom, m, x = 0, y = 0) {
-  stop("Can't transform ribbons", call. = FALSE)
+  stop("Can't transform ribbons. Perhaps you want to use geometry_pointificate() first?", call. = FALSE)
 }
 
 #' @export
 geometry_transform.geom_rect <- function(geom, m, x = 0, y = 0) {
-  stop("Can't transform ribbons rects", call. = FALSE)
+  stop("Can't transform rects. Perhaps you want to use geometry_pointificate() first?", call. = FALSE)
 }
 
 # Using x and y as the center, multiply matrix m with df[c(a, b), ]
