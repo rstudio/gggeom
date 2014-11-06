@@ -106,6 +106,10 @@ stack <- function(x1, x2, y) {
     .Call('ggcomp_stack', PACKAGE = 'ggcomp', x1, x2, y)
 }
 
+ungroupNA <- function(x) {
+    .Call('ggcomp_ungroupNA', PACKAGE = 'ggcomp', x)
+}
+
 `as.data.frame!` <- function(x, nrow) {
     invisible(.Call('ggcomp_as_data_frame', PACKAGE = 'ggcomp', x, nrow))
 }

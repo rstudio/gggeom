@@ -536,6 +536,21 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// ungroupNA
+NumericVector ungroupNA(ListOf<NumericVector> x);
+RcppExport SEXP ggcomp_ungroupNA(SEXP xSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< ListOf<NumericVector> >::type x(xSEXP );
+        NumericVector __result = ungroupNA(x);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // as_data_frame
 void as_data_frame(List x, int nrow);
 RcppExport SEXP ggcomp_as_data_frame(SEXP xSEXP, SEXP nrowSEXP) {
