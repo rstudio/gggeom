@@ -25,9 +25,9 @@ spiral <- data.frame(
   y = seq(0, 1, length = 10)
 )
 path <- render_path(spiral, ~x, ~y)
-path \%>\% plot()
+path \%>\% plot() \%>\% points()
 
 path \%>\% geometry_warp("polar") \%>\% plot()
-path \%>\% geometry_warp("polar", tolerance = 0.00001) \%>\% plot()
+path \%>\% geometry_warp("polar", tolerance = 0.00001) \%>\% plot() \%>\% points()
 }
 

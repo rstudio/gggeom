@@ -101,6 +101,12 @@ plot.geom_polygon <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
   invisible(x)
 }
 
+#' @export
+points.geom_polygon <- function(x, y, pch = 20, ...) {
+  points(ungroupNA(x$x_), ungroupNA(x$y_), pch = pch, ...)
+  invisible(x)
+}
+
 # Path -------------------------------------------------------------------------
 
 #' @export
@@ -119,6 +125,9 @@ plot.geom_path <- function(x, y, col = "grey10", ..., add = FALSE) {
   lines(ungroupNA(x$x_), ungroupNA(x$y_), col = col, ...)
   invisible(x)
 }
+
+#' @export
+points.geom_path <- points.geom_polygon
 
 # Segment ----------------------------------------------------------------------
 
