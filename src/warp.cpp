@@ -50,21 +50,19 @@ public:
 };
 
 void warp(Point start, Point end, Function f, double threshold,
-          std::vector<double>* pOutX, std::vector<double>* pOutY) {
+          std::vector<Point>* pOut) {
   Point mid = start.average(end),
         mid_t = mid.transform(f),
         start_t = start.transform(f),
         end_t = end.transform(f);
 
-
   double dist = mid_t.dist_to_line(start_t, end_t);
   if (dist < threshold)
     return;
 
-  warp(start, mid, f, threshold, pOutX, pOutY);
-  pOutX->push_back(mid_t.x);
-  pOutY->push_back(mid_t.y);
-  warp(mid, end, f, threshold, pOutX, pOutY);
+  warp(start, mid, f, threshold, pOut);
+  pOut->push_back(mid_t);
+  warp(mid, end, f, threshold, pOut);
 }
 
 // [[Rcpp::export]]
@@ -73,23 +71,26 @@ List warp(NumericVector x, NumericVector y, Function f, double threshold = 0.01)
     stop("x and y must be same length");
 
   int n = x.size();
-  std::vector<double> out_x, out_y;
-  out_x.reserve(n);
-  out_y.reserve(n);
+  std::vector<Point> out;
 
   for (int i = 0; i < (n - 1); ++i) {
-    Point start = Point(x[i], y[i]), end = Point(x[i + 1], y[i + 1]);
-    Point start_t = start.transform(f);
-    out_x.push_back(start_t.x);
-    out_y.push_back(start_t.y);
+    Point start = Point(x[i], y[i]),
+      end = Point(x[i + 1], y[i + 1]),
+      start_t = start.transform(f);
 
-    warp(start, end, f, threshold, &out_x, &out_y);
+    out.push_back(start_t);
+    warp(start, end, f, threshold, &out);
   }
 
   Point end = Point(x[n - 1], y[n - 1]).transform(f);
-  out_x.push_back(end.x);
-  out_y.push_back(end.y);
+  out.push_back(end);
 
+  int m = out.size();
+  NumericVector out_x(m), out_y(m);
+  for (int i = 0; i < m; ++i) {
+    out_x[i] = out[i].x;
+    out_y[i] = out[i].y;
+  }
   return List::create(_["x"] = out_x, _["y"] = out_y);
 }
 
