@@ -580,6 +580,40 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// v_distance
+NumericVector v_distance(const NumericVector& x, const NumericVector& y);
+RcppExport SEXP ggcomp_v_distance(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
+        Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP );
+        NumericVector __result = v_distance(x, y);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// warp
+List warp(NumericVector x, NumericVector y, std::string f, double threshold = 0.01);
+RcppExport SEXP ggcomp_warp(SEXP xSEXP, SEXP ySEXP, SEXP fSEXP, SEXP thresholdSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP );
+        Rcpp::traits::input_parameter< std::string >::type f(fSEXP );
+        Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP );
+        List __result = warp(x, y, f, threshold);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // weightedQuantile
 NumericVector weightedQuantile(NumericVector x, IntegerVector w, NumericVector probs);
 RcppExport SEXP ggcomp_weightedQuantile(SEXP xSEXP, SEXP wSEXP, SEXP probsSEXP) {
