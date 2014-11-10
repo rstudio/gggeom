@@ -21,13 +21,9 @@ public:
 
   Point(double x_, double y_) : x(x_), y(y_) {}
 
-  Point average(Point other) {
-    return Point((other.x + x) / 2, (other.y + y) / 2);
-  }
-
   Point combine(Point other, double alpha) {
     return Point(
-        alpha * y + (1 - alpha) * other.y,
+        alpha * x + (1 - alpha) * other.x,
         alpha * y + (1 - alpha) * other.y
     );
   }

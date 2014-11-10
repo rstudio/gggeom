@@ -2,7 +2,6 @@
 #include "geometry.h"
 using namespace Rcpp;
 
-
 void dp_distance_rec(const NumericVector& x, const NumericVector& y,
                            int first, int last, NumericVector* pOut) {
   // Rcout << first << "-" << last << "\n";
