@@ -581,7 +581,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // warp
-List warp(NumericVector x, NumericVector y, Function f, double threshold = 0.01);
+List warp(NumericVector x, NumericVector y, std::string f, double threshold = 0.01);
 RcppExport SEXP ggcomp_warp(SEXP xSEXP, SEXP ySEXP, SEXP fSEXP, SEXP thresholdSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
@@ -589,7 +589,7 @@ BEGIN_RCPP
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
         Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP );
-        Rcpp::traits::input_parameter< Function >::type f(fSEXP );
+        Rcpp::traits::input_parameter< std::string >::type f(fSEXP );
         Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP );
         List __result = warp(x, y, f, threshold);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
