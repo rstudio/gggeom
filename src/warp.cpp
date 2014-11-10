@@ -49,20 +49,26 @@ public:
   }
 };
 
-void warp(Point start, Point end, Function f, double threshold,
-          std::vector<Point>* pOut) {
-  Point mid = start.average(end),
-        mid_t = mid.transform(f),
-        start_t = start.transform(f),
-        end_t = end.transform(f);
+void warp(Point next, Point next_t, Function f, double threshold,
+          std::vector<Point>* pRaw, std::vector<Point>* pTrans) {
 
-  double dist = mid_t.dist_to_line(start_t, end_t);
+  if (pRaw->empty()) {
+    pRaw->push_back(next);
+    pTrans->push_back(next_t);
+    return;
+  }
+
+  Point last = pRaw->back(), last_t = pTrans->back();
+  Point mid = last.average(next), mid_t = mid.transform(f);
+
+  double dist = mid_t.dist_to_line(last_t, next_t);
   if (dist < threshold)
     return;
 
-  warp(start, mid, f, threshold, pOut);
-  pOut->push_back(mid_t);
-  warp(mid, end, f, threshold, pOut);
+  warp(mid, mid_t, f, threshold, pRaw, pTrans);
+  pRaw->push_back(mid);
+  pTrans->push_back(mid_t);
+  warp(next, next_t, f, threshold, pRaw, pTrans);
 }
 
 // [[Rcpp::export]]
@@ -71,25 +77,21 @@ List warp(NumericVector x, NumericVector y, Function f, double threshold = 0.01)
     stop("x and y must be same length");
 
   int n = x.size();
-  std::vector<Point> out;
+  std::vector<Point> raw, trans;
 
-  for (int i = 0; i < (n - 1); ++i) {
-    Point start = Point(x[i], y[i]),
-      end = Point(x[i + 1], y[i + 1]),
-      start_t = start.transform(f);
-
-    out.push_back(start_t);
-    warp(start, end, f, threshold, &out);
+  for (int i = 0; i < n; ++i) {
+    Point next = Point(x[i], y[i]), next_t = next.transform(f);
+    warp(next, next_t, f, threshold, &raw, &trans);
   }
 
   Point end = Point(x[n - 1], y[n - 1]).transform(f);
-  out.push_back(end);
+  trans.push_back(end);
 
-  int m = out.size();
+  int m = trans.size();
   NumericVector out_x(m), out_y(m);
   for (int i = 0; i < m; ++i) {
-    out_x[i] = out[i].x;
-    out_y[i] = out[i].y;
+    out_x[i] = trans[i].x;
+    out_y[i] = trans[i].y;
   }
   return List::create(_["x"] = out_x, _["y"] = out_y);
 }
