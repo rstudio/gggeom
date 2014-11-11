@@ -1,3 +1,3 @@
-#' @useDynLib ggcomp
+#' @useDynLib gggeom
 #' @importFrom Rcpp sourceCpp
 NULL

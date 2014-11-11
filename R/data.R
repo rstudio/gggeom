@@ -2,17 +2,17 @@
 #'
 #' @keywords internal
 #' @format Data frames.
-#' @name ggcomp-data
+#' @name gggeom-data
 NULL
 
-#' @rdname ggcomp-data
+#' @rdname gggeom-data
 "bar_ex"
 
-#' @rdname ggcomp-data
+#' @rdname gggeom-data
 "scatter_ex"
 
-#' @rdname ggcomp-data
+#' @rdname gggeom-data
 "histogram_ex"
 
-#' @rdname ggcomp-data
+#' @rdname gggeom-data
 "nz"

@@ -2,38 +2,38 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 abs_max_ <- function(x, finite = TRUE) {
-    .Call('ggcomp_abs_max_', PACKAGE = 'ggcomp', x, finite)
+    .Call('gggeom_abs_max_', PACKAGE = 'gggeom', x, finite)
 }
 
 dp_distance <- function(x, y) {
-    .Call('ggcomp_dp_distance', PACKAGE = 'ggcomp', x, y)
+    .Call('gggeom_dp_distance', PACKAGE = 'gggeom', x, y)
 }
 
 resolution_numeric <- function(x, zero = TRUE) {
-    .Call('ggcomp_resolution_numeric', PACKAGE = 'ggcomp', x, zero)
+    .Call('gggeom_resolution_numeric', PACKAGE = 'gggeom', x, zero)
 }
 
 buildSkyline <- function(x1, x2, y) {
-    .Call('ggcomp_buildSkyline', PACKAGE = 'ggcomp', x1, x2, y)
+    .Call('gggeom_buildSkyline', PACKAGE = 'gggeom', x1, x2, y)
 }
 
 stack <- function(x1, x2, y) {
-    .Call('ggcomp_stack', PACKAGE = 'ggcomp', x1, x2, y)
+    .Call('gggeom_stack', PACKAGE = 'gggeom', x1, x2, y)
 }
 
 ungroupNA <- function(x) {
-    .Call('ggcomp_ungroupNA', PACKAGE = 'ggcomp', x)
+    .Call('gggeom_ungroupNA', PACKAGE = 'gggeom', x)
 }
 
 `as.data.frame!` <- function(x, nrow) {
-    invisible(.Call('ggcomp_as_data_frame', PACKAGE = 'ggcomp', x, nrow))
+    invisible(.Call('gggeom_as_data_frame', PACKAGE = 'gggeom', x, nrow))
 }
 
 v_distance <- function(x, y) {
-    .Call('ggcomp_v_distance', PACKAGE = 'ggcomp', x, y)
+    .Call('gggeom_v_distance', PACKAGE = 'gggeom', x, y)
 }
 
 warp <- function(x, y, f, threshold = 0.01) {
-    .Call('ggcomp_warp', PACKAGE = 'ggcomp', x, y, f, threshold)
+    .Call('gggeom_warp', PACKAGE = 'gggeom', x, y, f, threshold)
 }
 

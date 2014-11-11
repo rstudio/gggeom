@@ -1,4 +1,4 @@
 library(testthat)
-library(ggcomp)
+library(gggeom)
 
-test_check("ggcomp")
+test_check("gggeom")
