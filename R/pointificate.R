@@ -52,16 +52,16 @@ geometry_pointificate.geom_polygon <- function(geom, ..., close = FALSE) {
   } else {
     close <- function(x) x[c(1:length(x), 1)]
 
-    geom$x_ <- lapply(geom$x_, close)
-    geom$y_ <- lapply(geom$y_, close)
+    geom$x_ <- coords(lapply(geom$x_, close))
+    geom$y_ <- coords(lapply(geom$y_, close))
     geom
   }
 }
 
 #' @export
 geometry_pointificate.geom_ribbon <- function(geom, ...) {
-  geom$x_ <- row_apply(geom, function(df) c(df$x_, rev(df$x_)))
-  geom$y_ <- row_apply(geom, function(df) c(df$y1_, rev(df$y2_)))
+  geom$x_ <- coords(row_apply(geom, function(df) c(df$x_, rev(df$x_))))
+  geom$y_ <- coords(row_apply(geom, function(df) c(df$y1_, rev(df$y2_))))
   geom$y1_ <- NULL
   geom$y2_ <- NULL
 
@@ -76,8 +76,8 @@ geometry_pointificate.geom_arc <- function(geom, ...) {
     make_arc(df$x_, df$y_, c(df$r1_, df$r2_), c(df$theta1_, df$theta2_))
   })
 
-  geom$x_ <- pluck(arcs, "x_")
-  geom$y_ <- pluck(arcs, "y_")
+  geom$x_ <- coords(pluck(arcs, "x_"))
+  geom$y_ <- coords(pluck(arcs, "y_"))
 
   geom$r1_ <- NULL
   geom$r2_ <- NULL
@@ -92,8 +92,8 @@ geometry_pointificate.geom_arc <- function(geom, ...) {
 #' @export
 geometry_pointificate.geom_rect <- function(geom, ...) {
 
-  geom$x_ <- row_apply(geom, function(df) c(df$x1_, df$x2_, df$x2_, df$x1_))
-  geom$y_ <- row_apply(geom, function(df) c(df$y1_, df$y1_, df$y2_, df$y2_))
+  geom$x_ <- coords(row_apply(geom, function(df) c(df$x1_, df$x2_, df$x2_, df$x1_)))
+  geom$y_ <- coords(row_apply(geom, function(df) c(df$y1_, df$y1_, df$y2_, df$y2_)))
 
   geom$x1_ <- NULL
   geom$x2_ <- NULL
