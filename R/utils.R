@@ -44,7 +44,7 @@ plot_init <- function(x, y) {
 row_apply <- function(df, f, ...) {
 
   row_slice <- function(df, i) {
-    out <- lapply(df, `[[`, i)
+    out <- pluck(df, i)
     `as.data.frame!`(out, 1)
     out
   }

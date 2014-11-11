@@ -76,8 +76,8 @@ geometry_pointificate.geom_arc <- function(geom, ...) {
     make_arc(df$x_, df$y_, c(df$r1_, df$r2_), c(df$theta1_, df$theta2_))
   })
 
-  geom$x_ <- lapply(arcs, `[[`, "x_")
-  geom$y_ <- lapply(arcs, `[[`, "y_")
+  geom$x_ <- pluck(arcs, "x_")
+  geom$y_ <- pluck(arcs, "y_")
 
   geom$r1_ <- NULL
   geom$r2_ <- NULL

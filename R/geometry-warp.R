@@ -29,8 +29,8 @@ geometry_warp.geom_path <- function(geom, fun = c("polar", "identity"),
                                     tolerance = 0.001) {
 
   warped <- Map(function(x, y) warp(x, y, fun, tolerance), geom$x_, geom$y_)
-  geom$x_ <- lapply(warped, `[[`, "x")
-  geom$y_ <- lapply(warped, `[[`, "y")
+  geom$x_ <- pluck(warped, "x")
+  geom$y_ <- pluck(warped, "y")
 
   geom
 }
