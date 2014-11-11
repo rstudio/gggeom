@@ -1,5 +1,5 @@
 Package: gggeom
-Title: Graphical Computations
+Title: Graphical Geometry
 Description: Data structures and operations for the geometric primitives
     that underlying all visualisation.
 Version: 0.1
