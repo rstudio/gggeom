@@ -38,6 +38,7 @@ theta <- seq(0, 6*pi, length = 200)
 r <- seq(1, 0, length = 200)
 df <- data.frame(x = r * sin(theta), y = r * cos(theta))
 spiral <- df \%>\% render_path(~x, ~y)
+spiral
 str(spiral)
 spiral \%>\% plot()
 

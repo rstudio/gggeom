@@ -28,6 +28,7 @@ print.geom <- function(x, ...) {
 #' r <- seq(1, 0, length = 200)
 #' df <- data.frame(x = r * sin(theta), y = r * cos(theta))
 #' spiral <- df %>% render_path(~x, ~y)
+#' spiral
 #' str(spiral)
 #' spiral %>% plot()
 #'
@@ -37,7 +38,7 @@ render_point <- function(data, x, y) {
   data$x_ <- eval_vector(data, x)
   data$y_ <- eval_vector(data, y)
 
-  class(data) <- c("geom_point", "geom", class(data))
+  class(data) <- c("geom_point", "geom", "tbl_df", "data.frame")
   data
 }
 
@@ -55,7 +56,7 @@ render_text <- function(data, x, y) {
   data$x_ <- eval_vector(data, x)
   data$y_ <- eval_vector(data, y)
 
-  class(data) <- c("geom_text", "geom", class(data))
+  class(data) <- c("geom_text", "geom", "tbl_df", "data.frame")
   data
 }
 
@@ -79,7 +80,7 @@ render_polygon.data.frame <- function(data, x, y) {
   out$x_ <- list(eval_vector(data, x))
   out$y_ <- list(eval_vector(data, y))
 
-  class(out) <- c("geom_polygon", "geom", class(out))
+  class(out) <- c("geom_polygon", "geom", "tbl_df", "data.frame")
   out
 }
 
@@ -89,7 +90,7 @@ render_polygon.grouped_df <- function(data, x, y) {
   data <- data %>%
     dplyr::do(render_polygon(., x, y))
 
-  class(data) <- c("geom_polygon", "geom", class(data))
+  class(data) <- c("geom_polygon", "geom", "tbl_df", "data.frame")
   data
 }
 
@@ -114,7 +115,7 @@ points.geom_polygon <- function(x, y, pch = 20, ...) {
 render_path <- function(data, x, y) {
   poly <- render_polygon(data, x, y)
 
-  class(poly) <- c("geom_path", "geom", class(data))
+  class(poly) <- c("geom_path", "geom", "tbl_df", "data.frame")
   poly
 }
 
@@ -151,7 +152,7 @@ render_segment <- function(data, x1, y1, x2, y2) {
   data$y1_ <- eval_vector(data, y2)
   data$y2_ <- eval_vector(data, y1)
 
-  class(data) <- c("geom_segment", "geom", class(data))
+  class(data) <- c("geom_segment", "geom", "tbl_df", "data.frame")
   data
 }
 
@@ -190,7 +191,7 @@ render_rect <- function(data, x1, y1, x2, y2) {
   data$y1_ <- eval_vector(data, y2)
   data$y2_ <- eval_vector(data, y1)
 
-  class(data) <- c("geom_rect", "geom", class(data))
+  class(data) <- c("geom_rect", "geom", "tbl_df", "data.frame")
   data
 }
 
@@ -214,7 +215,7 @@ render_bar <- function(data, x, y, width = resolution(x) * 0.9, halign = 0.5) {
   data$y1_ <- 0
   data$y2_ <- y
 
-  class(data) <- c("geom_rect", "geom", class(data))
+  class(data) <- c("geom_rect", "geom", "tbl_df", "data.frame")
   data
 }
 
@@ -258,7 +259,7 @@ render_ribbon.data.frame <- function(data, x, y1, y2) {
   out$y1_ <- list(eval_vector(data, y1))
   out$y2_ <- list(eval_vector(data, y2))
 
-  class(out) <- c("geom_ribbon", "geom", class(out))
+  class(out) <- c("geom_ribbon", "geom", "tbl_df", "data.frame")
   out
 }
 
@@ -268,7 +269,7 @@ render_ribbon.grouped_df <- function(data, x, y1, y2) {
   data <- data %>%
     dplyr::do(render_ribbon(., x, y1, y2))
 
-  class(data) <- c("geom_ribbon", "geom", class(data))
+  class(data) <- c("geom_ribbon", "geom", "tbl_df", "data.frame")
   data
 }
 
@@ -307,7 +308,7 @@ render_arc <- function(data, x, y, r1, r2, theta1, theta2) {
   data$theta1_ <- eval_vector(data, theta1)
   data$theta2_ <- eval_vector(data, theta2)
 
-  class(data) <- c("geom_arc", "geom", class(data))
+  class(data) <- c("geom_arc", "geom", "tbl_df", "data.frame")
   data
 }
 
