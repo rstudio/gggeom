@@ -9,8 +9,7 @@ Depends:
     R (>= 3.0)
 License: GPL-2
 LazyData: true
-LinkingTo: Rcpp,
-    BH
+LinkingTo: Rcpp
 Imports:
     Rcpp,
     magrittr,
@@ -18,8 +17,6 @@ Imports:
     methods
 Suggests:
     testthat,
-    lubridate,
     dplyr,
-    knitr,
-    microbenchmark
+    knitr
 VignetteBuilder: knitr
