@@ -6,14 +6,7 @@ print.geom <- function(x, ...) {
 
 # Point -----------------------------------------------------------------------
 
-#' Render point, polygon, path and text geometries.
-#'
-#' Each row always represents one object, positioned according to the
-#' \code{x_} and \code{y_} and variables. For paths and polygons, this
-#'
-#' output looks rather different. Also note that each row describes a
-#' different point or text, but each group in a grouped df describes a
-#' different path/polygon.
+#' Render point and text geometries.
 #'
 #' @param data A data frame.
 #' @param x,y Formulas specifying x and y positions.
@@ -21,19 +14,6 @@ print.geom <- function(x, ...) {
 #' @examples
 #' render_point(mtcars, ~mpg, ~wt)
 #' render_text(mtcars, ~mpg, ~wt)
-#'
-#' # Paths and polygons are more complicated. The x_ and y_ variables
-#' # are lists of vectors
-#' theta <- seq(0, 6*pi, length = 200)
-#' r <- seq(1, 0, length = 200)
-#' df <- data.frame(x = r * sin(theta), y = r * cos(theta))
-#' spiral <- df %>% render_path(~x, ~y)
-#' spiral
-#' str(spiral)
-#' spiral %>% plot()
-#'
-#' nz
-#' nz %>% plot()
 render_point <- function(data, x, y) {
   data$x_ <- eval_vector(data, x)
   data$y_ <- eval_vector(data, y)
@@ -68,10 +48,53 @@ plot.geom_text <- function(x, y, labels = 1:nrow(x), ..., add = FALSE) {
   invisible(x)
 }
 
+# Path -------------------------------------------------------------------------
+
+#' Render path and polygon geometries.
+#'
+#' @param data A data frame.
+#' @param x,y Formulas specifying x and y positions.
+#' @export
+#' @examples
+#' # For paths and polygons, the x_ and y_ variables are lists of vectors
+#' # See ?coord for more details
+#' theta <- seq(0, 6*pi, length = 200)
+#' r <- seq(1, 0, length = 200)
+#' df <- data.frame(x = r * sin(theta), y = r * cos(theta))
+#' spiral <- df %>% render_path(~x, ~y)
+#'
+#' spiral
+#' str(spiral)
+#' spiral %>% plot()
+#'
+#' nz
+#' nz %>% plot()
+#' #' @export
+render_path <- function(data, x, y) {
+  poly <- render_polygon(data, x, y)
+
+  class(poly) <- c("geom_path", "geom", "tbl_df", "data.frame")
+  poly
+}
+
+#' @export
+plot.geom_path <- function(x, y, col = "grey10", ..., add = FALSE) {
+  if (!add) plot_init(x$x_, x$y_, ...)
+
+  lines(ungroupNA(x$x_), ungroupNA(x$y_), col = col, ...)
+  invisible(x)
+}
+
+#' @export
+points.geom_path <- function(x, y, pch = 20, ...) {
+  points(ungroupNA(x$x_), ungroupNA(x$y_), pch = pch, ...)
+  invisible(x)
+}
+
 # Polygon ----------------------------------------------------------------------
 
 #' @export
-#' @rdname render_point
+#' @rdname render_path
 render_polygon <- function(data, x, y) UseMethod("render_polygon")
 
 #' @export
@@ -103,32 +126,8 @@ plot.geom_polygon <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
 }
 
 #' @export
-points.geom_polygon <- function(x, y, pch = 20, ...) {
-  points(ungroupNA(x$x_), ungroupNA(x$y_), pch = pch, ...)
-  invisible(x)
-}
+points.geom_polygon <- points.geom_path
 
-# Path -------------------------------------------------------------------------
-
-#' @export
-#' @rdname render_point
-render_path <- function(data, x, y) {
-  poly <- render_polygon(data, x, y)
-
-  class(poly) <- c("geom_path", "geom", "tbl_df", "data.frame")
-  poly
-}
-
-#' @export
-plot.geom_path <- function(x, y, col = "grey10", ..., add = FALSE) {
-  if (!add) plot_init(x$x_, x$y_, ...)
-
-  lines(ungroupNA(x$x_), ungroupNA(x$y_), col = col, ...)
-  invisible(x)
-}
-
-#' @export
-points.geom_path <- points.geom_polygon
 
 # Segment ----------------------------------------------------------------------
 
