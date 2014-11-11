@@ -31,9 +31,8 @@ convenient parameterisations based on the length of the sides.
 render_rect(mtcars, ~cyl - 0.5, ~gear - 0.5, ~cyl + 0.5, ~gear + 0.5)
 render_tile(mtcars, ~cyl, ~gear, 1, 1)
 
-mtcars \%>\%
-  compute_count(~cyl) \%>\%
-  render_bar(~x_, ~count_, width = 1)
-.Last.value \%>\% plot()
+bar_ex
+bar_ex \%>\% plot()
+bar_ex \%>\% geometry_stack() \%>\% plot()
 }
 

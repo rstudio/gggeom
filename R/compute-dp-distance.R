@@ -49,3 +49,5 @@ compute_dp_distance.data.frame <- function(data, x_var, y_var) {
 compute_dp_distance.grouped_df <- function(data, x_var, y_var) {
   dplyr::do(data, compute_dp_distance(., x_var, y_var))
 }
+
+globalVariables(".")

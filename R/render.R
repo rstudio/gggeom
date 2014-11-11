@@ -240,10 +240,9 @@ plot.geom_segment <- function(x, y, col = "grey10", ..., add = FALSE) {
 #' render_rect(mtcars, ~cyl - 0.5, ~gear - 0.5, ~cyl + 0.5, ~gear + 0.5)
 #' render_tile(mtcars, ~cyl, ~gear, 1, 1)
 #'
-#' mtcars %>%
-#'   compute_count(~cyl) %>%
-#'   render_bar(~x_, ~count_, width = 1)
-#' .Last.value %>% plot()
+#' bar_ex
+#' bar_ex %>% plot()
+#' bar_ex %>% geometry_stack() %>% plot()
 render_rect <- function(data, x1, y1, x2, y2) {
   data$x1_ <- eval_vector(data, x1)
   data$x2_ <- eval_vector(data, x2)
