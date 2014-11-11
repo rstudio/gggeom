@@ -36,6 +36,5 @@ df \%>\% render_line(~x, ~y) \%>\% plot()
 
 nz
 nz \%>\% plot()
-#'
 }
 

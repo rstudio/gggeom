@@ -74,7 +74,6 @@ plot.geom_text <- function(x, y, labels = 1:nrow(x), ..., add = FALSE) {
 #'
 #' nz
 #' nz %>% plot()
-#' #' @export
 render_path <- function(data, x, y) {
   poly <- render_polygon(data, x, y)
 
