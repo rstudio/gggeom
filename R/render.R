@@ -18,7 +18,7 @@ render_point <- function(data, x, y) {
   data$x_ <- eval_vector(data, x)
   data$y_ <- eval_vector(data, y)
 
-  class(data) <- c("geom_point", "geom", "tbl_df", "data.frame")
+  class(data) <- c("geom_point", "geom", "data.frame")
   data
 }
 
@@ -36,7 +36,7 @@ render_text <- function(data, x, y) {
   data$x_ <- eval_vector(data, x)
   data$y_ <- eval_vector(data, y)
 
-  class(data) <- c("geom_text", "geom", "tbl_df", "data.frame")
+  class(data) <- c("geom_text", "geom", "data.frame")
   data
 }
 
@@ -94,7 +94,7 @@ render_path.data.frame <- function(data, x, y) {
     y_ = coords(list(eval_vector(data, y)))
   )
   `as.data.frame!`(out, 1L)
-  class(out) <- c("geom_path", "geom", "tbl_df", "data.frame")
+  class(out) <- c("geom_path", "geom", "data.frame")
   out
 }
 
@@ -103,7 +103,7 @@ render_path.grouped_df <- function(data, x, y) {
   data <- data %>%
     dplyr::do(render_path(., x, y))
 
-  class(data) <- c("geom_path", "geom", "tbl_df", "data.frame")
+  class(data) <- c("geom_path", "geom", "data.frame")
   data
 }
 
@@ -211,7 +211,7 @@ render_segment <- function(data, x1, y1, x2, y2) {
   data$y1_ <- eval_vector(data, y2)
   data$y2_ <- eval_vector(data, y1)
 
-  class(data) <- c("geom_segment", "geom", "tbl_df", "data.frame")
+  class(data) <- c("geom_segment", "geom", "data.frame")
   data
 }
 
@@ -249,7 +249,7 @@ render_rect <- function(data, x1, y1, x2, y2) {
   data$y1_ <- eval_vector(data, y2)
   data$y2_ <- eval_vector(data, y1)
 
-  class(data) <- c("geom_rect", "geom", "tbl_df", "data.frame")
+  class(data) <- c("geom_rect", "geom", "data.frame")
   data
 }
 
@@ -273,7 +273,7 @@ render_bar <- function(data, x, y, width = resolution(x) * 0.9, halign = 0.5) {
   data$y1_ <- 0
   data$y2_ <- y
 
-  class(data) <- c("geom_rect", "geom", "tbl_df", "data.frame")
+  class(data) <- c("geom_rect", "geom", "data.frame")
   data
 }
 
@@ -317,7 +317,7 @@ render_ribbon.data.frame <- function(data, x, y1, y2) {
   out$y1_ <- list(eval_vector(data, y1))
   out$y2_ <- list(eval_vector(data, y2))
 
-  class(out) <- c("geom_ribbon", "geom", "tbl_df", "data.frame")
+  class(out) <- c("geom_ribbon", "geom", "data.frame")
   out
 }
 
@@ -327,7 +327,7 @@ render_ribbon.grouped_df <- function(data, x, y1, y2) {
   data <- data %>%
     dplyr::do(render_ribbon(., x, y1, y2))
 
-  class(data) <- c("geom_ribbon", "geom", "tbl_df", "data.frame")
+  class(data) <- c("geom_ribbon", "geom", "data.frame")
   data
 }
 
@@ -366,7 +366,7 @@ render_arc <- function(data, x, y, r1, r2, theta1, theta2) {
   data$theta1_ <- eval_vector(data, theta1)
   data$theta2_ <- eval_vector(data, theta2)
 
-  class(data) <- c("geom_arc", "geom", "tbl_df", "data.frame")
+  class(data) <- c("geom_arc", "geom", "data.frame")
   data
 }
 

@@ -1,4 +1,5 @@
 library(dplyr)
+library(ggstat)
 data("mpg", package = "ggplot2")
 
 scatter_ex <- render_point(mpg, ~cty, ~hwy) %>% select(ends_with("_"))
