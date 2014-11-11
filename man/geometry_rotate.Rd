@@ -25,7 +25,8 @@ scatter_ex \%>\% plot() \%>\%
   geometry_rotate(5, x = 9, y = 12) \%>\% plot(add = TRUE, col = "red")
 
 # More extreme rotations
-scatter_ex \%>\% geometry_rotate(90) \%>\% plot()
+scatter_ex \%>\% plot(xlim = c(-35, 35), ylim = c(-44, 44)) \%>\%
+   geometry_rotate(90) \%>\% plot(add = TRUE, col = "red")
 scatter_ex \%>\% geometry_rotate(75, x = 20, y = 20) \%>\% plot()
 
 # To rotate bars, you need to convert to polygons with pointificate

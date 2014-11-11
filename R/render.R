@@ -44,7 +44,7 @@ render_point <- function(data, x, y) {
 
 #' @export
 plot.geom_point <- function(x, y, pch = 20, ..., add = FALSE) {
-  if (!add) plot_init(x$x_, x$y_)
+  if (!add) plot_init(x$x_, x$y_, ...)
 
   points(x$x_, x$y_, pch = pch, ...)
   invisible(x)
@@ -62,7 +62,7 @@ render_text <- function(data, x, y) {
 
 #' @export
 plot.geom_text <- function(x, y, labels = 1:nrow(x), ..., add = FALSE) {
-  if (!add) plot_init(x$x_, x$y_)
+  if (!add) plot_init(x$x_, x$y_, ...)
 
   text(x$x_, x$y_, labels = labels, ...)
   invisible(x)
@@ -96,7 +96,7 @@ render_polygon.grouped_df <- function(data, x, y) {
 
 #' @export
 plot.geom_polygon <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
-  if (!add) plot_init(x$x_, x$y_)
+  if (!add) plot_init(x$x_, x$y_, ...)
 
   polygon(ungroupNA(x$x_), ungroupNA(x$y_), col = col, ...)
   invisible(x)
@@ -121,7 +121,7 @@ render_path <- function(data, x, y) {
 
 #' @export
 plot.geom_path <- function(x, y, col = "grey10", ..., add = FALSE) {
-  if (!add) plot_init(x$x_, x$y_)
+  if (!add) plot_init(x$x_, x$y_, ...)
 
   lines(ungroupNA(x$x_), ungroupNA(x$y_), col = col, ...)
   invisible(x)
@@ -158,7 +158,7 @@ render_segment <- function(data, x1, y1, x2, y2) {
 
 #' @export
 plot.geom_segment <- function(x, y, col = "grey10", ..., add = FALSE) {
-  if (!add) plot_init(c(x$x1_, x$x2_), c(x$y1_, x$y2_))
+  if (!add) plot_init(c(x$x1_, x$x2_), c(x$y1_, x$y2_), ...)
   segments(x$x1_, x$y1_, x$x2_, x$y2_, col = col, ...)
   invisible(x)
 }
@@ -197,7 +197,7 @@ render_rect <- function(data, x1, y1, x2, y2) {
 
 #' @export
 plot.geom_rect <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
-  if (!add) plot_init(c(x$x1_, x$x2_), c(x$y1_, x$y2_))
+  if (!add) plot_init(c(x$x1_, x$x2_), c(x$y1_, x$y2_), ...)
 
   rect(x$x1_, x$y1_, x$x2_, x$y2_, col = col, ...)
   invisible(x)
@@ -281,7 +281,7 @@ render_area <- function(data, x, y2) {
 
 #' @export
 plot.geom_ribbon <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
-  if (!add) plot_init(x$x_, c(x$y1_, x$y2_))
+  if (!add) plot_init(x$x_, c(x$y1_, x$y2_), ...)
 
   x <- geometry_pointificate(x)
   plot(x, col = col, add = TRUE, ...)
@@ -321,7 +321,7 @@ plot.geom_arc <- function(x, y, ..., col = "#7F7F7F7F", add = FALSE) {
       make_arc(.$x_, .$y_, c(.$r1_, .$r2_), c(.$theta1_, .$theta2_))
     )
 
-  if (!add) plot_init(polys$x_, polys$y_)
+  if (!add) plot_init(polys$x_, polys$y_, ...)
   dplyr::do(polys, `_` = polygon(.$x, .$y, col = col, ...))
   invisible(x)
 }
