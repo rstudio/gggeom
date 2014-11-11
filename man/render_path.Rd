@@ -3,7 +3,7 @@
 \alias{render_line}
 \alias{render_path}
 \alias{render_polygon}
-\title{Render line, path and polygon geometries.}
+\title{Render paths and path specialisations (line and polygons).}
 \usage{
 render_path(data, x, y)
 

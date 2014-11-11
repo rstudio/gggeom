@@ -50,7 +50,7 @@ plot.geom_text <- function(x, y, labels = 1:nrow(x), ..., add = FALSE) {
 
 # Path -------------------------------------------------------------------------
 
-#' Render line, path and polygon geometries.
+#' Render paths and path specialisations (line and polygons).
 #'
 #' A polygon is a closed path. A line is path where x values are ordered.
 #'
@@ -74,11 +74,51 @@ plot.geom_text <- function(x, y, labels = 1:nrow(x), ..., add = FALSE) {
 #'
 #' nz
 #' nz %>% plot()
-render_path <- function(data, x, y) {
-  poly <- render_polygon(data, x, y)
+render_path <- function(data, x, y) UseMethod("render_path")
 
-  class(poly) <- c("geom_path", "geom", "tbl_df", "data.frame")
-  poly
+#' @export
+render_path.data.frame <- function(data, x, y) {
+  out <- list(
+    x_ = coords(list(eval_vector(data, x))),
+    y_ = coords(list(eval_vector(data, y)))
+  )
+  `as.data.frame!`(out, 1L)
+  class(out) <- c("geom_path", "geom", "tbl_df", "data.frame")
+  out
+}
+
+#' @export
+render_path.grouped_df <- function(data, x, y) {
+  data <- data %>%
+    dplyr::do(render_path(., x, y))
+
+  class(data) <- c("geom_path", "geom", "tbl_df", "data.frame")
+  data
+}
+
+#' @rdname render_path
+#' @export
+render_line <- function(data, x, y) {
+  path <- render_path(data, x, y)
+  class(path) <- c("geom_line", class(path))
+
+  order_x <- function(x, y) {
+    ord <- order(x)
+    list(x = x[ord], y = y[ord])
+  }
+  ordered <- Map(order_x, path$x_, path$y)
+  path$x_ <- pluck(ordered, "x")
+  path$y_ <- pluck(ordered, "y")
+
+  path
+}
+
+#' @export
+#' @rdname render_path
+render_polygon <- function(data, x, y) {
+  path <- render_path(data, x, y)
+  class(path) <- c("geom_polygon", class(path))
+  path
 }
 
 #' @export
@@ -90,56 +130,6 @@ plot.geom_path <- function(x, y, col = "grey10", ..., add = FALSE) {
 }
 
 #' @export
-points.geom_path <- function(x, y, pch = 20, ...) {
-  points(ungroupNA(x$x_), ungroupNA(x$y_), pch = pch, ...)
-  invisible(x)
-}
-
-#' @rdname render_path
-#' @export
-render_line <- function(data, x, y) {
-  poly <- render_polygon(data, x, y)
-
-  order_x <- function(x, y) {
-    ord <- order(x)
-    list(x = x[ord], y = y[ord])
-  }
-  ordered <- Map(order_x, poly$x_, poly$y)
-  poly$x_ <- pluck(ordered, "x")
-  poly$y_ <- pluck(ordered, "y")
-
-  class(poly) <- c("geom_path", "geom_line", "geom", "tbl_df", "data.frame")
-  poly
-}
-
-# Polygon ----------------------------------------------------------------------
-
-#' @export
-#' @rdname render_path
-render_polygon <- function(data, x, y) UseMethod("render_polygon")
-
-#' @export
-render_polygon.data.frame <- function(data, x, y) {
-  out <- list(
-    x_ = coords(list(eval_vector(data, x))),
-    y_ = coords(list(eval_vector(data, y)))
-  )
-  `as.data.frame!`(out, 1L)
-  class(out) <- c("geom_polygon", "geom", "tbl_df", "data.frame")
-  out
-}
-
-#' @export
-render_polygon.grouped_df <- function(data, x, y) {
-
-  data <- data %>%
-    dplyr::do(render_polygon(., x, y))
-
-  class(data) <- c("geom_polygon", "geom", "tbl_df", "data.frame")
-  data
-}
-
-#' @export
 plot.geom_polygon <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
   if (!add) plot_init(x$x_, x$y_, ...)
 
@@ -148,8 +138,10 @@ plot.geom_polygon <- function(x, y, col = "#7F7F7F7F", ..., add = FALSE) {
 }
 
 #' @export
-points.geom_polygon <- points.geom_path
-
+points.geom_path <- function(x, y, pch = 20, ...) {
+  points(ungroupNA(x$x_), ungroupNA(x$y_), pch = pch, ...)
+  invisible(x)
+}
 
 # Segment ----------------------------------------------------------------------
 
