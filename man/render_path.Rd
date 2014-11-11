@@ -3,11 +3,14 @@
 \alias{render_line}
 \alias{render_path}
 \alias{render_polygon}
+\alias{render_step}
 \title{Render paths and path specialisations (line and polygons).}
 \usage{
 render_path(data, x, y)
 
 render_line(data, x, y)
+
+render_step(data, x, y, direction = c("hv", "vh"))
 
 render_polygon(data, x, y)
 }
@@ -15,6 +18,9 @@ render_polygon(data, x, y)
 \item{data}{A data frame.}
 
 \item{x,y}{Formulas specifying x and y positions.}
+
+\item{direction}{Direction of steps. Either "hv", horizontal then vertical
+or "vh", vertical then horizontal.}
 }
 \description{
 A polygon is a closed path. A line is path where x values are ordered.
@@ -33,6 +39,17 @@ spiral \%>\% plot()
 
 # Rendering a spiral as a line doesn't work so well
 df \%>\% render_line(~x, ~y) \%>\% plot()
+df \%>\% render_step(~x, ~y) \%>\% plot()
+
+# More reasonable example
+x <- runif(20)
+y <- x ^ 2
+squared <- data.frame(x, y)
+
+squared \%>\% render_path(~x, ~y) \%>\% plot()
+squared \%>\% render_line(~x, ~y) \%>\% plot()
+squared \%>\% render_step(~x, ~y) \%>\% plot()
+squared \%>\% render_step(~x, ~y, "vh") \%>\% plot()
 
 nz
 nz \%>\% plot()

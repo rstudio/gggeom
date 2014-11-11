@@ -71,6 +71,17 @@ plot.geom_text <- function(x, y, labels = 1:nrow(x), ..., add = FALSE) {
 #'
 #' # Rendering a spiral as a line doesn't work so well
 #' df %>% render_line(~x, ~y) %>% plot()
+#' df %>% render_step(~x, ~y) %>% plot()
+#'
+#' # More reasonable example
+#' x <- runif(20)
+#' y <- x ^ 2
+#' squared <- data.frame(x, y)
+#'
+#' squared %>% render_path(~x, ~y) %>% plot()
+#' squared %>% render_line(~x, ~y) %>% plot()
+#' squared %>% render_step(~x, ~y) %>% plot()
+#' squared %>% render_step(~x, ~y, "vh") %>% plot()
 #'
 #' nz
 #' nz %>% plot()
@@ -112,6 +123,41 @@ render_line <- function(data, x, y) {
 
   path
 }
+
+#' @rdname render_path
+#' @export
+#' @param direction Direction of steps. Either "hv", horizontal then vertical
+#'   or "vh", vertical then horizontal.
+render_step <- function(data, x, y, direction = c("hv", "vh")) {
+  direction <- match.arg(direction)
+
+  path <- render_path(data, x, y)
+  class(path) <- c("geom_step", class(path))
+
+  stairstep <- function(x, y) {
+    n <- length(x)
+
+    if (direction == "vh") {
+      xs <- rep(1:n, each = 2)[-2 * n]
+      ys <- c(1, rep(2:n, each = 2))
+    } else {
+      xs <- c(1, rep(2:n, each = 2))
+      ys <- rep(1:n, each = 2)[-2 * n]
+    }
+    ord <- order(x)
+    list(
+      x = x[ord][xs],
+      y = y[ord][ys]
+    )
+  }
+
+  stepped <- Map(stairstep, path$x_, path$y)
+  path$x_ <- pluck(stepped, "x")
+  path$y_ <- pluck(stepped, "y")
+
+  path
+}
+
 
 #' @export
 #' @rdname render_path
