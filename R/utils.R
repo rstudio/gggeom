@@ -34,8 +34,8 @@ plot_init <- function(x, y) {
   old <- par(mar = c(1.5, 1.5, 0, 0), cex = 0.8)
   on.exit(par(old))
 
-  plot.default(frange(x), frange(y), type = "n", xlab = "", ylab = "",
-    axes = FALSE)
+  plot.default(range(x, na.rm = TRUE), range(y, na.rm = TRUE),
+    type = "n", xlab = "", ylab = "", axes = FALSE)
   axis(1, lwd = 0, lwd.ticks = 1, col = "grey80", col.axis = "grey60", padj = -1)
   axis(2, lwd = 0, lwd.ticks = 1, col = "grey80", col.axis = "grey60", padj = 1)
   grid(lty = "solid", col = "grey80")

@@ -14,7 +14,8 @@ LinkingTo: Rcpp,
 Imports:
     Rcpp,
     magrittr,
-    lazyeval
+    lazyeval,
+    methods
 Suggests:
     testthat,
     lubridate,
