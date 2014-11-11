@@ -118,7 +118,6 @@ ungroupNA <- function(x) {
     invisible(.Call('ggcomp_as_data_frame', PACKAGE = 'ggcomp', x, nrow))
 }
 
-#' @export
 v_distance <- function(x, y) {
     .Call('ggcomp_v_distance', PACKAGE = 'ggcomp', x, y)
 }

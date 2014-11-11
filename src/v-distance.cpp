@@ -7,7 +7,6 @@ inline double compute_area(double x1, double y1, double x2, double y2,
 }
 
 
-//' @export
 // [[Rcpp::export]]
 NumericVector v_distance(const NumericVector& x, const NumericVector& y) {
   int n = x.size();
