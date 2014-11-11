@@ -35,7 +35,7 @@ geometry_reflect.geom <- function(geom, dir = c("x", "y")) {
 }
 
 #' @export
-geometry_reflect.geom_polygon <- function(geom, dir = c("x", "y")) {
+geometry_reflect.geom_path <- function(geom, dir = c("x", "y")) {
   dir <- match.arg(dir)
 
   if (dir == "x") {
@@ -48,18 +48,31 @@ geometry_reflect.geom_polygon <- function(geom, dir = c("x", "y")) {
 }
 
 #' @export
-geometry_reflect.geom_path <- geometry_reflect.geom_polygon
-
-#' @export
 geometry_reflect.geom_ribbon <- function(geom, dir = c("x", "y")) {
   dir <- match.arg(dir)
 
   if (dir == "x") {
-    geom$x1_ <- -geom$x1_
-    geom$x2_ <- -geom$x2_
-    geom <- switch_cols(geom, "x1_", "x2")
+    geom$y1_ <- -geom$y1_
+    geom$y2_ <- -geom$y2_
+    geom <- switch_cols(geom, "y1_", "y2_")
   } else {
-    geom$y_ <- -geom$y
+    geom$x_ <- -rev(geom$x_)
+    geom$y1_ <- rev(geom$y1_)
+    geom$y2_ <- rev(geom$y2_)
+  }
+
+  geom
+}
+
+#' @export
+geometry_reflect.geom_line <- function(geom, dir = c("x", "y")) {
+  dir <- match.arg(dir)
+
+  if (dir == "x") {
+    geom$y_ <- -geom$y_
+  } else {
+    geom$x_ <- -rev(geom$x_)
+    geom$y_ <- rev(geom$y_)
   }
 
   geom

@@ -65,7 +65,7 @@ geometry_pointificate.geom_ribbon <- function(geom, ...) {
   geom$y1_ <- NULL
   geom$y2_ <- NULL
 
-  class(geom) <- c("geom_polygon", "geom", "data.frame")
+  class(geom) <- c("geom_polygon", "geom_path", "geom", "data.frame")
   geom
 }
 
@@ -84,7 +84,7 @@ geometry_pointificate.geom_arc <- function(geom, ...) {
   geom$theta1_ <- NULL
   geom$theta2_ <- NULL
 
-  class(geom) <- c("geom_polygon", "geom", "data.frame")
+  class(geom) <- c("geom_polygon", "geom_path", "geom", "data.frame")
   geom
 }
 
@@ -100,6 +100,6 @@ geometry_pointificate.geom_rect <- function(geom, ...) {
   geom$y1_ <- NULL
   geom$y2_ <- NULL
 
-  class(geom) <- c("geom_polygon", "geom", "data.frame")
+  class(geom) <- c("geom_polygon", "geom_path", "geom", "data.frame")
   geom
 }

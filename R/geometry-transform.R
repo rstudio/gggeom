@@ -47,7 +47,7 @@ geometry_transform.geom_arc <- geometry_transform.geom_point
 
 
 #' @export
-geometry_transform.geom_polygon <- function(geom, m, x = 0, y = 0) {
+geometry_transform.geom_path <- function(geom, m, x = 0, y = 0) {
   trans <- Map(
     function(x1, y1) transform(x1, y1, m, x_center = x, y_center = 0),
     geom$x_,
@@ -58,8 +58,14 @@ geometry_transform.geom_polygon <- function(geom, m, x = 0, y = 0) {
   geom$y_ <- pluck(trans, "y")
   geom
 }
+
 #' @export
-geometry_transform.geom_path <- geometry_transform.geom_polygon
+geometry_transform.geom_line <- function(geom, m, x = 0, y = 0) {
+  warning("Transforming lines converts to paths", call. = FALSE)
+  out <- geometry_transform(geom, m, x, y)
+  class(out) <- setdiff(class(out), "geom_line")
+  out
+}
 
 #' @export
 geometry_transform.geom_ribbon <- function(geom, m, x = 0, y = 0) {

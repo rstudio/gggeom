@@ -34,6 +34,3 @@ geometry_warp.geom_path <- function(geom, fun = c("polar", "identity"),
 
   geom
 }
-
-#' @export
-geometry_warp.geom_polygon <- geometry_warp.geom_path
