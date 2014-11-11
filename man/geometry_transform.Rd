@@ -24,13 +24,13 @@ t <- 30 * pi / 180
 rotate30 <- matrix(c(cos(t), -sin(t), sin(t), cos(t)), nrow = 2)
 
 scatter_ex \%>\% plot()
-scatter_ex \%>\% geometry_transform(shear) \%>\% plot()
+scatter_ex \%>\% plot() \%>\% geometry_transform(shear)
 scatter_ex \%>\% geometry_transform(reflect_y) \%>\% plot()
 scatter_ex \%>\% geometry_transform(rotate30) \%>\% plot()
 
 bar_ex \%>\% plot()
 # Convert to geometry_polygon
-bar_ex2 <- bar_ex \%>\% geometry_pointificate()
+bar_ex2 <- bar_ex \%>\% unique() \%>\% geometry_pointificate()
 bar_ex2 \%>\% geometry_transform(shear) \%>\% plot()
 bar_ex2 \%>\% geometry_transform(reflect_y) \%>\% plot()
 bar_ex2 \%>\% geometry_transform(rotate30) \%>\% plot()

@@ -51,3 +51,11 @@ row_apply <- function(df, f, ...) {
 
   lapply(1:nrow(df), function(i) f(row_slice(df, i), ...))
 }
+
+pluck <- function(x, name, type) {
+  if (missing(type)) {
+    lapply(x, "[[", name)
+  } else {
+    vapply(x, "[[", name, FUN.VALUE = type)
+  }
+}
