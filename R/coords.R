@@ -37,6 +37,11 @@ range.coords <- function(x, ...) {
 }
 
 #' @export
+`[.coords` <- function(x, ...) {
+  structure(NextMethod(), class = "coords")
+}
+
+#' @export
 format.coords <- function(x, ...) {
   vapply(x, obj_type, character(1))
 }
