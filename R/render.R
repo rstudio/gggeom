@@ -50,7 +50,9 @@ plot.geom_text <- function(x, y, labels = 1:nrow(x), ..., add = FALSE) {
 
 # Path -------------------------------------------------------------------------
 
-#' Render path and polygon geometries.
+#' Render line, path and polygon geometries.
+#'
+#' A polygon is a closed path. A line is path where x values are ordered.
 #'
 #' @param data A data frame.
 #' @param x,y Formulas specifying x and y positions.
@@ -66,6 +68,9 @@ plot.geom_text <- function(x, y, labels = 1:nrow(x), ..., add = FALSE) {
 #' spiral
 #' str(spiral)
 #' spiral %>% plot()
+#'
+#' # Rendering a spiral as a line doesn't work so well
+#' df %>% render_line(~x, ~y) %>% plot()
 #'
 #' nz
 #' nz %>% plot()
@@ -89,6 +94,23 @@ plot.geom_path <- function(x, y, col = "grey10", ..., add = FALSE) {
 points.geom_path <- function(x, y, pch = 20, ...) {
   points(ungroupNA(x$x_), ungroupNA(x$y_), pch = pch, ...)
   invisible(x)
+}
+
+#' @rdname render_path
+#' @export
+render_line <- function(data, x, y) {
+  poly <- render_polygon(data, x, y)
+
+  order_x <- function(x, y) {
+    ord <- order(x)
+    list(x = x[ord], y = y[ord])
+  }
+  ordered <- Map(order_x, poly$x_, poly$y)
+  poly$x_ <- pluck(ordered, "x")
+  poly$y_ <- pluck(ordered, "y")
+
+  class(poly) <- c("geom_path", "geom_line", "geom", "tbl_df", "data.frame")
+  poly
 }
 
 # Polygon ----------------------------------------------------------------------
