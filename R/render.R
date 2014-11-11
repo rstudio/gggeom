@@ -99,10 +99,11 @@ render_polygon <- function(data, x, y) UseMethod("render_polygon")
 
 #' @export
 render_polygon.data.frame <- function(data, x, y) {
-  out <- data[1, , drop = FALSE]
-  out$x_ <- coords(list(eval_vector(data, x)))
-  out$y_ <- coords(list(eval_vector(data, y)))
-
+  out <- list(
+    x_ = coords(list(eval_vector(data, x))),
+    y_ = coords(list(eval_vector(data, y)))
+  )
+  `as.data.frame!`(out, 1L)
   class(out) <- c("geom_polygon", "geom", "tbl_df", "data.frame")
   out
 }
