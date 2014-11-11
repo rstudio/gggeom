@@ -1,7 +1,7 @@
 Package: gggeom
 Title: Graphical Computations
-Description: A variety of high-performance calculations useful for
-    visualisation
+Description: Data structures and operations for the geometric primitives
+    that underlying all visualisation.
 Version: 0.1
 Author: RStudio, Inc.
 Maintainer: Hadley Wickham <hadley@rstudio.com>
