@@ -30,6 +30,13 @@ plot.geom_point <- function(x, y, pch = 20, ..., add = FALSE) {
   invisible(x)
 }
 
+
+#' @export
+points.geom_point <- function(x, y, pch = 20, ...) {
+  points(x$x_, x$y_, pch = pch, ...)
+  invisible(x)
+}
+
 #' @export
 #' @rdname render_point
 render_text <- function(data, x, y) {
