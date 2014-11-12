@@ -150,8 +150,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // warp
-List warp(NumericVector x, NumericVector y, std::string f, double threshold = 0.01);
-RcppExport SEXP gggeom_warp(SEXP xSEXP, SEXP ySEXP, SEXP fSEXP, SEXP thresholdSEXP) {
+List warp(NumericVector x, NumericVector y, std::string f, double threshold = 0.01, bool closed = false);
+RcppExport SEXP gggeom_warp(SEXP xSEXP, SEXP ySEXP, SEXP fSEXP, SEXP thresholdSEXP, SEXP closedSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -160,7 +160,8 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP );
         Rcpp::traits::input_parameter< std::string >::type f(fSEXP );
         Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP );
-        List __result = warp(x, y, f, threshold);
+        Rcpp::traits::input_parameter< bool >::type closed(closedSEXP );
+        List __result = warp(x, y, f, threshold, closed);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

@@ -22,7 +22,8 @@ void warp(Point next, Point next_t, Point (f)(Point), double threshold,
 
 }
 
-List warp(NumericVector x, NumericVector y, Point (f)(Point), double threshold = 0.01) {
+List warp(NumericVector x, NumericVector y, Point (f)(Point),
+          double threshold = 0.01, bool closed = false) {
   if (x.size() != y.size())
     stop("x and y must be same length");
 
@@ -35,6 +36,11 @@ List warp(NumericVector x, NumericVector y, Point (f)(Point), double threshold =
 
     raw.push_back(next);
     trans.push_back(next_t);
+  }
+
+  if (closed) {
+    Point next = Point(x[0], y[0]), next_t = f(next);
+    warp(next, next_t, f, threshold, &raw, &trans);
   }
 
   int m = trans.size();
@@ -54,11 +60,12 @@ Point transform_identity(Point input) {
 }
 
 // [[Rcpp::export]]
-List warp(NumericVector x, NumericVector y, std::string f, double threshold = 0.01) {
+List warp(NumericVector x, NumericVector y, std::string f,
+          double threshold = 0.01, bool closed = false) {
   if (f == "polar") {
-    return warp(x, y, transform_polar, threshold);
+    return warp(x, y, transform_polar, threshold, closed);
   } else if (f == "identity") {
-    return warp(x, y, transform_identity, threshold);
+    return warp(x, y, transform_identity, threshold, closed);
   }
 
   stop("Unknown transformation type");

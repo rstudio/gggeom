@@ -37,7 +37,7 @@ v_distance <- function(x, y) {
     .Call('gggeom_v_distance', PACKAGE = 'gggeom', x, y)
 }
 
-warp <- function(x, y, f, threshold = 0.01) {
-    .Call('gggeom_warp', PACKAGE = 'gggeom', x, y, f, threshold)
+warp <- function(x, y, f, threshold = 0.01, closed = FALSE) {
+    .Call('gggeom_warp', PACKAGE = 'gggeom', x, y, f, threshold, closed)
 }
 

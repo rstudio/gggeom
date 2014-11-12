@@ -34,3 +34,15 @@ geometry_warp.geom_path <- function(geom, fun = c("polar", "identity"),
 
   geom
 }
+
+#' @export
+geometry_warp.geom_polygon <- function(geom, fun = c("polar", "identity"),
+                                       tolerance = 0.001) {
+
+  warped <- Map(function(x, y) warp(x, y, fun, tolerance, closed = TRUE),
+    geom$x_, geom$y_)
+  geom$x_ <- coords(pluck(warped, "x"))
+  geom$y_ <- coords(pluck(warped, "y"))
+
+  geom
+}
