@@ -198,10 +198,12 @@ points.geom_path <- function(x, y, pch = 20, ...) {
 
 #' Render a line segment
 #'
-#' A line segment is a single straight line.
+#' A line segment is a single straight line. \code{render_spoke} is an
+#' alternative parameterisation in terms of start point, angle and distance.
 #'
 #' @inheritParams render_point
-#' @param x1,y1,x2,y2 Locations of start and end points. sides.
+#' @param x1,y1,x2,y2 Locations of start and end points.
+#' @param x,y,r,theta Location of x points, radius and angle.
 #' @export
 #' @examples
 #' df <- expand.grid(x = 1:2, y = 1:2)
@@ -210,11 +212,14 @@ points.geom_path <- function(x, y, pch = 20, ...) {
 #'
 #' plot(a)
 #' plot(b, add = TRUE, col = "red", lwd = 2)
+#'
+#' # Spokes are just an alternative parameterisation
+#' df %>% render_spoke(~x, ~y, ~runif(4, 0, 2 * pi), ~0.25) %>% plot()
 render_segment <- function(data, x1, y1, x2, y2) {
   data$x1_ <- eval_vector(data, x1)
   data$x2_ <- eval_vector(data, x2)
-  data$y1_ <- eval_vector(data, y2)
-  data$y2_ <- eval_vector(data, y1)
+  data$y1_ <- eval_vector(data, y1)
+  data$y2_ <- eval_vector(data, y2)
 
   class(data) <- c("geom_segment", "geom", "data.frame")
   data
@@ -225,6 +230,22 @@ plot.geom_segment <- function(x, y, col = "grey10", ..., add = FALSE) {
   if (!add) plot_init(c(x$x1_, x$x2_), c(x$y1_, x$y2_), ...)
   segments(x$x1_, x$y1_, x$x2_, x$y2_, col = col, ...)
   invisible(x)
+}
+
+#' @export
+#' @rdname render_segment
+render_spoke <- function(data, x, y, theta, r) {
+  data$x1_ <- eval_vector(data, x)
+  data$y1_ <- eval_vector(data, y)
+
+  r <- eval_vector(data, r)
+  theta <- eval_vector(data, theta)
+
+  data$x2_ <- data$x + cos(theta) * r
+  data$y2_ <- data$y + sin(theta) * r
+
+  class(data) <- c("geom_segment", "geom", "data.frame")
+  data
 }
 
 # Rect -------------------------------------------------------------------------
