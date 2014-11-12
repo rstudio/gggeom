@@ -3,7 +3,7 @@
 \alias{geometry_warp}
 \title{Warp a path or polygon with adaptive resampling}
 \usage{
-geometry_warp(geom, fun = c("polar", "identity"), tolerance = 0.001)
+geometry_warp(geom, fun = c("polar", "identity"), tolerance = NULL)
 }
 \arguments{
 \item{geom}{A geometry data frame.}
@@ -12,7 +12,7 @@ geometry_warp(geom, fun = c("polar", "identity"), tolerance = 0.001)
 because they much be implemented in C++ for performance reasons.}
 
 \item{tolerance}{Approximation errors below this threshold will be
-ignored.}
+ignored. If \code{NULL}, attempts to guess a reasonable value.}
 }
 \description{
 This recursively split each line segment into pieces until the transformed
@@ -28,14 +28,14 @@ path <- render_path(spiral, ~x, ~y)
 path \%>\% plot() \%>\% points()
 
 path \%>\% geometry_warp("polar") \%>\% plot()
-path \%>\% geometry_warp("polar", tolerance = 0.00001) \%>\% plot() \%>\% points()
+path \%>\% geometry_warp("polar", tolerance = 0.1) \%>\% plot() \%>\% points()
 
 # Crazy example
-expand.grid(x = seq(0, pi, length = 4), y = 1:3) \%>\%
+expand.grid(x = seq(0, pi, length = 4), y = 0:3) \%>\%
   render_tile(~x, ~y, halign = 0, valign = 0) \%>\%
   geometry_pointificate() \%>\%
-  geometry_rotate(10) \%>\%
-  geometry_warp("polar", tolerance = 0.0001) \%>\%
+  geometry_rotate(15) \%>\%
+  geometry_warp("polar") \%>\%
   plot()
 }
 
