@@ -14,7 +14,7 @@
 #' bar_ex %>% geometry_flip() %>% plot()
 #' bar_ex %>% geometry_flip() %>% geometry_stack("x") %>% plot()
 #'
-#' # Overlapping bars are stacked on top of the skyline:
+#' # Overlapping bars are stacked on top of each other
 #' df <- data.frame(x = 1:3, y = 1:3)
 #' df %>% render_bar(~x, ~y, 2) %>% plot()
 #' df %>% render_bar(~x, ~y, 2) %>% geometry_stack() %>% plot()
@@ -42,10 +42,16 @@ geometry_stack.geom_rect <- function(geom, dir = c("y", "x")) {
   dir <- match.arg(dir)
 
   if (dir == "x") {
-    stack_df(geom, "y1_", "y2_", "x1_", "x2_")
+    stacked <- stack(geom$y1_, geom$y2_, geom$x1_, geom$x2_)
+    geom$x1_ <- stacked$y1_
+    geom$x2_ <- stacked$y2_
   } else {
-    stack_df(geom, "x1_", "x2_", "y1_", "y2_")
+    stacked <- stack(geom$x1_, geom$x2_, geom$y1_, geom$y2_)
+    geom$y1_ <- stacked$y1_
+    geom$y2_ <- stacked$y2_
   }
+
+  geom
 }
 
 #' @export

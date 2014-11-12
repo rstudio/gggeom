@@ -22,7 +22,7 @@ bar_ex \%>\% geometry_stack() \%>\% plot()
 bar_ex \%>\% geometry_flip() \%>\% plot()
 bar_ex \%>\% geometry_flip() \%>\% geometry_stack("x") \%>\% plot()
 
-# Overlapping bars are stacked on top of the skyline:
+# Overlapping bars are stacked on top of each other
 df <- data.frame(x = 1:3, y = 1:3)
 df \%>\% render_bar(~x, ~y, 2) \%>\% plot()
 df \%>\% render_bar(~x, ~y, 2) \%>\% geometry_stack() \%>\% plot()
