@@ -51,7 +51,10 @@ scatter
 
 You can see that the default behaviour of the render function preserve all existing columms (so that they can be later mapped to other properties of the geometry). 
 
-All geometries inherit from "geom" and "data.frame". The inheritance structure is otherwise flat, with one exceptions: polygon, line and step inherit from "geom_path". 
+All geometries inherit from "geom" and "data.frame". Additional inheritance structure is based no on the appearance of the geom but on the data need to display the geom. This means that:
+
+* polygon, line and step all inherit from "geom_path". 
+* text inherits from "geom_point".
 
 ```{r}
 class(scatter)

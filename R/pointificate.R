@@ -36,11 +36,6 @@ geometry_pointificate.geom_point <- function(geom, ...) {
 }
 
 #' @export
-geometry_pointificate.geom_text <- function(geom, ...) {
-  geom
-}
-
-#' @export
 geometry_pointificate.geom_path <- function(geom, ...) {
   geom
 }

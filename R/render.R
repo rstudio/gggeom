@@ -33,11 +33,9 @@ plot.geom_point <- function(x, y, pch = 20, ..., add = FALSE) {
 #' @export
 #' @rdname render_point
 render_text <- function(data, x, y) {
-  data$x_ <- eval_vector(data, x)
-  data$y_ <- eval_vector(data, y)
-
-  class(data) <- c("geom_text", "geom", "data.frame")
-  data
+  out <- render_point(data, x, y)
+  class(out) <- c("geom_text", class(out))
+  out
 }
 
 #' @export

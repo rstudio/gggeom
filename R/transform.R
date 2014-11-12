@@ -41,8 +41,6 @@ geometry_transform.geom_point <- function(geom, m, x = 0, y = 0) {
   geom
 }
 #' @export
-geometry_transform.geom_text <- geometry_transform.geom_point
-#' @export
 geometry_transform.geom_arc <- geometry_transform.geom_point
 
 
