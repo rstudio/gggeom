@@ -317,10 +317,12 @@ render_ribbon <- function(data, x, y1, y2) UseMethod("render_ribbon")
 
 #' @export
 render_ribbon.data.frame <- function(data, x, y1, y2) {
-  out <- data[1, , drop = FALSE]
-  out$x_ <- list(eval_vector(data, x))
-  out$y1_ <- list(eval_vector(data, y1))
-  out$y2_ <- list(eval_vector(data, y2))
+  out <- list(
+    x_  = coords(list(eval_vector(data, x))),
+    y1_ = coords(list(eval_vector(data, y1))),
+    y2_ = coords(list(eval_vector(data, y2)))
+  )
+  `as.data.frame!`(out, 1)
 
   class(out) <- c("geom_ribbon", "geom", "data.frame")
   out
