@@ -13,11 +13,13 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 options(digits = 3)
 ```
 
-The goal of gggeom is to provide a convenient representation for geometric primitives and a selection of useful tools to manipulate them. This package is (or soon will be) used to power ggvis, but it's very low-level so could easily be used to implement an alternative graphics system. You might want to use gggeom if you'd like to implement new layers for ggvis - it provides a flexible toolkit for manipulating shapes.
+## Motivation
 
-Compared to ggplot2, gggeom is somewhat similar to the geoms, but gggeom has a much purer take on geometric primitives. For example, ggplot2 has the `geom_histogram()` which is really a combination of a statistical transformation (`stat_bin()`) and a bar (`geom_bar()`). gggeom avoids this muddle, sticking purely to geometric objects. 
+The goal of gggeom is to provide a compact way to represent geometric objects and useful tools to wrok with them. This package is (or soon will be) used to power ggvis: if you want to create a new layer function, you'll need to be somewhat familiar with this package. But gggeom is low-level and is not tightly tied to ggvis so you could use it to implement a new graphics system if you wanted.
 
-Where necessary important operations have been implemented in C++. That said, gggeom expects to deal with <100,000, because at that point any rendering of the primitives is likely to be a solid plot. Instead of feeding very large datasets to the rendering pipeline, you should instead perform a statistical summary (as implemented in [ggstat](https://github.com/rstudio/ggstat)) first.
+Compared to ggplot2, gggeom is somewhat similar to the geoms, but gggeom has a much purer take on geometric primitives. For example, ggplot2 has the `geom_histogram()` which is really a combination of a statistical transformation (`stat_bin()`) and a bar (`geom_bar()`). gggeom avoids this muddle, sticking purely to geometric objects. It also provides many more tools for manipulating geometries, indepedent of the particular plot they will eventually generate.
+
+All gggeom manipulations should be able to proces s ~100,000 geometries in less than 0.1. More geometries than that is unlikely to produce a useful plot. If you do have very large datasets, they should be summarised (using e.g. the tools [ggstat](https://github.com/rstudio/ggstat)) before being visualised.
 
 ## Geometric primitives
 
@@ -27,7 +29,7 @@ There are only three fundamental geometric primitives needed to draw any graphic
 * text: $(x, y)$
 * paths/polygons: ${(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)}$
 
-However, because these primitives are so general, it is hard to define useful operations on them. So we provide additional geometric objects that while could be drawn with paths polygons, have useful additional properties:
+However, because these primitives are so general, it is hard to define useful operations on them. So gggeoms provide a number of additional geometric objects that restrict the properties of points, paths and polygons in useful ways:
 
 * arcs: $([x, y, [r_1, r_2], [\theta_1, \theta_2]])$.
 * lines: a path where the x values are increasing $x_1 \le x_2$.
