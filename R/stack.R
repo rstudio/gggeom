@@ -19,7 +19,18 @@
 #' df %>% render_bar(~x, ~y, 2) %>% plot()
 #' df %>% render_bar(~x, ~y, 2) %>% geometry_stack() %>% plot()
 #'
-#' #' You can also stack arcs, in either r or theta direction
+#' # Stacking ribbons
+#' theta <- seq(0, 2 * pi, length = 50)
+#' df <- data.frame(theta)
+#' waves <- rbind(
+#'   df %>% render_area(~theta, ~abs(sin(theta))),
+#'   df %>% render_area(~theta, ~abs(cos(theta)))
+#' )
+#' waves %>% plot(col = c("red", "black"))
+#' waves %>% geometry_stack() %>% plot(col = c("red", "black"))
+#' df %>% render_area(~theta, ~abs(sin(theta)) + abs(cos(theta))) %>% plot()
+#'
+#' # You can also stack arcs, in either r or theta direction
 #' pies <- render_arc(mtcars, ~vs, ~am, 0, 0.1, 0, ~mpg / max(mpg) * 2 / pi)
 #' pies %>% plot()
 #' pies %>% geometry_stack() %>% plot()
@@ -42,11 +53,11 @@ geometry_stack.geom_rect <- function(geom, dir = c("y", "x")) {
   dir <- match.arg(dir)
 
   if (dir == "x") {
-    stacked <- stack(geom$y1_, geom$y2_, geom$x1_, geom$x2_)
+    stacked <- stack_rects(geom$y1_, geom$y2_, geom$x1_, geom$x2_)
     geom$x1_ <- stacked$y1_
     geom$x2_ <- stacked$y2_
   } else {
-    stacked <- stack(geom$x1_, geom$x2_, geom$y1_, geom$y2_)
+    stacked <- stack_rects(geom$x1_, geom$x2_, geom$y1_, geom$y2_)
     geom$y1_ <- stacked$y1_
     geom$y2_ <- stacked$y2_
   }
@@ -56,7 +67,10 @@ geometry_stack.geom_rect <- function(geom, dir = c("y", "x")) {
 
 #' @export
 geometry_stack.geom_ribbon <- function(geom, dir) {
-  geometry_stack.geom_rect(geom, "y")
+  stacked <- stack_ribbons(geom$x_, geom$y1_, geom$y2_)
+  geom$y1_ <- coords(stacked$y1_)
+  geom$y2_ <- coords(stacked$y2_)
+  geom
 }
 
 #' @export
@@ -87,7 +101,7 @@ geometry_stack.geom_arc <- function(geom, dir = c("theta", "r")) {
 stack_df <- function(data, x1, x2, y1, y2) {
   stacked <- data %>%
     dplyr::do({
-      out <- stack(.[[x1]], .[[x2]], .[[y1]], .[[y2]])
+      out <- stack_rects(.[[x1]], .[[x2]], .[[y1]], .[[y2]])
       data <- .
       data[[y1]] <- out$y1_
       data[[y2]] <- out$y2_

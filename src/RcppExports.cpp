@@ -70,9 +70,9 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// stack
-List stack(NumericVector x1, NumericVector x2, NumericVector y1, NumericVector y2);
-RcppExport SEXP gggeom_stack(SEXP x1SEXP, SEXP x2SEXP, SEXP y1SEXP, SEXP y2SEXP) {
+// stack_rects
+List stack_rects(NumericVector x1, NumericVector x2, NumericVector y1, NumericVector y2);
+RcppExport SEXP gggeom_stack_rects(SEXP x1SEXP, SEXP x2SEXP, SEXP y1SEXP, SEXP y2SEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -81,7 +81,24 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< NumericVector >::type x2(x2SEXP );
         Rcpp::traits::input_parameter< NumericVector >::type y1(y1SEXP );
         Rcpp::traits::input_parameter< NumericVector >::type y2(y2SEXP );
-        List __result = stack(x1, x2, y1, y2);
+        List __result = stack_rects(x1, x2, y1, y2);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// stack_ribbons
+List stack_ribbons(ListOf<NumericVector> x, ListOf<NumericVector> y1, ListOf<NumericVector> y2);
+RcppExport SEXP gggeom_stack_ribbons(SEXP xSEXP, SEXP y1SEXP, SEXP y2SEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< ListOf<NumericVector> >::type x(xSEXP );
+        Rcpp::traits::input_parameter< ListOf<NumericVector> >::type y1(y1SEXP );
+        Rcpp::traits::input_parameter< ListOf<NumericVector> >::type y2(y2SEXP );
+        List __result = stack_ribbons(x, y1, y2);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

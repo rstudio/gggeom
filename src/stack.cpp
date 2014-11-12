@@ -149,7 +149,7 @@ List buildSkyline(NumericVector x1, NumericVector x2, NumericVector y) {
 }
 
 // [[Rcpp::export]]
-List stack(NumericVector x1, NumericVector x2, NumericVector y1, NumericVector y2) {
+List stack_rects(NumericVector x1, NumericVector x2, NumericVector y1, NumericVector y2) {
   if (x1.size() != x2.size() || x1.size() != y1.size() || x1.size() != y2.size()) {
     stop("x1, x2, y1 and y2 all must be the same length");
   }
@@ -169,7 +169,39 @@ List stack(NumericVector x1, NumericVector x2, NumericVector y1, NumericVector y
   }
 
   return List::create(
-    _["y1_"] = ymin_,
-    _["y2_"] = ymax_
+      _["y1_"] = ymin_,
+      _["y2_"] = ymax_
+  );
+}
+
+// [[Rcpp::export]]
+List stack_ribbons(ListOf<NumericVector> x, ListOf<NumericVector> y1,
+                   ListOf<NumericVector> y2) {
+  if (x.size() != y1.size() || x.size() != y2.size()) {
+    stop("x, y1 and y2 all must be the same length");
+  }
+  int n = x.size();
+  List ymin(n), ymax(n);
+
+  std::map<double, double> heights;
+  for (int i = 0; i < n; ++i) {
+    int m = x[i].size();
+    NumericVector ymin_(m), ymax_(m);
+    NumericVector y1_ = y1[i], y2_ = y2[i], x_ = x[i];
+
+    for (int j = 0; j < m; ++j) {
+      ymin_[j] = heights[x_[j]];
+
+      double h = (y2_[j] - y1_[j]);
+      ymax_[j] = ymin_[j] + h;
+      heights[x_[j]] += h;
+    }
+    ymin[i] = ymin_;
+    ymax[i] = ymax_;
+  }
+
+  return List::create(
+      _["y1_"] = ymin,
+      _["y2_"] = ymax
   );
 }

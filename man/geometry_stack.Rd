@@ -27,7 +27,18 @@ df <- data.frame(x = 1:3, y = 1:3)
 df \%>\% render_bar(~x, ~y, 2) \%>\% plot()
 df \%>\% render_bar(~x, ~y, 2) \%>\% geometry_stack() \%>\% plot()
 
-#' You can also stack arcs, in either r or theta direction
+# Stacking ribbons
+theta <- seq(0, 2 * pi, length = 50)
+df <- data.frame(theta)
+waves <- rbind(
+  df \%>\% render_area(~theta, ~abs(sin(theta))),
+  df \%>\% render_area(~theta, ~abs(cos(theta)))
+)
+waves \%>\% plot(col = c("red", "black"))
+waves \%>\% geometry_stack() \%>\% plot(col = c("red", "black"))
+df \%>\% render_area(~theta, ~abs(sin(theta)) + abs(cos(theta))) \%>\% plot()
+
+# You can also stack arcs, in either r or theta direction
 pies <- render_arc(mtcars, ~vs, ~am, 0, 0.1, 0, ~mpg / max(mpg) * 2 / pi)
 pies \%>\% plot()
 pies \%>\% geometry_stack() \%>\% plot()
