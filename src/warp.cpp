@@ -5,11 +5,8 @@ using namespace Rcpp;
 void warp(Point next, Point next_t, Point (f)(Point), double threshold,
           std::vector<Point>* pRaw, std::vector<Point>* pTrans) {
 
-  if (pRaw->empty()) {
-    pRaw->push_back(next);
-    pTrans->push_back(next_t);
+  if (pRaw->empty())
     return;
-  }
 
   Point last = pRaw->back(), last_t = pTrans->back();
   Point mid = last.combine(next, 0.5), mid_t = f(mid);
@@ -22,6 +19,7 @@ void warp(Point next, Point next_t, Point (f)(Point), double threshold,
   pRaw->push_back(mid);
   pTrans->push_back(mid_t);
   warp(next, next_t, f, threshold, pRaw, pTrans);
+
 }
 
 List warp(NumericVector x, NumericVector y, Point (f)(Point), double threshold = 0.01) {
@@ -34,10 +32,10 @@ List warp(NumericVector x, NumericVector y, Point (f)(Point), double threshold =
   for (int i = 0; i < n; ++i) {
     Point next = Point(x[i], y[i]), next_t = f(next);
     warp(next, next_t, f, threshold, &raw, &trans);
+
+    raw.push_back(next);
+    trans.push_back(next_t);
   }
-  // Always include last point
-  Point end = f(Point(x[n - 1], y[n - 1]));
-  trans.push_back(end);
 
   int m = trans.size();
   NumericVector out_x(m), out_y(m);

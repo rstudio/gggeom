@@ -102,7 +102,7 @@ You can convert any geometry to its equivalent primitive path by using `geom_poi
 
 ```{r}
 df <- data.frame(x = c(1:3, 3), y = c(1:3, 2))
-rects <- render_tile(df, ~x, ~y, width = 0.95, height = 0.95)
+rects <- render_tile(df, ~x, ~y, width = 0.9, height = 0.9)
 
 rects
 plot(rects)
@@ -120,11 +120,9 @@ The rendering looks similar at first glance, but by using the `points()` command
 ```{r}
 polys <- rects %>% geometry_pointificate(close = TRUE)
 # Rotate each polygon 5 degrees clockwise
-polys %>% geometry_rotate(5) %>% plot() %>% points()
+polys %>% geometry_rotate(5) %>% plot()
 # Transform into polar coordinates
-polys %>% geometry_warp("polar", tolerance = 0.0001) %>% plot() %>% points()
-
-# Need to figure out why this looks so bad - must be warp bug :(
+polys %>% geometry_warp("polar", tolerance = 0.0001) %>% plot()
 ```
 
 These transformations can not be performed on rects because the result is not a rect; the set of rects is not closed under many useful transformations.
