@@ -1,5 +1,8 @@
 #' Stack objects on top of one another.
 #'
+#' Rects are always stacked upwards from the x-axis, ignoring non-zero
+#' \code{y1_}.
+#'
 #' @inheritParams geometry_flip
 #' @param dir Direction in which to stack. "x" or "y" for rects,
 #'   only "y" for smooths, "r" or "theta" for arcs.
@@ -76,14 +79,9 @@ geometry_stack.geom_arc <- function(geom, dir = c("theta", "r")) {
 }
 
 stack_df <- function(data, x1, x2, y1, y2) {
-  if (any(data[[y1]] != 0)) {
-    warning("Stacking with non-zero ", y1, " is not well defined",
-      call. = FALSE)
-  }
-
   stacked <- data %>%
     dplyr::do({
-      out <- stack(.[[x1]], .[[x2]], .[[y2]])
+      out <- stack(.[[x1]], .[[x2]], .[[y1]], .[[y2]])
       data <- .
       data[[y1]] <- out$y1_
       data[[y2]] <- out$y2_

@@ -149,9 +149,9 @@ List buildSkyline(NumericVector x1, NumericVector x2, NumericVector y) {
 }
 
 // [[Rcpp::export]]
-List stack(NumericVector x1, NumericVector x2, NumericVector y) {
-  if (x1.size() != x2.size() || x1.size() != y.size()) {
-    stop("x1, x2, and y all must be the same length");
+List stack(NumericVector x1, NumericVector x2, NumericVector y1, NumericVector y2) {
+  if (x1.size() != x2.size() || x1.size() != y1.size() || x1.size() != y2.size()) {
+    stop("x1, x2, y1 and y2 all must be the same length");
   }
   int n = x1.size();
 
@@ -160,11 +160,12 @@ List stack(NumericVector x1, NumericVector x2, NumericVector y) {
   // Sort all endpoints:
   Skyline skyline;
   for (int i = 0; i < n; ++i) {
-    double h = skyline.max_h(x1[i], x2[i]);
-    skyline.add_building(x1[i], x2[i], y[i] + h);
+    double cur_h = skyline.max_h(x1[i], x2[i]);
+    double bar_h = (y2[i] - y1[i]);
+    skyline.add_building(x1[i], x2[i], bar_h + cur_h);
 
-    ymin_[i] = h;
-    ymax_[i] = y[i] + h;
+    ymin_[i] = cur_h;
+    ymax_[i] = bar_h + cur_h;
   }
 
   return List::create(

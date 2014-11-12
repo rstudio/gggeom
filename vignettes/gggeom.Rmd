@@ -116,7 +116,6 @@ There are also operations that make sense for rects, but not for general polygon
 
 ```{r}
 rects %>% geometry_stack() %>% plot()
-# Oops, geometry stack ignores y1 instead of subtracting it from y2
 ```
 
 ## Geometric transformations

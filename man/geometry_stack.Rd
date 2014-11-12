@@ -12,7 +12,8 @@ geometry_stack(geom, dir = c("y", "x"))
 only "y" for smooths, "r" or "theta" for arcs.}
 }
 \description{
-Stack objects on top of one another.
+Rects are always stacked upwards from the x-axis, ignoring non-zero
+\code{y1_}.
 }
 \examples{
 bar_ex \%>\% plot()

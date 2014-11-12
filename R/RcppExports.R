@@ -17,8 +17,8 @@ buildSkyline <- function(x1, x2, y) {
     .Call('gggeom_buildSkyline', PACKAGE = 'gggeom', x1, x2, y)
 }
 
-stack <- function(x1, x2, y) {
-    .Call('gggeom_stack', PACKAGE = 'gggeom', x1, x2, y)
+stack <- function(x1, x2, y1, y2) {
+    .Call('gggeom_stack', PACKAGE = 'gggeom', x1, x2, y1, y2)
 }
 
 ungroupNA <- function(x) {
