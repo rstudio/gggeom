@@ -18,9 +18,9 @@ options(digits = 3)
 
 The goal of gggeom is to provide a compact way to represent geometric objects and useful tools to wrok with them. This package is (or soon will be) used to power ggvis: if you want to create a new layer function, you'll need to be somewhat familiar with this package. But gggeom is low-level and is not tightly tied to ggvis so you could use it to implement a new graphics system if you wanted.
 
-Compared to ggplot2, gggeom is somewhat similar to the geoms, but gggeom has a much purer take on geometric primitives. For example, ggplot2 has the `geom_histogram()` which is really a combination of a statistical transformation (`stat_bin()`) and a bar (`geom_bar()`). gggeom avoids this muddle, sticking purely to geometric objects. It also provides many more tools for manipulating geometries, indepedent of the particular plot they will eventually generate.
+The objects in gggeom are somewhat similar to the geoms of ggplot2, but gggeom has a much purer take on geometric primitives. For example, ggplot2 has the `geom_histogram()` which is really a combination of a statistical transformation (`stat_bin()`) and a bar (`geom_bar()`). gggeom avoids this muddle, sticking purely to geometric objects. It also provides many more tools for manipulating geometries, indepedent of the particular plot they will eventually generate. The data structures in gggeom are all built on top of data frames, which mean that you can use many existing tools.
 
-All gggeom manipulations should be able to proces s ~100,000 geometries in less than 0.1. More geometries than that is unlikely to produce a useful plot. If you do have very large datasets, they should be summarised (using e.g. the tools [ggstat](https://github.com/rstudio/ggstat)) before being visualised.
+All gggeom manipulations should be able to process ~100,000 geometries in less than 0.1. More geometries than that is unlikely to produce a useful plot, and geometry operations should be very cheap because you may need to string multiple together to solve a problem. Very large datasets should summarised (using e.g. the tools [ggstat](https://github.com/rstudio/ggstat)).
 
 ## Geometric primitives
 
@@ -57,7 +57,7 @@ All geometries inherit from "geom" and "data.frame". Additional inheritance stru
 * Polygons, lines and steps inherit from paths.
 * Text inherits from points.
 
-All geometries have a base graphics `plot()` method. These are useful for examples, explanation and debugging, but not serious data visualisation. `...` is passed on to the underlying base graphic method, so if you're familiar with the graphic **par**ameters, you can tweak the appearance. 
+All geometries have a `plot()` method, implemented with base graphics. This is useful for examples, explanation and debugging, but not serious data visualisation. `...` is passed on to the underlying base graphic method, so if you're familiar with the graphic **par**ameters, you can tweak the appearance. 
 
 ```{r}
 plot(scatter)
@@ -92,7 +92,7 @@ class(nz)
 nz %>% subset(island == "Stewart") %>% plot() %>% points()
 ```
 
-(Not that `plot()` invisibly returns the input data to make this sort of chaining easy.)
+(Note that `plot()` invisibly returns the input data to make this sort of chaining easy.)
 
 ### Converting to primitives
 
@@ -113,9 +113,7 @@ rects %>% geometry_pointificate()
 rects %>% geometry_pointificate() %>% plot() %>% points()
 ```
 
-The rendering looks similar at first glance, but by using the `points()` command we can see that each rectangle is composed of four points.
-
-The main advantage to converting to polygons is that there are a number of transformations that make sense for polygons, but not for rects, because the resulting transformation would not still be a rect: 
+The rendering looks similar at first glance, but by using the `points()` command we can see that each rectangle is composed of four points. The main advantage to converting to polygons is that there are a number of transformations that make sense for polygons, but not for rects:
 
 ```{r}
 polys <- rects %>% geometry_pointificate(close = TRUE)
@@ -127,9 +125,9 @@ polys %>% geometry_warp("polar", tolerance = 0.0001) %>% plot() %>% points()
 # Need to figure out why this looks so bad - must be warp bug :(
 ```
 
-(In other words the set of rects is not closed under many useful transformations.)
+These transformations can not be performed on rects because the result is not a rect; the set of rects is not closed under many useful transformations.
 
-There are also operations that make sense for rects, but not for general polygons. For example, it makes sense to stack rects so that their lower edge falls on the x-axis, and the stack up from there. There's no useful way to stack arbitrary polygons:
+There are also operations that make sense for rects, but not for general polygons. For example, it makes sense to stack rects from the x-axis on up. There's no useful way to stack arbitrary polygons.
 
 ```{r}
 rects %>% geometry_stack() %>% plot()
@@ -137,7 +135,7 @@ rects %>% geometry_stack() %>% plot()
 
 ## Geometric transformations
 
-The following table lists all transformations implemented in gggeom in the rows, and the geometries to which they apply in the columns:
+You've seen a few geometric transformations above. The following table lists all transformations implemented in gggeom in the rows, and the geometries to which they apply in the columns:
 
 ```{r, echo = FALSE}
 manip <- ls(asNamespace("gggeom"))
@@ -154,6 +152,8 @@ tbl[tbl == 0] <- ""
 tbl[tbl == 1] <- "*"
 noquote(tbl)
 ```
+
+The following sections categorise the transformations in to families, and show a few examples. See the documentation for more details of how they operate.
 
 ### Linear transformations
 
