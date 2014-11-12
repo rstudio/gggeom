@@ -161,6 +161,7 @@ The following sections categorise the transformations in to families, and show a
 # Special cases
 polys %>% geometry_reflect() %>% plot()
 polys %>% geometry_rotate(15) %>% plot()
+polys %>% geometry_flip() %>% plot()
 
 # Arbitrary
 shear <- matrix(c(1, 0, 0.75, 1), nrow = 2)

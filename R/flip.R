@@ -1,5 +1,3 @@
-#' Flip x and y positions
-#'
 #' Flip x and y positions.
 #'
 #' @param geom A geometry data frame.
@@ -22,7 +20,7 @@ geometry_flip.geom <- function(geom) {
 
 #' @export
 geometry_flip.geom_ribbon <- function(geom) {
-  stop("Can't rotate ribbons", call. = FALSE)
+  stop("Can't flip ribbons", call. = FALSE)
 }
 
 #' @export

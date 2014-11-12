@@ -9,7 +9,7 @@ geometry_flip(geom)
 \item{geom}{A geometry data frame.}
 }
 \description{
-Flip x and y positions.
+Flip x and y positions
 }
 \examples{
 scatter_ex \%>\% plot()
