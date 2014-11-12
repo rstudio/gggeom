@@ -12,6 +12,7 @@ library(gggeom)
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 options(digits = 3)
 ```
+<style>img {border: 0}</style>
 
 ## Motivation
 
@@ -45,22 +46,18 @@ Geometries are described in turns of their position. When rendered a geometric o
 A geometry is represented as a data frame, where each row corresponds to a single object. You turn a data frame into a geometry using the appropriate render function:
 
 ```{r}
-scatter <- mtcars %>% render_point(~mpg, ~wt) %>% head()
+scatter <- iris %>% render_point(~Sepal.Length, ~Sepal.Width) %>% head()
 scatter
 ```
 
-You can see that the default behaviour of the render function preserve all existing columms (so that they can be later mapped to other properties of the geometry). 
+The default behaviour of the render function preserve all existing columms so that they can be later mapped to other properties of the geometry. However, this is mostly incidental to gggeom - it only works with the position columns (which all end in `_` to avoid clashes with other vars).
 
 All geometries inherit from "geom" and "data.frame". Additional inheritance structure is based no on the appearance of the geom but on the data need to display the geom. This means that:
 
-* polygon, line and step all inherit from "geom_path". 
-* text inherits from "geom_point".
+* Polygons, lines and steps inherit from paths.
+* Text inherits from points.
 
-```{r}
-class(scatter)
-```
-
-Geometries all have base graphics plotting methods that are useful for examples, explanation and debugging. `...` is passed on to the underlying base graphic method, so if you're familiar with the graphic __par__ameters, you can tweak the appearance.
+All geometries have a base graphics `plot()` method. These are useful for examples, explanation and debugging, but not serious data visualisation. `...` is passed on to the underlying base graphic method, so if you're familiar with the graphic **par**ameters, you can tweak the appearance. 
 
 ```{r}
 plot(scatter)
@@ -68,7 +65,7 @@ plot(scatter)
 
 ### Paths (and polygons, lines and steps)
 
-If each row represents a single object, how are paths, polygons, lines and steps represented? We take advantage of a relatively esoteric R feature - the column of a data frame can be a list. For example, take a look at the built-in `nz` data set:
+If each row represents a single object, how are paths, polygons, lines and steps represented? We take advantage of a relatively esoteric R feature - data frame columns can be lists. For example, take a look at the built-in `nz` data set:
 
 ```{r}
 head(nz)
@@ -82,9 +79,18 @@ nz$x_[[5]]
 nz$y_[[5]]
 ```
 
+As well as a `plot()` method, paths also have a `points()` method which makes it easier to see exactly where the data lie:
+
+```{r}
+class(nz)
+nz %>% subset(island == "Stewart") %>% plot() %>% points()
+```
+
+(Not that `plot()` invisibly returns the input data to make this sort of chaining easy.)
+
 ### Converting to primitives
 
-You can convert any geometry to its equivalent primitive by using `geom_pointificate()`. For example, imagine we have some rects:
+You can convert any geometry to its equivalent primitive path by using `geom_pointificate()`. For example, imagine we have some rects:
 
 ```{r}
 df <- data.frame(x = c(1:3, 3), y = c(1:3, 2))
@@ -103,19 +109,19 @@ rects %>% geometry_pointificate() %>% plot() %>% points()
 
 The rendering looks similar at first glance, but by using the `points()` command we can see that each rectangle is composed of four points.
 
-The main advantage to converting to polygons is that there are a number of transformations that make sense for polygons, but not for rects, because the resulting transformation would not still be a rect: (in other words the set of rects is not closed under many useful transformations).
+The main advantage to converting to polygons is that there are a number of transformations that make sense for polygons, but not for rects, because the resulting transformation would not still be a rect: 
 
 ```{r}
 polys <- rects %>% geometry_pointificate(close = TRUE)
 # Rotate each polygon 5 degrees clockwise
-polys %>% geometry_rotate(5) %>% plot()
+polys %>% geometry_rotate(5) %>% plot() %>% points()
 # Transform into polar coordinates
-polys %>% geometry_warp("polar", tolerance = 0.0001) %>% plot()
+polys %>% geometry_warp("polar", tolerance = 0.0001) %>% plot() %>% points()
 
-# Need to figure out why this looks so bad - probably because geom warp
-# doesn't know that the first and last points of a polygon also need to be 
-# connected
+# Need to figure out why this looks so bad - must be warp bug :(
 ```
+
+(In other words the set of rects is not closed under many useful transformations.)
 
 There are also operations that make sense for rects, but not for general polygons. For example, it makes sense to stack rects so that their lower edge falls on the x-axis, and the stack up from there. There's no useful way to stack arbitrary polygons:
 
@@ -141,4 +147,29 @@ tbl <- tbl[, -2]
 tbl[tbl == 0] <- ""
 tbl[tbl == 1] <- "*"
 noquote(tbl)
+```
+
+### Linear transformations
+
+```{r}
+# Special cases
+polys %>% geometry_reflect() %>% plot()
+polys %>% geometry_rotate(15) %>% plot()
+
+# Arbitrary
+shear <- matrix(c(1, 0, 0.75, 1), nrow = 2)
+polys %>% geometry_transform(shear) %>% plot()
+```
+
+### Add random jitter
+
+```{r}
+scatter_ex %>% plot()
+scatter_ex %>% plot() %>% geometry_jitter() %>% points(col = "red")
+```
+
+### Stacking, dodging and (re)scaling
+
+```{r}
+rects %>% geometry_stack() %>% plot()
 ```
