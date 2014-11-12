@@ -63,6 +63,12 @@ All geometries have a base graphics `plot()` method. These are useful for exampl
 plot(scatter)
 ```
 
+There are a few render functions that generate existing geometries but with a different parameterisation:
+
+* `render_bar()` generates rects given x, width and height
+* `render_tile()` generates rects given x, y, width, and height.
+* `render_contour()` generates paths given x, y, z and breaks.
+
 ### Paths (and polygons, lines and steps)
 
 If each row represents a single object, how are paths, polygons, lines and steps represented? We take advantage of a relatively esoteric R feature - data frame columns can be lists. For example, take a look at the built-in `nz` data set:
