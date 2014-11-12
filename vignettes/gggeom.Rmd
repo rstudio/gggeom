@@ -7,107 +7,134 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-The gggeom package does two things:
+```{r, echo = FALSE}
+library(gggeom)
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+options(digits = 3)
+```
 
-* Provides a standard way of representing geometric primitives.
-* Manipulated geometric primitives.
+The goal of gggeom is to provide a convenient representation for geometric primitives and a selection of useful tools to manipulate them. This package is (or soon will be) used to power ggvis, but it's very low-level so could easily be used to implement an alternative graphics system. You might want to use gggeom if you'd like to implement new layers for ggvis - it provides a flexible toolkit for manipulating shapes.
 
-Compared to ggplot2, gggeom covers similar functionality to the `stat_` and `position_` functions. But each function in ggeom tends to be simpler, and there's a standard data representation that makes richer composition easier. Additionally, the majority of functions in ggeom have been written in C++, allowing you to work with much larger datasets.
+Compared to ggplot2, gggeom is somewhat similar to the geoms, but gggeom has a much purer take on geometric primitives. For example, ggplot2 has the `geom_histogram()` which is really a combination of a statistical transformation (`stat_bin()`) and a bar (`geom_bar()`). gggeom avoids this muddle, sticking purely to geometric objects. 
+
+Where necessary important operations have been implemented in C++. That said, gggeom expects to deal with <100,000, because at that point any rendering of the primitives is likely to be a solid plot. Instead of feeding very large datasets to the rendering pipeline, you should instead perform a statistical summary (as implemented in [ggstat](https://github.com/rstudio/ggstat)) first.
 
 ## Geometric primitives
 
 There are only three fundamental geometric primitives needed to draw any graphic:
 
-* points & text: $(x, y)$
-* paths & polygons: ${(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)}$
+* points: $(x, y)$
+* text: $(x, y)$
+* paths/polygons: ${(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)}$
 
-There are three additional primitives that could be drawn using polygons but have additional behaviour that makes polygons a poor fit: (polygons are extremely generate, which limits the types of transformation we can do with them).
+However, because these primitives are so general, it is hard to define useful operations on them. So we provide additional geometric objects that while could be drawn with paths polygons, have useful additional properties:
 
-* arcs: $([x, y, [r_1, r_2], [\theta_1, \theta_2]])$
-* rects (and images): $([x_1, x_2], [y_1, y_2])$
+* arcs: $([x, y, [r_1, r_2], [\theta_1, \theta_2]])$.
+* lines: a path where the x values are increasing $x_1 \le x_2$.
+* steps: a line drawn with only horizontal and vertical segments.
+* segments: a single line segment parameterised by $x_1$, $x_2$, $y_1$, $y_2$. 
+* rects (and images): $([x_1, x_2], [y_1, y_2])$.
 * ribbons: an ordered sequence of intervals: 
   ${(x_{1}, [y_{11}, y_{12}]), ..., (x_n, [y_{n1}, y_{n2}])}$, 
   where $x_i < x_{i+1}$
 
-ggeom uses a standard parameterisation for these geometries. They are always represented as a data frame:
+Geometries are described in turns of their position. When rendered a geometric object will need other properties (like stroke, fill, stroke width, ...) but gggeom concerns itself only computations that involve position.
 
-* points, text: `x_` and `y_`, each row represents a point.
-* paths, polygons: `x_` and `y_`, each group represents a path/polygon.
-* rects: `x1_`, `x2_`, `y1_`, `y2_`.
-* ribbons: `x_`, `y1_`, `y2_`.
-* arcs: `x_`, `y_`, `r1_`, `r2_`, `theta1_`, `theta2_`.
+A geometry is represented as a data frame, where each row corresponds to a single object. You turn a data frame into a geometry using the appropriate render function:
 
-For each geometric object, ggeom provides a function that generates this representation: `render_point()`, `render_path()`, `render_polygon()`, etc. These functions create an object of class of (e.g.) `c("geometry", "geometry_point", "data.frame")`.
+```{r}
+scatter <- mtcars %>% render_point(~mpg, ~wt) %>% head()
+scatter
+```
 
-Many of the geoms provided by ggplot2 are a reparameterisation of these primitives:
+You can see that the default behaviour of the render function preserve all existing columms (so that they can be later mapped to other properties of the geometry). 
 
-  * Path:
-  
-    * segment: a path parameterised by four coordinates
-    * line: a path with ordered x
-    * step: a line with additional points
-    * spoke: a segment specified by a loation, radius and angle
-    * function: a line specified by a function
-  
-  * Rect
-  
-    * interval: a degenerate rect with zero width in one direction
-    * bar: a rect specified by a location and a width
-    * tile: a rect specified by a location, height and width
+All geometries inherit from "geom" and "data.frame". The inheritance structure is otherwise flat, with one exceptions: polygon, line and step inherit from "geom_path". 
 
-  * Ribbon
-  
-    * area: a ribbon with `y1 = 0`.
+```{r}
+class(scatter)
+```
 
-  * Polygon:
-  
-    * ellipse: a polygon specified by a center, two radiuses and an angle
+Geometries all have base graphics plotting methods that are useful for examples, explanation and debugging. `...` is passed on to the underlying base graphic method, so if you're familiar with the graphic __par__ameters, you can tweak the appearance.
 
-The parameterisation of the primitives (in terms of locations, not dimensions), is always to be preferred because they're easier to transform.
+```{r}
+plot(scatter)
+```
 
-There are a also a handful of geoms that are combinations of primitives:
+### Paths (and polygons, lines and steps)
 
-* boxplot: two intervals (hinge & whiskers), one point (median) and 
-  a set of points (the outliers).
-* smooth: line (estimate) + ribbon (standard errors).
+If each row represents a single object, how are paths, polygons, lines and steps represented? We take advantage of a relatively esoteric R feature - the column of a data frame can be a list. For example, take a look at the built-in `nz` data set:
+
+```{r}
+head(nz)
+plot(nz)
+```
+
+The `x_` and `y_` variables are lists of numeric vectors:
+
+```{r}
+nz$x_[[5]]
+nz$y_[[5]]
+```
+
+### Converting to primitives
+
+You can convert any geometry to its equivalent primitive by using `geom_pointificate()`. For example, imagine we have some rects:
+
+```{r}
+df <- data.frame(x = c(1:3, 3), y = c(1:3, 2))
+rects <- render_tile(df, ~x, ~y, width = 0.95, height = 0.95)
+
+rects
+plot(rects)
+```
+
+We can convert these to four point polygons with `geometry_pointificate()`:
+
+```{r}
+rects %>% geometry_pointificate()
+rects %>% geometry_pointificate() %>% plot() %>% points()
+```
+
+The rendering looks similar at first glance, but by using the `points()` command we can see that each rectangle is composed of four points.
+
+The main advantage to converting to polygons is that there are a number of transformations that make sense for polygons, but not for rects, because the resulting transformation would not still be a rect: (in other words the set of rects is not closed under many useful transformations).
+
+```{r}
+polys <- rects %>% geometry_pointificate(close = TRUE)
+# Rotate each polygon 5 degrees clockwise
+polys %>% geometry_rotate(5) %>% plot()
+# Transform into polar coordinates
+polys %>% geometry_warp("polar", tolerance = 0.0001) %>% plot()
+
+# Need to figure out why this looks so bad - probably because geom warp
+# doesn't know that the first and last points of a polygon also need to be 
+# connected
+```
+
+There are also operations that make sense for rects, but not for general polygons. For example, it makes sense to stack rects so that their lower edge falls on the x-axis, and the stack up from there. There's no useful way to stack arbitrary polygons:
+
+```{r}
+rects %>% geometry_stack() %>% plot()
+# Oops, geometry stack ignores y1 instead of subtracting it from y2
+```
 
 ## Geometric transformations
 
-* All
-    * `geometry_flip()` (except ribbons).
-    * `geometry_reflect(dir = "x")`
-  
-  * Paths/polygons
-    * `geometry_interpolate()`
-    * `geometry_transform()` (would use [adaptive resampling](http://bost.ocks.org/mike/example/))
-    * `geometry_simplify()`
-    * `geometry_jitter()`
-  
-  * Lines
-    * `geometry_step()` 
-    * `geometry_stack(axis = c("x", "y"))` (converts to ribbons)
-    * `geometry_rescale()`
-  
-  * Points
-    * `geometry_jitter()`
-    * `geometry_stack(axis = c("x", "y"))` (converts to rects)
-    * `geometry_rescale()`
-    * `geometry_contour()`
-  
-  * Ribbons:
-    * `geometry_stack()`
-    * `geometry_rescale()`
-  
-  * Rects
-    * `geometry_stack(axis = c("x", "y"))`
-    * `geometry_rescale()`
-    * `geometry_dodge()`
-    * `geometry_contour()`
-    
-  * Arcs
-    * `geometry_stack(axis = c("r", "theta"))`
-    * `geometry_rescale()`
+The following table lists all transformations implemented in gggeom in the rows, and the geometries to which they apply in the columns:
 
-  * Conversions:
-  
-    ![](geometry-relationships.png)
+```{r, echo = FALSE}
+manip <- ls(asNamespace("gggeom"))
+manip <- manip[grepl("^geometry_.*?\\.", manip)]
+all <- t(simplify2array(strsplit(manip, "\\.")))
+all[, 1] <- gsub("geometry_", "", all[, 1])
+all[, 2] <- gsub("geom_", "", all[, 2])
+
+tbl <- table(all[, 1], all[, 2])
+tbl[tbl[, "geom"] == 1, ] <- 1
+tbl <- tbl[, -2]
+
+tbl[tbl == 0] <- ""
+tbl[tbl == 1] <- "*"
+noquote(tbl)
+```
