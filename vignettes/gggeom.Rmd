@@ -65,7 +65,8 @@ plot(scatter)
 
 There are a few render functions that generate existing geometries but with a different parameterisation:
 
-* `render_bar()` generates rects given x, width and height
+* `render_area()` generates ribbons given x and height.
+* `render_bar()` generates rects given x, width and height.
 * `render_tile()` generates rects given x, y, width, and height.
 * `render_contour()` generates paths given x, y, z and breaks.
 
