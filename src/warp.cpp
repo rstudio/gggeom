@@ -12,7 +12,7 @@ void warp(Point next, Point next_t, Point (f)(Point), double threshold,
   Point mid = last.combine(next, 0.5), mid_t = f(mid);
 
   double dist = mid_t.dist_to_line(last_t, next_t);
-  if (dist < threshold)
+  if (isnan(dist) || dist < threshold)
     return;
 
   warp(mid, mid_t, f, threshold, pRaw, pTrans);
