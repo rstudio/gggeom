@@ -64,8 +64,8 @@ geometry_jitter.geom_ribbon <- function(geom, x = 0, y = resolution(geom$y1_) * 
 
 #' @export
 geometry_jitter.geom_rect <- function(geom,
-                                      x = resolution(geom$x1_) * 0.4,
-                                      y = resolution(geom$y1_) * 0.4) {
+                                      x = resolution(c(geom$x1_, geom$x2_)) * 0.4,
+                                      y = resolution(c(geom$y1_, geom$y2_)) * 0.4) {
   x_jitter <- jitter(geom, x)
   geom$x1_ <- geom$x1_ + x_jitter
   geom$x2_ <- geom$x2_ + x_jitter

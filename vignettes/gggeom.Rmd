@@ -175,6 +175,13 @@ scatter_ex %>% plot()
 scatter_ex %>% plot() %>% geometry_jitter() %>% points(col = "red")
 ```
 
+All geometries are jittered as a whole - i.e. all x coordinates are displaced by the same random amount, and as are all y coordinates. This ensures (e.g.) the rects remain as rects:
+
+```{r}
+rects %>% geometry_jitter() %>% plot()
+polys %>% geometry_jitter() %>% plot()
+```
+
 ### Stacking, dodging and (re)scaling
 
 ```{r}
