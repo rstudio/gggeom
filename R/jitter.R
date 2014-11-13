@@ -77,15 +77,6 @@ geometry_jitter.geom_rect <- function(geom,
   geom
 }
 
-#' @export
-geometry_jitter.geom_segment <- function(geom,
-                                         x = resolution(geom$x1_) * 0.4,
-                                         y = resolution(geom$y1_) * 0.4) {
-
-  geometry_jitter.geom_rect(geom, x = x, y = y)
-}
-
-
 jitter <- function(geom, amount) {
   if (amount == 0) return(0)
   runif(nrow(geom), -amount, amount)

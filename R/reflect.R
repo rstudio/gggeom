@@ -94,9 +94,3 @@ geometry_reflect.geom_rect <- function(geom, dir = c("x", "y")) {
 
   geom
 }
-
-#' @export
-geometry_reflect.geom_segment <- function(geom, dir = c("x", "y")) {
-  geometry_reflect.geom_rect(geom, dir)
-}
-

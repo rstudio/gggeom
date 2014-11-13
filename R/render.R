@@ -221,7 +221,7 @@ render_segment <- function(data, x1, y1, x2, y2) {
   data$y1_ <- eval_vector(data, y1)
   data$y2_ <- eval_vector(data, y2)
 
-  class(data) <- c("geom_segment", "geom", "data.frame")
+  class(data) <- c("geom_segment", "geom_rect", "geom", "data.frame")
   data
 }
 

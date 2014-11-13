@@ -52,10 +52,11 @@ scatter
 
 The default behaviour of the render function preserve all existing columms so that they can be later mapped to other properties of the geometry. However, this is mostly incidental to gggeom - it only works with the position columns (which all end in `_` to avoid clashes with other vars).
 
-All geometries inherit from "geom" and "data.frame". Additional inheritance structure is based no on the appearance of the geom but on the data need to display the geom. This means that:
+All geometries inherit from "geom" and "data.frame". Additional subclassing is based not on the appearance of the geom but on the underlying position data. This means that:
 
 * Polygons, lines and steps inherit from paths.
 * Text inherits from points.
+* Segments inherit from rects.
 
 All geometries have a `plot()` method, implemented with base graphics. This is useful for examples, explanation and debugging, but not serious data visualisation. `...` is passed on to the underlying base graphic method, so if you're familiar with the graphic **par**ameters, you can tweak the appearance. 
 

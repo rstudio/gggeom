@@ -30,11 +30,6 @@ geometry_flip.geom_rect <- function(geom) {
   geom
 }
 
-#' @export
-geometry_flip.geom_segment <- function(geom) {
-  geometry_flip.geom_rect(geom)
-}
-
 switch_cols <- function(df, a, b) {
   nms <- names(df)
 
