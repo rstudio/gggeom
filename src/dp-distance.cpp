@@ -3,7 +3,7 @@
 using namespace Rcpp;
 
 void dp_distance_rec(const NumericVector& x, const NumericVector& y,
-                           int first, int last, NumericVector* pOut) {
+                     int first, int last, double max, NumericVector* pOut) {
   // Rcout << first << "-" << last << "\n";
   int n = last - first + 1;
   if (n <= 2)
@@ -19,11 +19,16 @@ void dp_distance_rec(const NumericVector& x, const NumericVector& y,
       max_dist = dist;
     }
   }
-  (*pOut)[furthest] = max_dist;
+
+  // Ensure that distance always decreases as you recurse
+  if (max_dist > max) {
+    max_dist = max;
+  }
+  (*pOut)[furthest] = pow(max_dist, 0.5);
 
   // Recurse
-  dp_distance_rec(x, y, first, furthest, pOut);
-  dp_distance_rec(x, y, furthest, last, pOut);
+  dp_distance_rec(x, y, first, furthest, max_dist, pOut);
+  dp_distance_rec(x, y, furthest, last, max_dist, pOut);
 
   return;
 }
@@ -35,7 +40,7 @@ NumericVector dp_distance(const NumericVector& x, const NumericVector& y) {
 
   out[0] = INFINITY;
   out[n - 1] = INFINITY;
-  dp_distance_rec(x, y, 0, n - 1, &out);
+  dp_distance_rec(x, y, 0, n - 1, INFINITY, &out);
 
   return out;
 }
