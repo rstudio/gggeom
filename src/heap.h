@@ -54,7 +54,7 @@ class Heap {
     std::pair<int, double> out = std::make_pair(position[0], value[0]);
 
     n--;
-    value[0] = INFINITY;
+    value[0] = NAN;
     swap_el(0, n);
     sift_down(0);
 
@@ -69,7 +69,7 @@ class Heap {
   void sift_down(int i) {
     int l = left(i), r = right(i);
     if (needs_swap(i, l) && needs_swap(i, r)) {
-      if (value[l] > value[r]) {
+      if (value[l] < value[r]) {
         swap_el(i, l);
         sift_down(l);
       } else {
@@ -87,14 +87,14 @@ class Heap {
 
   bool needs_swap(int parent, int child) {
     if (child >= n) return false;
-    return value[parent] < value[child];
+    return value[child] < value[parent];
   }
 
   bool bubble_up(int i) {
     if (i == 0) return false;
 
     int j = parent(i);
-    if (value[i] > value[j]) {
+    if (value[i] < value[j]) {
       swap_el(i, j);
     }
     return bubble_up(j);
