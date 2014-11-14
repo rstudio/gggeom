@@ -115,11 +115,11 @@ class Heap {
     return n == 0;
   }
 
-  List asList() const {
-    List out = Rcpp::List::create(
-      _["value"] = Rcpp::NumericVector(value.begin(), value.end()),
-      _["position"] = Rcpp::IntegerVector(position.begin(), position.end()),
-      _["n"] = n
+  Rcpp::List asList() const {
+    Rcpp::List out = Rcpp::List::create(
+      Rcpp::_["value"] = Rcpp::NumericVector(value.begin(), value.end()),
+      Rcpp::_["position"] = Rcpp::IntegerVector(position.begin(), position.end()),
+      Rcpp::_["n"] = n
     );
     out.attr("class") = "heap";
 
