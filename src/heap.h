@@ -1,5 +1,4 @@
 #include <Rcpp.h>
-using namespace Rcpp;
 
 class Heap {
   std::vector<double> value;
@@ -7,27 +6,27 @@ class Heap {
 
   int n;
 
-public:
+  public:
 
-  Heap(int n_): n(n_) {
-    value = std::vector<double>(n);
-    position = std::vector<int>(n);
-  }
+    Heap(int n_): n(n_) {
+      value = std::vector<double>(n);
+      position = std::vector<int>(n);
+    }
 
   template <class Vector>
-  Heap(Vector x) {
-    // Inefficient: O(n) algorithm is available
-    // http://en.wikipedia.org/wiki/Binary_heap#Building_a_heap
+    Heap(Vector x) {
+      // Inefficient: O(n) algorithm is available
+      // http://en.wikipedia.org/wiki/Binary_heap#Building_a_heap
 
-    n = 0;
-    int m = x.size();
-    value.reserve(m);
-    position.reserve(m);
+      n = 0;
+      int m = x.size();
+      value.reserve(m);
+      position.reserve(m);
 
-    for (int i = 0; i < m; ++i) {
-      insert(x[i]);
+      for (int i = 0; i < m; ++i) {
+        insert(x[i]);
+      }
     }
-  }
 
   int insert(double x) {
     value.resize(n + 1);
@@ -118,9 +117,9 @@ public:
 
   List asList() const {
     List out = Rcpp::List::create(
-        _["value"] = Rcpp::NumericVector(value.begin(), value.end()),
-          _["position"] = Rcpp::IntegerVector(position.begin(), position.end()),
-                 _["n"] = n
+      _["value"] = Rcpp::NumericVector(value.begin(), value.end()),
+      _["position"] = Rcpp::IntegerVector(position.begin(), position.end()),
+      _["n"] = n
     );
     out.attr("class") = "heap";
 
