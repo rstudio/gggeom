@@ -37,6 +37,36 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// make_heap
+List make_heap(NumericVector x);
+RcppExport SEXP gggeom_make_heap(SEXP xSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        List __result = make_heap(x);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// heap_sort
+NumericVector heap_sort(NumericVector x);
+RcppExport SEXP gggeom_heap_sort(SEXP xSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        NumericVector __result = heap_sort(x);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // resolution_numeric
 double resolution_numeric(NumericVector x, bool zero = true);
 RcppExport SEXP gggeom_resolution_numeric(SEXP xSEXP, SEXP zeroSEXP) {

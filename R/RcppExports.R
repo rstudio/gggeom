@@ -9,6 +9,14 @@ dp_distance <- function(x, y) {
     .Call('gggeom_dp_distance', PACKAGE = 'gggeom', x, y)
 }
 
+make_heap <- function(x) {
+    .Call('gggeom_make_heap', PACKAGE = 'gggeom', x)
+}
+
+heap_sort <- function(x) {
+    .Call('gggeom_heap_sort', PACKAGE = 'gggeom', x)
+}
+
 resolution_numeric <- function(x, zero = TRUE) {
     .Call('gggeom_resolution_numeric', PACKAGE = 'gggeom', x, zero)
 }
