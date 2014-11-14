@@ -17,6 +17,10 @@ heap_sort <- function(x) {
     .Call('gggeom_heap_sort', PACKAGE = 'gggeom', x)
 }
 
+heap_update_sort <- function(x) {
+    .Call('gggeom_heap_update_sort', PACKAGE = 'gggeom', x)
+}
+
 resolution_numeric <- function(x, zero = TRUE) {
     .Call('gggeom_resolution_numeric', PACKAGE = 'gggeom', x, zero)
 }
