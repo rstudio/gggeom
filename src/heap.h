@@ -1,12 +1,12 @@
 #include <Rcpp.h>
 
 class Heap {
+
+public:
   std::vector<double> value;
   std::vector<int> position;
 
   int n;
-
-  public:
 
     Heap(int n_): n(n_) {
       value = std::vector<double>(n);
@@ -39,14 +39,17 @@ class Heap {
     return n++;
   }
 
-  void update(int i, double x) {
-    value[i] = x;
+  void update(int i, double new_x) {
+    double pos = position[i];
+    double old = value[pos];
+    if (old == new_x) return;
 
-    // Either needs to go up or down
-    if (needs_swap(parent(i), i)) {
-      bubble_up(i);
-    } else {
-      sift_down(i);
+    value[pos] = new_x;
+    if (new_x > old) { // increase
+      // Same principle as pop - move to bottom of subheap then bubble up.
+      sift_down(pos);
+    } else { // decrease
+      bubble_up(pos);
     }
   }
 
@@ -126,3 +129,17 @@ class Heap {
     return out;
   }
 };
+
+
+std::ostream& operator<<(std::ostream& os, Heap h) {
+  os << "[";
+  int last = h.n - 1;
+  for (int i = 0; i < h.n; ++i) {
+    os << h.value[i];
+    if (i != last)
+      os << ", ";
+  }
+  os << "]";
+  return os;
+}
+
