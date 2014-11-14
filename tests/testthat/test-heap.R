@@ -7,5 +7,6 @@ test_that("heap sort sorts data", {
 
 test_that("updating heap sorts data", {
   x <- runif(1e5)
+  expect_equal(heap_update_sort(-x), sort(-x))
   expect_equal(heap_update_sort(x), sort(x))
 })

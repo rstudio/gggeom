@@ -24,7 +24,7 @@ NumericVector heap_sort(NumericVector x) {
 // [[Rcpp::export]]
 NumericVector heap_update_sort(NumericVector x) {
   int n = x.size();
-  Heap h = Heap(n);
+  Heap h = Heap(0);
   for (int i = 0; i < n; ++i) {
     h.insert(0);
   }
