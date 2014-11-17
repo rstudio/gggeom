@@ -28,7 +28,7 @@
 #'
 #' # compute_vw_distance(df, ~x, ~y)
 compute_vw_distance <- function(data, x_var, y_var) {
-  UseMethod("compute_v_distance")
+  UseMethod("compute_vw_distance")
 }
 
 #' @export
