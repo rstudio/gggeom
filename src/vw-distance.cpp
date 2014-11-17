@@ -50,6 +50,9 @@ NumericVector vw_distance(const NumericVector& x, const NumericVector& y) {
     int next_idx = next[idx];
     int prev_idx = prev[idx];
 
+    if (next_idx == -1 || prev_idx == -1)
+      continue;
+
     next[prev[idx]] = next_idx;
     prev[next[idx]] = prev_idx;
     prev[idx] = -1;
