@@ -42,7 +42,7 @@ NumericVector vw_distance(const NumericVector& x, const NumericVector& y) {
     int prev_idx = prev[idx];
 
     // Must be first or last point, so don't need to update area
-    if (next_idx == n - 1 || prev_idx == -1)
+    if (next_idx == n || prev_idx == -1)
       continue;
 
     next[prev_idx] = next_idx;
