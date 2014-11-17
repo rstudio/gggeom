@@ -1,6 +1,6 @@
-#' Compute the distance for paths with Visvalingam's algorithm.
+#' Compute the distance for paths with the Visvalingam-Whyatt algorithm.
 #'
-#' Visvalingam's algorithm is a method of simplifying lines. It starts by
+#' Visvalingam-Whyatt is a method of simplifying lines. It starts by
 #' computing the area of the triangle formed by each sequence of three points.
 #' (The triangles are overlapping.) Then it removes the middle point of the
 #' triangle with the smallest area, and recomputes the area of the neighbor
@@ -26,24 +26,24 @@
 #' @examples
 #' df <- data.frame(x = c(1,2,3,4,5), y = c(1,1.2,3.8,3.3,5))
 #'
-#' # compute_v_distance(df, ~x, ~y)
-compute_v_distance <- function(data, x_var, y_var) {
+#' # compute_vw_distance(df, ~x, ~y)
+compute_vw_distance <- function(data, x_var, y_var) {
   UseMethod("compute_v_distance")
 }
 
 #' @export
-compute_v_distance.data.frame <- function(data, x_var, y_var) {
+compute_vw_distance.data.frame <- function(data, x_var, y_var) {
   x <- eval_vector(data, x_var)
   y <- eval_vector(data, y_var)
 
   data.frame(
     x_ = x,
     y_ = y,
-    dist_ = v_distance(x, y)
+    dist_ = vw_distance(x, y)
   )
 }
 
 #' @export
-compute_v_distance.grouped_df <- function(data, x_var, y_var) {
-  dplyr::do(data, compute_v_distance(., x_var, y_var))
+compute_vw_distance.grouped_df <- function(data, x_var, y_var) {
+  dplyr::do(data, compute_vw_distance(., x_var, y_var))
 }

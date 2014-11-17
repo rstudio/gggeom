@@ -178,16 +178,16 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// v_distance
-NumericVector v_distance(const NumericVector& x, const NumericVector& y);
-RcppExport SEXP gggeom_v_distance(SEXP xSEXP, SEXP ySEXP) {
+// vw_distance
+NumericVector vw_distance(const NumericVector& x, const NumericVector& y);
+RcppExport SEXP gggeom_vw_distance(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP );
         Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP );
-        NumericVector __result = v_distance(x, y);
+        NumericVector __result = vw_distance(x, y);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

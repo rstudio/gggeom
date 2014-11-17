@@ -45,8 +45,8 @@ ungroupNA <- function(x) {
     invisible(.Call('gggeom_as_data_frame', PACKAGE = 'gggeom', x, nrow))
 }
 
-v_distance <- function(x, y) {
-    .Call('gggeom_v_distance', PACKAGE = 'gggeom', x, y)
+vw_distance <- function(x, y) {
+    .Call('gggeom_vw_distance', PACKAGE = 'gggeom', x, y)
 }
 
 warp <- function(x, y, f, threshold = 0.01, closed = FALSE) {
