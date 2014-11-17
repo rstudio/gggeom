@@ -50,6 +50,7 @@ NumericVector vw_distance(const NumericVector& x, const NumericVector& y) {
     int next_idx = next[idx];
     int prev_idx = prev[idx];
 
+    // Must be first or last point
     if (next_idx == -1 || prev_idx == -1)
       continue;
 
