@@ -4,13 +4,22 @@ class Heap {
 
 public:
   std::vector<double> value;
+  // Need lookup in two directions:
+  //   addition order -> current position (used for updating)
   std::vector<int> position;
+  //   current position -> addition order (used when popping)
+  std::vector<int> original;
 
   int n;
 
     Heap(int n_): n(n_) {
-      value = std::vector<double>(n);
+      value = std::vector<double>(n, INFINITY);
       position = std::vector<int>(n);
+      original = std::vector<int>(n);
+      for (int i = 0; i < n; ++i) {
+        position[i] = i;
+        original[i] = i;
+      }
     }
 
   template <class Vector>
@@ -20,8 +29,9 @@ public:
 
       n = 0;
       int m = x.size();
-      value.reserve(m);
-      position.reserve(m);
+      value = std::vector<double>(0);
+      position = std::vector<int>(0);
+      original = std::vector<int>(0);
 
       for (int i = 0; i < m; ++i) {
         insert(x[i]);
@@ -31,9 +41,11 @@ public:
   int insert(double x) {
     value.resize(n + 1);
     position.resize(n + 1);
+    original.resize(n + 1);
 
     value[n] = x;
     position[n] = n;
+    original[n] = n;
     bubble_up(n);
 
     return n++;
@@ -41,6 +53,9 @@ public:
 
   void update(int i, double new_x) {
     double pos = position[i];
+
+    if (pos >= n) Rcpp::stop("pos >= n");
+
     double old = value[pos];
     if (old == new_x) return;
 
@@ -51,10 +66,11 @@ public:
     } else { // decrease
       bubble_up(pos);
     }
+
   }
 
   std::pair<int,double> pop() {
-    std::pair<int, double> out = std::make_pair(position[0], value[0]);
+    std::pair<int, double> out = std::make_pair(original[0], value[0]);
 
     n--;
     value[0] = NAN;
@@ -66,7 +82,10 @@ public:
 
   void swap_el(int a, int b) {
     std::swap(value[a], value[b]);
-    std::swap(position[a], position[b]);
+
+    int pos_a = original[a], pos_b = original[b];
+    std::swap(original[a], original[b]);
+    std::swap(position[pos_a], position[pos_b]);
   }
 
   void sift_down(int i) {
@@ -131,15 +150,31 @@ public:
 };
 
 
-std::ostream& operator<<(std::ostream& os, Heap h) {
-  os << "[";
+inline std::ostream& operator<<(std::ostream& os, Heap h) {
+  os << "V [";
   int last = h.n - 1;
   for (int i = 0; i < h.n; ++i) {
     os << h.value[i];
     if (i != last)
       os << ", ";
   }
+  os << "]\nO [";
+
+  last = h.position.size() - 1;
+  for (int i = 0; i < h.original.size(); ++i) {
+    os << h.original[i];
+    if (i != last)
+      os << ", ";
+  }
+  os << "]\nP [";
+
+  for (int i = 0; i < h.position.size(); ++i) {
+    os << h.position[i];
+    if (i != last)
+      os << ", ";
+  }
   os << "]";
+
   return os;
 }
 

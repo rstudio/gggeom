@@ -68,14 +68,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // heap_update_sort
-NumericVector heap_update_sort(NumericVector x);
+List heap_update_sort(NumericVector x);
 RcppExport SEXP gggeom_heap_update_sort(SEXP xSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
-        NumericVector __result = heap_update_sort(x);
+        List __result = heap_update_sort(x);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

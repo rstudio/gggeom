@@ -22,19 +22,21 @@ NumericVector heap_sort(NumericVector x) {
 }
 
 // [[Rcpp::export]]
-NumericVector heap_update_sort(NumericVector x) {
+List heap_update_sort(NumericVector x) {
   int n = x.size();
-  Heap h = Heap(0);
-  for (int i = 0; i < n; ++i) {
-    h.insert(0);
-  }
+  Heap h = Heap(n);
   for (int i = 0; i < n; ++i) {
     h.update(i, x[i]);
   }
 
-  NumericVector out(n);
+  NumericVector sort(n), order1(n);
   for (int i = 0; i < n; ++i) {
-    out[i] = h.pop().second;
+    std::pair<int, double> top = h.pop();
+    order1[i] = top.first + 1;
+    sort[i] = top.second;
   }
-  return out;
+
+  return List::create(
+      _["sort"] = sort,
+      _["order1"] = order1);
 }
