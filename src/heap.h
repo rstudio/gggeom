@@ -29,9 +29,9 @@ public:
 
       n = 0;
       int m = x.size();
-      value = std::vector<double>(0);
-      position = std::vector<int>(0);
-      original = std::vector<int>(0);
+      value.reserve(m);
+      position.reserve(m);
+      original.reserve(m);
 
       for (int i = 0; i < m; ++i) {
         insert(x[i]);
