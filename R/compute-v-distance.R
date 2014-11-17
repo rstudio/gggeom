@@ -26,7 +26,7 @@
 #' @examples
 #' df <- data.frame(x = c(1,2,3,4,5), y = c(1,1.2,3.8,3.3,5))
 #'
-#' compute_v_distance(df, ~x, ~y)
+#' # compute_v_distance(df, ~x, ~y)
 compute_v_distance <- function(data, x_var, y_var) {
   UseMethod("compute_v_distance")
 }
